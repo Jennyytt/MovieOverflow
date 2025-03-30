@@ -44,5 +44,8 @@
 	},
 	"lint-staged": {
 		"*.{js,svelte}": "eslint --cache --fix"
+	},
+	"dependencies": {
+		"@lucide/svelte": "^0.485.0"
 	}
 }
