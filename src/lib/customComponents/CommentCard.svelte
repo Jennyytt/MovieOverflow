@@ -1,10 +1,36 @@
 <script>
 	import { Card } from '$lib/components/ui/card';
 	import { CircleUserRound, ThumbsUp, ThumbsDown } from '@lucide/svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+
 	export let username = 'User Name';
 	export let commentText =
 		"The not-so-secret weapon this CAPTAIN AMERICA has going for it is Harrison Ford. Don't believe the nay-sayers out there: Brave New World is a 21st century Tall Tale, and if it takes two viewings to take it all in, so be it";
 	export let date = 'Feb 25, 2025';
+
+	// Track the like/dislike state
+	// null = neither, "like" = thumbs up, "dislike" = thumbs down
+	let feedbackState = null;
+
+	function handleLike() {
+		// If already liked, cancel the like
+		if (feedbackState === 'like') {
+			feedbackState = null;
+		} else {
+			// Otherwise, set to liked
+			feedbackState = 'like';
+		}
+	}
+
+	function handleDislike() {
+		// If already disliked, cancel the dislike
+		if (feedbackState === 'dislike') {
+			feedbackState = null;
+		} else {
+			// Otherwise, set to disliked
+			feedbackState = 'dislike';
+		}
+	}
 </script>
 
 <Card
@@ -42,11 +68,33 @@
 			<div class="text-left font-inter text-xs font-normal text-white">
 				{date}
 			</div>
-			<div
-				class="cursor-pointer items-center text-left font-inter text-base font-semibold text-white"
-			>
-				<ThumbsUp class="inline-block h-[28px] w-[28px] pb-[4px] pr-[4px]" />
-				<ThumbsDown class="inline-block h-[26px] w-[24px] pt-[2px]" />
+			<div class="flex items-center">
+				<Button
+					variant="ghost"
+					size="icon"
+					class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
+					aria-label={feedbackState === 'like' ? 'Remove like' : 'Like this comment'}
+					on:click={handleLike}
+				>
+					<ThumbsUp
+						class="inline-block h-[28px] w-[28px] pb-[4px] pr-[4px] transition-colors"
+						fill={feedbackState === 'like' ? '#FFFFFF' : 'none'}
+						color="#FFFFFF"
+					/>
+				</Button>
+				<Button
+					variant="ghost"
+					size="icon"
+					class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
+					aria-label={feedbackState === 'dislike' ? 'Remove dislike' : 'Dislike this comment'}
+					on:click={handleDislike}
+				>
+					<ThumbsDown
+						class="inline-block h-[26px] w-[24px] pt-[2px] transition-colors"
+						fill={feedbackState === 'dislike' ? '#FFFFFF' : 'none'}
+						color="#FFFFFF"
+					/>
+				</Button>
 			</div>
 		</div>
 	</div>
