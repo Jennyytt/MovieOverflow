@@ -1,6 +1,6 @@
 <script>
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
-	import ReviewCard from '$lib/customComponents/ReviewCard.svelte';
+	import ReviewCard from './ReviewCard.svelte';
 </script>
 
 <Carousel.Root

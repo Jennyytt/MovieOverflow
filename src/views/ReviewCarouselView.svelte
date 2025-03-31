@@ -1,5 +1,5 @@
 <script>
-	import ReviewCarousel from '$lib/customComponents/ReviewCarousel.svelte';
+	import ReviewCarousel from '$lib/customComponents/review/ReviewCarousel.svelte';
 	import { Plus, ChevronRight } from 'radix-icons-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
