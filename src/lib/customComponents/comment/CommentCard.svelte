@@ -42,17 +42,13 @@
 			<div class="relative aspect-square h-[29px] w-[29px] flex-shrink-0">
 				<CircleUserRound class="h-full w-full" color="#D1D7E0" />
 			</div>
-			<div
-				class="text-left font-inter text-base font-bold leading-[44px] tracking-[-0.02em] text-white"
-			>
+			<div class="text-left text-base font-bold leading-[44px] tracking-[-0.02em] text-white">
 				{username}
 			</div>
 		</div>
 
 		<!-- Comment text -->
-		<div
-			class="absolute left-0 top-[53px] w-[297px] text-left font-inter text-base font-normal text-white"
-		>
+		<div class="absolute left-0 top-[53px] w-[297px] text-left text-base font-normal text-white">
 			{commentText}
 		</div>
 
@@ -65,7 +61,7 @@
 		<div
 			class="absolute left-0 top-[237.13px] flex h-[28px] w-[297px] flex-row items-end items-center justify-between"
 		>
-			<div class="text-left font-inter text-xs font-normal text-white">
+			<div class="text-left text-xs font-normal text-white">
 				{date}
 			</div>
 			<div class="flex items-center">

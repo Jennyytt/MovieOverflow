@@ -8,7 +8,7 @@
 			class="flex h-[163px] w-[468px] flex-col items-start justify-start gap-2.5 rounded-[10px] border-[3px] border-solid border-[#222222] bg-black p-[30px_97px]"
 		>
 			<div class="flex w-[274px] flex-col items-center justify-center gap-[17px]">
-				<div class="self-stretch text-center font-inter text-[20px] font-bold text-white">
+				<div class="self-stretch text-center text-[20px] font-bold text-white">
 					Follow MovieOverflow on
 				</div>
 				<div class="flex flex-row items-center justify-start gap-10 self-stretch">
@@ -28,26 +28,18 @@
 		</div>
 
 		<div class="flex flex-row items-center justify-center gap-[39px] self-stretch">
-			<div class="cursor-pointer text-left font-inter text-lg font-medium text-white">Help</div>
-			<div class="cursor-pointer text-left font-inter text-lg font-medium text-white">
-				About MovieOverflow
-			</div>
-			<div class="cursor-pointer text-left font-inter text-lg font-medium text-white">
-				Conditions of Use
-			</div>
-			<div class="cursor-pointer text-left font-inter text-lg font-medium text-white">
-				Privacy Policy
-			</div>
-			<div class="cursor-pointer text-left font-inter text-lg font-medium text-white">
-				Cookie Notice
-			</div>
+			<div class="cursor-pointer text-left text-lg font-medium text-white">Help</div>
+			<div class="cursor-pointer text-left text-lg font-medium text-white">About MovieOverflow</div>
+			<div class="cursor-pointer text-left text-lg font-medium text-white">Conditions of Use</div>
+			<div class="cursor-pointer text-left text-lg font-medium text-white">Privacy Policy</div>
+			<div class="cursor-pointer text-left text-lg font-medium text-white">Cookie Notice</div>
 		</div>
 
-		<div class="self-stretch text-center font-inter text-base font-medium text-[#b693dc]">
+		<div class="self-stretch text-center text-base font-medium text-[#b693dc]">
 			Contact us: MovieOverflow@gmail.com
 		</div>
 
-		<div class="self-stretch text-center font-inter text-base font-medium text-[#666666]">
+		<div class="self-stretch text-center text-base font-medium text-[#666666]">
 			© 1990-2025 by MovieOverflow.com, Inc.<br />
 		</div>
 	</div>

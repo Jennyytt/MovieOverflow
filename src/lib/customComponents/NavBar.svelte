@@ -18,7 +18,7 @@
 		<div
 			class="relative flex h-[56px] w-[514px] min-w-[250px] flex-shrink-0 flex-row items-center justify-between rounded-[10px] bg-[#2b2b2b] px-1.5 py-3"
 		>
-			<div class="relative text-left font-inter text-sm font-normal text-[#797979]">
+			<div class="relative text-left text-sm font-normal text-[#797979]">
 				What do you want to search?
 			</div>
 			<Search color="#D1D7E0" />
@@ -29,7 +29,7 @@
 		>
 			<Gem color="#B693DC" />
 			<div
-				class="relative h-[22px] w-[45px] text-left font-inter text-base font-semibold leading-[140%] text-[#b693dc]"
+				class="relative h-[22px] w-[45px] text-left text-base font-semibold leading-[140%] text-[#b693dc]"
 			>
 				PRO
 			</div>
@@ -39,9 +39,7 @@
 			class="relative flex flex-shrink-0 cursor-pointer flex-row items-start justify-start gap-1"
 		>
 			<Bookmark color="#D1D7E0" />
-			<div
-				class="relative text-center font-inter text-base font-semibold leading-[140%] text-[#d1d7e0]"
-			>
+			<div class="relative text-center text-base font-semibold leading-[140%] text-[#d1d7e0]">
 				Watchlist
 			</div>
 		</div>
@@ -50,9 +48,7 @@
 			class="relative flex flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-1"
 		>
 			<UserRound color="#D1D7E0" />
-			<div
-				class="relative text-center font-inter text-base font-semibold leading-[140%] text-[#d1d7e0]"
-			>
+			<div class="relative text-center text-base font-semibold leading-[140%] text-[#d1d7e0]">
 				Log in
 			</div>
 		</div>
@@ -61,9 +57,7 @@
 			class="relative flex flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-1"
 		>
 			<CircleUser color="#D1D7E0" />
-			<div
-				class="relative text-center font-inter text-base font-semibold leading-[140%] text-[#d1d7e0]"
-			>
+			<div class="relative text-center text-base font-semibold leading-[140%] text-[#d1d7e0]">
 				Sign Up
 			</div>
 		</div>
