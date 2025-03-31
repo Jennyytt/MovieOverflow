@@ -8,7 +8,7 @@
 			class="flex h-[163px] w-[468px] flex-col items-start justify-start gap-2.5 rounded-[10px] border-[3px] border-solid border-[#222222] bg-black p-[30px_97px]"
 		>
 			<div class="flex w-[274px] flex-col items-center justify-center gap-[17px]">
-				<div class="self-stretch text-left font-inter text-[22px] font-bold text-white">
+				<div class="self-stretch text-center font-inter text-[20px] font-bold text-white">
 					Follow MovieOverflow on
 				</div>
 				<div class="flex flex-row items-center justify-start gap-10 self-stretch">
