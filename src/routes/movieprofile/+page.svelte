@@ -1,7 +1,11 @@
 <script>
-	import ReviewCarousel from '$lib/customComponents/ReviewCarousel.svelte';
+	import ReviewCarouselView from '../../views/ReviewCarouselView.svelte';
+	import CommentCarouselView from '../../views/CommentCarouselView.svelte';
 </script>
 
 <div>
-	<ReviewCarousel />
+	<ReviewCarouselView />
+	<br />
+	<br />
+	<CommentCarouselView />
 </div>
