@@ -66,7 +66,7 @@
 
 			<!-- Post rating button -->
 			<Button
-				class="relative flex flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-[10px] rounded-[20px] border-[1px] border-solid border-black bg-[rgba(128,43,177,0.8)] px-6 py-5 text-[20px] font-bold text-[#eeeeee] hover:bg-[rgba(128,43,177,0.9)]"
+				class="relative flex h-12 flex-shrink-0 cursor-pointer flex-row  items-center justify-center gap-[10px] rounded-[20px] border-[1px] border-solid border-black  px-6 py-5 text-[20px] font-bold text-[#eeeeee]"
 			>
 				POST RATING
 			</Button>
