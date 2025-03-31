@@ -7,7 +7,9 @@
 	export let date = 'Feb 25, 2025';
 </script>
 
-<Card class="relative box-border h-[285px] w-[346px] overflow-hidden rounded-[10px] bg-[#222222]">
+<Card
+	class="relative box-border h-[285px] w-[346px] overflow-hidden rounded-[10px] border-[#222222] bg-[#222222]"
+>
 	<div class="absolute left-1/2 top-1/2 h-[256.13px] w-[297px] -translate-x-1/2 -translate-y-1/2">
 		<!-- User icon and name -->
 		<div class="absolute left-0 top-0 flex flex-row items-center justify-start gap-2">
