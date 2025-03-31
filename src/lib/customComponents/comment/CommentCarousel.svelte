@@ -10,7 +10,7 @@
 	class="relative left-10 w-[1070px]  max-w-full pl-4"
 >
 	<div>
-		<Carousel.Previous class="m-[16px]" />
+		<Carousel.Previous class="mx-[16px]" />
 		<Carousel.Content class="-ml-4">
 			<!-- eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars  -->
 			{#each Array(7) as unusedItem, i (i)}
