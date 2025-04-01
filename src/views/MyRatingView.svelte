@@ -1,11 +1,31 @@
 <script>
 	let rating = 0;
+	let lastSubmittedRating = 0; // Track the last submitted rating
 
 	function setRating(value) {
-		rating = value;
+		// If clicking the same star, deselect it
+		if (rating === value) {
+			rating = 0; // Reset to 0 stars
+		} else {
+			rating = value; // Otherwise set to the clicked star
+		}
+
+		// Re-enable the button if user selects a different rating than previously submitted
+		if (isClicked && rating !== lastSubmittedRating) {
+			isClicked = false;
+		}
 	}
+
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ChevronRight } from 'radix-icons-svelte';
+	import { toast } from 'svelte-sonner';
+	let isClicked = false;
+
+	function submitRating() {
+		toast.success(`Thank you for rating ${rating} ${rating === 1 ? 'star' : 'stars'}!`);
+		isClicked = true;
+		lastSubmittedRating = rating; // Store the submitted rating
+	}
 </script>
 
 <div class="relative flex flex-shrink-0 flex-col items-start justify-start gap-8 self-stretch">
@@ -66,9 +86,11 @@
 
 			<!-- Post rating button -->
 			<Button
-				class="relative flex h-12 flex-shrink-0 cursor-pointer flex-row  items-center justify-center gap-[10px] rounded-[20px] border-[1px] border-solid border-black  px-6 py-5 text-[20px] font-bold text-[#eeeeee]"
+				class="relative flex h-12 flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-[10px] rounded-[20px] border-[1px] border-solid border-black px-6 py-5 text-[20px] font-bold text-[#eeeeee]"
+				on:click={submitRating}
+				disabled={isClicked}
 			>
-				POST RATING
+				{isClicked ? 'RATING POSTED' : 'POST RATING'}
 			</Button>
 
 			<!-- Write a comment link -->
