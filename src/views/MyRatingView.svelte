@@ -19,6 +19,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ChevronRight } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
+	import WriteCommentDialog from '$lib/customComponents/movieprofile/WriteCommentDialog.svelte';
 	let isClicked = false;
 
 	function submitRating() {
@@ -94,12 +95,7 @@
 			</Button>
 
 			<!-- Write a comment link -->
-			<Button
-				variant="link"
-				class="h-auto p-0 text-[20px] font-bold text-[#b693dc] underline hover:text-[#c9a7ed]"
-			>
-				WRITE A COMMENT
-			</Button>
+			<WriteCommentDialog />
 		</div>
 	</div>
 </div>
