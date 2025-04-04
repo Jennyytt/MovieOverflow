@@ -44,7 +44,7 @@
 
 			<!-- Stars Rating -->
 			<div
-				class="absolute left-1/2 top-[73px] flex -translate-x-[139px] flex-row items-center gap-[18px]"
+				class="absolute left-1/2 top-[73px] flex -translate-x-[139px] flex-row items-center gap-[18px] py-[15px]"
 			>
 				<!-- eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars  -->
 				{#each Array(5) as _, i}
