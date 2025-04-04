@@ -33,8 +33,8 @@
 			<!-- Positioned the search icon at the right side of the search bar -->
 			<div
 				class="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-				on:click={handleSearchClick}
-				on:keydown={(e) => e.key === 'Enter' && handleSearchClick()}
+				onclick={handleSearchClick}
+				onkeydown={(e) => e.key === 'Enter' && handleSearchClick()}
 				tabindex="0"
 				role="button"
 				aria-label="Search"

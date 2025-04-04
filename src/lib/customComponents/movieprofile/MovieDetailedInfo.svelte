@@ -98,7 +98,7 @@
 				<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[51px]">
 					<div class="text-left text-base font-normal text-white">{releaseDate}</div>
 					<Button
-						on:click={toggleReminder}
+						onclick={toggleReminder}
 						class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] border border-solid border-black px-[25px] py-2 "
 					>
 						<span class="text-left text-base font-semibold text-[#eeeeee]">Set Reminder</span>

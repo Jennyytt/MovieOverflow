@@ -70,7 +70,7 @@
 					size="icon"
 					class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
 					aria-label={feedbackState === 'like' ? 'Remove like' : 'Like this comment'}
-					on:click={handleLike}
+					onclick={handleLike}
 				>
 					<ThumbsUp
 						class="inline-block h-[28px] w-[28px] pb-[4px] pr-[4px] transition-colors"
@@ -83,7 +83,7 @@
 					size="icon"
 					class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
 					aria-label={feedbackState === 'dislike' ? 'Remove dislike' : 'Dislike this comment'}
-					on:click={handleDislike}
+					onclick={handleDislike}
 				>
 					<ThumbsDown
 						class="inline-block h-[26px] w-[24px] pt-[2px] transition-colors"

@@ -27,7 +27,7 @@
 	<br />
 	<Toaster />
 	<Button
-		on:click={toggleWatchlist}
+		onclick={toggleWatchlist}
 		class="flex h-[42px] w-[227px] items-center justify-center gap-3 rounded-[20px] px-8 py-[11px]"
 	>
 		{#if isInWatchlist}

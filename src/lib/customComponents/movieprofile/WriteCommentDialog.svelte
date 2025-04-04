@@ -55,8 +55,8 @@
 						viewBox="0 0 40 40"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
-						on:click={() => setRating(i + 1)}
-						on:keydown={(e) => e.key === 'Enter' && setRating(i + 1)}
+						onclick={() => setRating(i + 1)}
+						onkeydown={(e) => e.key === 'Enter' && setRating(i + 1)}
 						tabindex="0"
 						role="button"
 						aria-label={`Rate ${i + 1} stars`}
@@ -97,7 +97,7 @@
 			<!-- Close button (X) in the corner -->
 			<Dialog.Close
 				class="absolute right-5 top-5 flex h-6 w-6 items-center justify-center rounded-full opacity-70 hover:opacity-100 focus:outline-none"
-				on:click={handlePOST}
+				onclick={handlePOST}
 			/>
 		</div>
 	</Dialog.Content>
