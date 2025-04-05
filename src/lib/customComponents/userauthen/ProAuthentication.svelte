@@ -41,12 +41,12 @@
       <!-- Heading -->
       <div class="flex items-start gap-[10px]">
         <div class="h-[37px] w-[5px] rounded-[2px]" style="background: #A508FF;"></div>
-        <h1 class="font-inter text-[31.31px] font-black text-[#46344E]">License</h1>
+        <h1 class=" text-[31.31px] font-black text-[#46344E]">License</h1>
       </div>
 
       <!-- Input section -->
       <div class="flex flex-col gap-[3.91px]">
-        <label class="text-[15.65px] text-[#5F1F73] font-inter">
+        <label class="text-[15.65px] text-[#5F1F73]">
           Please enter your license number
         </label>
 
@@ -58,7 +58,7 @@
         />
 
         {#if errorMessage}
-          <p class="text-[#EE1D52] text-[13.7px] font-inter">
+          <p class="text-[#EE1D52] text-[13.7px]">
             {errorMessage}
           </p>
         {/if}
@@ -67,7 +67,7 @@
       <!-- Confirm Button -->
       <Button
         type="button"
-        class="w-full h-[54.78px] rounded-[31.31px] bg-[#802BB1]/80 text-[17.61px] font-inter"
+        class="w-full h-[54.78px] rounded-[31.31px] bg-[#802BB1]/80 text-[17.61px]"
         on:click={handleConfirm}
       >
         Confirm
@@ -75,7 +75,7 @@
     </div>
 
     <!-- Help link -->
-    <div class="text-[15.65px] text-[#5F1F73] font-inter">
+    <div class="text-[15.65px] text-[#5F1F73]">
       How to get your license key?
     </div>
   </div>
