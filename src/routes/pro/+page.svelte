@@ -1,5 +1,5 @@
 <script>
-	import LicenseKey from '../../lib/customComponents/authentication/ProAuthentication.svelte';
+	import LicenseKey from '../../lib/customComponents/userauthen/ProAuthentication.svelte';
 	
 </script>
 
