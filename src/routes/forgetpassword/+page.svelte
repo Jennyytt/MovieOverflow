@@ -1,5 +1,5 @@
 <script>
-	import RequestEmailBox from '../../lib/customComponents/userauthen/ForgotPasswordRequest.svelte';
+	import RequestEmailBox from '../../lib/views/PasswordChange';
 
 	
 </script>
