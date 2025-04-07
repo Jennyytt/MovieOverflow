@@ -21,12 +21,11 @@
       <h1 class="text-[#46344E] text-[31.31px] font-[900] leading-none">Forgot Password</h1>
     </div>
 
-  <!-- Instructional Message -->
-<p class="text-[12px] text-[rgba(128,43,177,0.80)] font-[400] leading-[24px] tracking-[0.15px]">
-  Your password has been successfully reset.<br />
-  Now please set a new password.
-</p>
-
+    <!-- Instructional Message -->
+    <div class="text-[14px] text-[#802BB1] leading-[1.5]">
+      <p>Your password has been successfully reset.</p>
+      <p>Now please set a new password.</p>
+    </div>
 
     <!-- Password Fields -->
     <div class="w-[449.04px]">
