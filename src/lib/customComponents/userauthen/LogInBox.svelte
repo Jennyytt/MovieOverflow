@@ -1,7 +1,11 @@
 <script>
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
-  import { Input } from "$lib/components/ui/input";
+  import EmailField from "$lib/customComponents/userauthen/EmailField.svelte";
+  import PasswordField from "$lib/customComponents/userauthen/PasswordField.svelte";
+
+  let email = "";
+  let password = "";
 </script>
 
 <Card.Root class="relative w-[527px] h-[600px] rounded-[25px] border-[3px] border-[#ABBED1] bg-[#EEEEEE] pt-[68px] pb-[68px] pl-[39px] pr-[38px]" style="outline-offset: -3px">
@@ -11,34 +15,19 @@
   </div>
 
   <Card.Content class="flex flex-col gap-[15px] p-0">
-    <!-- Email -->
-    <div class="flex flex-col gap-[3.91px] w-[449.04px]">
-      <p class="text-[15.65px] text-[#5F1F73] font-[400]">Email</p>
-      <Input
-        id="email"
-        type="email"
-        placeholder="Enter your email address"
-        class="h-[54.78px] rounded-[11.74px] border border-[rgba(102,102,102,0.35)] px-[23.48px] text-[15.65px] placeholder:text-[rgba(102,102,102,0.60)]"
-        required
-      />
-      <p class="text-[13.7px] text-[#EE1D52]">Your account is not found.</p>
+    <!-- ✅ Reusable Email Field -->
+    <div class="w-[449.04px]">
+      <EmailField bind:value={email} errorMessage="Your account is not found." />
     </div>
 
-    <!-- Password -->
-    <div class="flex flex-col gap-[3.91px] w-[449.04px]">
-      <p class="text-[15.65px] text-[#5F1F73] font-[400]">Password</p>
-      <Input
-        id="password"
-        type="password"
-        placeholder="Enter your password"
-        class="h-[54.78px] rounded-[11.74px] border border-[rgba(102,102,102,0.35)] px-[23px] text-[15.65px]  placeholder:text-[rgba(102,102,102,0.60)]"
-        required
-      />
+    <!-- ✅ Reusable Password Field (no confirm) -->
+    <div class="w-[449.04px]">
+      <PasswordField bind:value={password} showConfirm={false} />
     </div>
 
     <!-- Forgot Password -->
     <div class="flex justify-end w-[449.56px]">
-      <a href="#" class="text-[14.7px] text-[rgba(51,51,51,0.80)] ">Forgot Password</a>
+      <a href="#" class="text-[14.7px] text-[rgba(51,51,51,0.80)]">Forgot Password</a>
     </div>
 
     <!-- Login Button -->
