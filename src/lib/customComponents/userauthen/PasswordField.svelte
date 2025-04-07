@@ -69,6 +69,8 @@
                px-[23.48px] pr-[48px] text-[15.65px] font-[400]
                placeholder:text-[rgba(102,102,102,0.60)] text-[#5F1F73]"
       />
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="absolute right-[15px] top-[15.28px] w-[23.48px] h-[23.48px] cursor-pointer"
         on:click={() => toggle("confirm")}
