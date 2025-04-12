@@ -1,5 +1,5 @@
 <script>
-	import SignUpView from '../../views/SignUpView.svelte';
+	import SignUpView from '../../views/userauthen/SignUpView.svelte';
 	
 </script>
 
