@@ -1,5 +1,6 @@
 <script>
-	import LogInBoxView from '../../views/LogInView.svelte';
+	import LogInBoxView from '../../views/userauthen/LogInView.svelte';
+
 	
 </script>
 
