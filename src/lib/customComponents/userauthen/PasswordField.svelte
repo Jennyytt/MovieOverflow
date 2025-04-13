@@ -1,28 +1,28 @@
 <script>
-  import { Input } from "$lib/components/ui/input";
-  import { Eye, EyeOff } from "@lucide/svelte";
+  import { Input } from '$lib/components/ui/input';
+  import { Eye, EyeOff } from '@lucide/svelte';
 
-  export let label = "Password";
-  export let placeholder = "Enter your password";
-  export let value = "";
-  export let errorMessage = "";
+  export let label = 'Password';
+  export let placeholder = 'Enter your password';
+  export let value = '';
+  export let errorMessage = '';
 
   export let showConfirm = false;
-  export let confirmValue = "";
-  export let confirmPlaceholder = "Re-enter your password";
-  export let confirmErrorMessage = "";
+  export let confirmValue = '';
+  export let confirmPlaceholder = 'Re-enter your password';
+  export let confirmErrorMessage = '';
 
   let showPassword = false;
   let showConfirmPassword = false;
 
   const toggle = (field) =>
-    field === "main"
+    field === 'main'
       ? (showPassword = !showPassword)
       : (showConfirmPassword = !showConfirmPassword);
 
   $: confirmError = showConfirm && confirmValue && value !== confirmValue
-    ? "Passwords do not match"
-    : "";
+    ? 'Passwords do not match'
+    : '';
 </script>
 
 <!-- 🔐 Password Field -->
@@ -31,23 +31,25 @@
 
   <div class="relative w-full">
     <Input
-      type={showPassword ? "text" : "password"}
+      type={showPassword ? 'text' : 'password'}
       bind:value={value}
       placeholder={placeholder}
       class="h-[54.78px] w-full rounded-[11.74px] border border-[rgba(102,102,102,0.35)]
              px-[23.48px] pr-[48px] text-[15.65px] font-[400]
              placeholder:text-[rgba(102,102,102,0.60)] text-[#5F1F73]"
     />
-    <div
-      class="absolute right-[15px] top-[15.28px] w-[23.48px] h-[23.48px] cursor-pointer"
-      on:click={() => toggle("main")}
+    <button
+      type="button"
+      class="absolute right-[15px] top-[15.28px] w-[23.48px] h-[23.48px] cursor-pointer text-gray-500"
+      on:click={() => toggle('main')}
+      aria-label="Toggle password visibility"
     >
       {#if showPassword}
-        <EyeOff class="w-full h-full text-gray-500" />
+        <EyeOff class="w-full h-full" />
       {:else}
-        <Eye class="w-full h-full text-gray-500" />
+        <Eye class="w-full h-full" />
       {/if}
-    </div>
+    </button>
   </div>
 
   {#if errorMessage}
@@ -62,25 +64,25 @@
 
     <div class="relative w-full">
       <Input
-        type={showConfirmPassword ? "text" : "password"}
+        type={showConfirmPassword ? 'text' : 'password'}
         bind:value={confirmValue}
         placeholder={confirmPlaceholder}
         class="h-[54.78px] w-full rounded-[11.74px] border border-[rgba(102,102,102,0.35)]
                px-[23.48px] pr-[48px] text-[15.65px] font-[400]
                placeholder:text-[rgba(102,102,102,0.60)] text-[#5F1F73]"
       />
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <div
-        class="absolute right-[15px] top-[15.28px] w-[23.48px] h-[23.48px] cursor-pointer"
-        on:click={() => toggle("confirm")}
+      <button
+        type="button"
+        class="absolute right-[15px] top-[15.28px] w-[23.48px] h-[23.48px] cursor-pointer text-gray-500"
+        on:click={() => toggle('confirm')}
+        aria-label="Toggle confirm password visibility"
       >
         {#if showConfirmPassword}
-          <EyeOff class="w-full h-full text-gray-500" />
+          <Eye class="w-full h-full" />
         {:else}
-          <Eye class="w-full h-full text-gray-500" />
+          <EyeOff class="w-full h-full" />
         {/if}
-      </div>
+      </button>
     </div>
 
     {#if confirmErrorMessage || confirmError}

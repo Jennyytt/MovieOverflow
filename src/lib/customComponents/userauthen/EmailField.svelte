@@ -1,5 +1,5 @@
 <script>
-  import { Input } from "$lib/components/ui/input";
+  import { Input } from '$lib/components/ui/input';
 
   export let label = "Email";
   export let placeholder = "Enter your email address";
