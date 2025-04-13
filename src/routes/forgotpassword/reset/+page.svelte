@@ -1,7 +1,7 @@
 <script>
-	import { Button } from "$lib/components/ui/button";
-	import * as Card from "$lib/components/ui/card";
-	import PasswordField from "$lib/customComponents/userauthen/PasswordField.svelte";
+	import { Button } from '$lib/components/ui/button';
+	import * as Card from '$lib/components/ui/card';
+	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
   
 	let password = "";
 	let confirmPassword = "";
@@ -19,7 +19,7 @@
 	  <Card.Content class="flex flex-col gap-[15px] p-0">
 		<!-- Title -->
 		<div class="mb-[15px] flex items-start gap-[8px]">
-		  <div class="w-[5px] h-[37px] bg-[#A508FF] rounded-[2px]" />
+		  <div class="w-[5px] h-[37px] bg-[#A508FF] rounded-[2px]" ></div>
 		  <h1 class="text-[#46344E] text-[31.31px] font-[900] leading-none">Forgot Password</h1>
 		</div>
   
