@@ -1,7 +1,7 @@
 <script>
-	import { Button } from "$lib/components/ui/button";
-	import { Input } from "$lib/components/ui/input";
-	import { X } from "@lucide/svelte"; // Close icon, optional
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import { X } from '@lucide/svelte'; // Close icon, optional
   
 	let licenseKey = "";
 	let errorMessage = "";
@@ -46,23 +46,28 @@
   
 		<!-- Input section -->
 		<div class="flex flex-col gap-[3.91px]">
-		  <label class="text-[15.65px] text-[#5F1F73]">
+			<label
+			for="license-input"
+			class="text-[15.65px] text-[#5F1F73]"
+			>
 			Please enter your license number
-		  </label>
+			</label>
   
-		  <Input
+			<Input
+			id="license-input"
 			type="text"
 			bind:value={licenseKey}
 			placeholder="Enter your 9-digit key."
 			class="h-[54.78px] rounded-[11.74px] border border-gray-300 placeholder:text-gray-400"
-		  />
-  
-		  {#if errorMessage}
+			/>
+		
+			{#if errorMessage}
 			<p class="text-[#EE1D52] text-[13.7px]">
-			  {errorMessage}
+				{errorMessage}
 			</p>
-		  {/if}
+			{/if}
 		</div>
+	
   
 		<!-- Confirm Button -->
 		<Button
