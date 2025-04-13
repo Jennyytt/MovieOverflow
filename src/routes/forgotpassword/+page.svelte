@@ -1,7 +1,7 @@
 <script>
-	import { Button } from "$lib/components/ui/button";
-	import * as Card from "$lib/components/ui/card";
-	import EmailField from "$lib/customComponents/userauthen/EmailField.svelte";
+	import { Button } from '$lib/components/ui/button';
+	import * as Card from '$lib/components/ui/card';
+	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
   
 	let email = "";
   </script>
@@ -15,7 +15,7 @@
 	  <div class="flex flex-col justify-start items-start gap-[54px] h-[425px]">
 		<!-- Title -->
 		<div class="flex flex-row justify-start items-start gap-[15px]">
-		  <div class="w-[4.25px] h-[37px] bg-[#A508FF] rounded-[2px]" />
+		  <div class="w-[4.25px] h-[37px] bg-[#A508FF] rounded-[2px]" ></div>
 		  <div class="w-[287px] text-center text-[#46344E] text-[31.31px] font-[900] leading-none">
 			Forgot Password
 		  </div>
@@ -39,7 +39,7 @@
 		  >
 			Send Link
 		  </Button>
-		  <div class="w-[449px] h-[56px]" />
+		  <div class="w-[449px] h-[56px]" ></div>
 		</div>
 	  </div>
   
