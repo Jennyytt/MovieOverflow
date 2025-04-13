@@ -1,6 +1,15 @@
 <script>
 	import logoSmall from '../../assets/MOicon-small.png';
 	import { Search, Gem, Bookmark, UserRound, CircleUser } from '@lucide/svelte';
+	import { goto } from '$app/navigation';
+
+	function goToLogin() {
+    goto('/login'); // go to log in page
+  }
+
+  function goToSignUp() {
+    goto('/signup'); 
+  }
 </script>
 
 <div class="relative box-border h-[66px] overflow-hidden bg-[#1d1d1d]">
@@ -46,6 +55,7 @@
 
 		<div
 			class="relative flex flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-1"
+			on:click={goToLogin}
 		>
 			<UserRound color="#D1D7E0" />
 			<div class="relative text-center text-base font-semibold leading-[140%] text-[#d1d7e0]">
@@ -55,6 +65,7 @@
 
 		<div
 			class="relative flex flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-1"
+			on:click={goToSignUp}
 		>
 			<CircleUser color="#D1D7E0" />
 			<div class="relative text-center text-base font-semibold leading-[140%] text-[#d1d7e0]">
