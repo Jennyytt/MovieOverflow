@@ -45,9 +45,9 @@
       aria-label="Toggle password visibility"
     >
       {#if showPassword}
-        <EyeOff class="w-full h-full" />
-      {:else}
         <Eye class="w-full h-full" />
+      {:else}
+        <EyeOff class="w-full h-full" />
       {/if}
     </button>
   </div>
