@@ -1,9 +1,9 @@
 <script>
-	import logoBig from '../../assets/MOicon-large.png';
-	import { Button } from "$lib/components/ui/button";
-	import * as Card from "$lib/components/ui/card";
-	import EmailField from "$lib/customComponents/userauthen/EmailField.svelte";
-	import PasswordField from "$lib/customComponents/userauthen/PasswordField.svelte";
+	import logoBig from '../../../src/assets/MOicon-large.png';
+	import { Button } from '$lib/components/ui/button';
+	import * as Card from '$lib/components/ui/card';
+	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
+	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
   
 	let email = "";
 	let password = "";
