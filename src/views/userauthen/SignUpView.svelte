@@ -1,10 +1,10 @@
 <script>
-	import logoBig from "/Users/florinda/MovieOverflow/src/assets/MOicon-large.png";
-	import { Button } from "$lib/components/ui/button";
-	import * as Card from "$lib/components/ui/card";
-	import { Input } from "$lib/components/ui/input";
-	import PasswordField from "$lib/customComponents/userauthen/PasswordField.svelte";
-	import EmailField from "$lib/customComponents/userauthen/EmailField.svelte";
+	import logoBig from '../../../src/assets/MOicon-large.png';
+	import { Button } from '$lib/components/ui/button';
+	import * as Card from '$lib/components/ui/card';
+	import { Input } from '$lib/components/ui/input';
+	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
+	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
   
 	let email = "";
 	let username = "";
@@ -30,7 +30,7 @@
 	>
 	  <!-- Title Section -->
 	  <div class="mb-[15px] flex items-start gap-[10px]">
-		<div class="w-[5px] h-[34.36px] bg-[#A508FF] rounded-[2px]" />
+		<div class="w-[5px] h-[34.36px] bg-[#A508FF] rounded-[2px]" ></div>
 		<h1 class="text-[#46344E] text-[31.31px] font-[900] leading-none">
 		  Welcome to MovieOverflow
 		</h1>
@@ -71,7 +71,7 @@
 		<!-- Footer -->
 		<div class="text-[15.65px] text-[#333333] font-[400]">
 		  Already have an account?
-		  <a href="#" class="text-[#111111] underline font-[700]"> Log in </a>
+		  <a href="/login" class="text-[#111111] underline font-[700]"> Log in </a>
 		</div>
 	  </Card.Content>
 	</Card.Root>
