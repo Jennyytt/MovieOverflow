@@ -1,7 +1,7 @@
 <script>
-  import { Button } from "$lib/components/ui/button";
-  import * as Card from "$lib/components/ui/card";
-  import { Cross2 } from "radix-icons-svelte";
+  import { Button } from '$lib/components/ui/button';
+  import * as Card from '$lib/components/ui/card';
+  import { Cross2 } from 'radix-icons-svelte';
 
   export let messages = [];
   export let title = "Successful";
@@ -28,13 +28,13 @@
   <Card.Content class="flex flex-col gap-[25px] p-0 w-full">
     <!-- Title Section -->
     <div class="flex items-start gap-[8px]">
-      <div class="w-[4.25px] h-[31.31px] bg-[#A508FF] rounded-[2px]" />
+      <div class="w-[4.25px] h-[31.31px] bg-[#A508FF] rounded-[2px]"></div>
       <h1 class="text-[#46344E] text-[31.31px] font-black leading-none">
         {title}
       </h1>
     </div>
 
-    <div class="h-[80px]" />
+    <div class="h-[80px]" ></div>
     
     <!-- Messages -->
     <div class="w-[444px] text-[#5F1F73] text-[15px] leading-[24px] tracking-[0.15px]">
@@ -44,7 +44,7 @@
     </div>
 
     <!-- Spacer -->
-    <div class="h-[80px]" />
+    <div class="h-[80px]" ></div>
 
     <!-- Button -->
     <div class="h-[55px]">
