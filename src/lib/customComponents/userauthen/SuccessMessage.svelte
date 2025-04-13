@@ -48,16 +48,12 @@
 
     <!-- Button -->
     <div class="h-[55px]">
-      <div
+      <Button
         on:click={goToLogin}
-        class="cursor-pointer w-[449.04px] h-[54.78px] bg-[rgba(128,43,177,0.80)] rounded-[31.31px] relative overflow-hidden"
-      >
-        <div
-          class="absolute left-1/2 -translate-x-1/2 top-[16.5px] text-white text-[17.61px] font-[400] text-center"
-        >
-          Log in
-        </div>
-      </div>
+        class="w-[449.04px] h-[54.78px] bg-[rgba(128,43,177,0.80)] rounded-[31.31px] relative overflow-hidden text-white text-[17.61px] font-[400]">
+        Log in
+      </Button>
+
     </div>
   </Card.Content>
 </Card.Root>
