@@ -1,5 +1,5 @@
 <script>
-	import PasswordResetBox from '/Users/florinda/MovieOverflow/src/lib/customComponents/userauthen/SuccessMessage.svelte';
+	import PasswordResetBox from '../../../lib/customComponents/userauthen/SuccessMessage.svelte';
 	
 
 	
