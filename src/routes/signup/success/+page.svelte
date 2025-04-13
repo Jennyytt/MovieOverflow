@@ -1,5 +1,5 @@
 <script>
-	import SignUpSuccess from '/Users/florinda/MovieOverflow/src/lib/customComponents/userauthen/SuccessMessage.svelte';
+	import SignUpSuccess from '../../../lib/customComponents/userauthen/SuccessMessage.svelte';
 	
 
 	
