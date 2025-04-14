@@ -1,6 +1,12 @@
 <script>
 	import '../app.css';
+	import NavBar from '../lib/customComponents/NavBar.svelte';
+	import Footer from '../lib/customComponents/Footer.svelte';
 	let { children } = $props();
 </script>
 
-{@render children()}
+<NavBar />
+<div class="flex min-h-screen items-center justify-center bg-black">
+	{@render children()}
+</div>
+<Footer />
