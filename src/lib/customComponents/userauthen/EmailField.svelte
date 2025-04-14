@@ -5,6 +5,8 @@
   export let placeholder = "Enter your email address";
   export let value = "";
   export let errorMessage = "";
+
+  
 </script>
 
 <div class="flex flex-col w-full">
@@ -20,7 +22,8 @@
     required
   />
 
-  {#if errorMessage}
-    <p class="text-[13.7px] text-[#EE1D52] font-[400] mt-1">{errorMessage}</p>
+  {#if typeof errorMessage === 'string' && errorMessage.trim() !== ''}
+  <p class="text-[13.7px] text-[#EE1D52] font-[400] mt-1">{errorMessage}</p>
   {/if}
+
 </div>
