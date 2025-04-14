@@ -5,8 +5,29 @@
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
   
-	let email = "";
-	let password = "";
+	let email = '';
+	let password = '';
+	let emailError = '';
+	let passwordError = '';
+  
+	function handleSubmit() {
+	  // Reset previous errors
+	  emailError = '';
+	  passwordError = '';
+  
+	  // Validation
+	  if (email.trim() !== 'example@email.com') {
+		emailError = 'Your account is not found.';
+	  }
+	  if (password !== '12345678') {
+		passwordError = 'Incorrect password.';
+	  }
+  
+	  // If both correct, proceed
+	  if (!emailError && !passwordError) {
+		alert('Login successful!');
+	  }
+	}
   </script>
   
   <!-- Full page layout: horizontally align logo + login box -->
@@ -26,12 +47,12 @@
 	  <Card.Content class="flex flex-col gap-[15px] p-0">
 		<!-- ✅ Reusable Email Field -->
 		<div class="w-[449.04px]">
-		  <EmailField bind:value={email} errorMessage="Your account is not found." />
+		  <EmailField bind:value={email} errorMessage={emailError} />
 		</div>
   
 		<!-- ✅ Reusable Password Field (no confirm) -->
 		<div class="w-[449.04px]">
-		  <PasswordField bind:value={password} showConfirm={false} />
+		  <PasswordField bind:value={password} showConfirm={false} errorMessage={passwordError} />
 		</div>
   
 		<!-- Forgot Password -->
@@ -41,7 +62,7 @@
   
 		<!-- Login Button -->
 		<div class="h-[115.15px] flex flex-col justify-start items-start gap-[30.62px]">
-		  <Button class="w-[449.04px] h-[54.78px] rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-white text-[17.61px] font-[400]">
+		  <Button on:click={handleSubmit} class="w-[449.04px] h-[54.78px] rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-white text-[17.61px] font-[400]">
 			Log in
 		  </Button>
 		</div>
