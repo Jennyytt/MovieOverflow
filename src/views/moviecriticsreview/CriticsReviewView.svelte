@@ -3,6 +3,99 @@
 	import { MoveDown } from '@lucide/svelte';
 	import LargerReviewCard from '$lib/customComponents/review/LargerReviewCard.svelte';
 	import MovieComCR from '$lib/customComponents/movie/MovieComCR.svelte';
+
+	// Mock reviews data tailored to LargerReviewCard props
+	let reviews = [
+		{
+			id: 1,
+			username: 'John Smith',
+			date: 'Feb 15, 2025',
+			reviewTitle: 'Thrilling Marvel Adventure',
+			reviewText:
+				'A thrilling continuation of the Captain America saga with strong performances and exciting action scenes.'
+		},
+		{
+			id: 2,
+			username: 'Emma Watson',
+			date: 'Feb 16, 2025',
+			reviewTitle: 'Solid but Predictable',
+			reviewText:
+				'Solid action sequences but the plot feels predictable at times. Still worth a watch for Marvel fans.'
+		},
+		{
+			id: 3,
+			username: 'Michael Chen',
+			date: 'Feb 17, 2025',
+			reviewTitle: 'Epic and Unmissable',
+			reviewText:
+				'An epic adventure that delivers on all fronts! The visuals and storytelling are top-notch.'
+		},
+		{
+			id: 4,
+			username: 'Sarah Johnson',
+			date: 'Feb 18, 2025',
+			reviewTitle: 'Lacking Depth',
+			reviewText:
+				'Disappointing compared to previous entries; lacks emotional depth but has decent action.'
+		},
+		{
+			id: 5,
+			username: 'David Lee',
+			date: 'Feb 19, 2025',
+			reviewTitle: 'Visually Stunning',
+			reviewText: 'Visually stunning with a compelling narrative. A great addition to the MCU.'
+		},
+		{
+			id: 6,
+			username: 'Laura Adams',
+			date: 'Feb 20, 2025',
+			reviewTitle: 'Good but Flawed',
+			reviewText: 'Decent but forgets some key character arcs. The action keeps it engaging.'
+		},
+		{
+			id: 7,
+			username: 'Tom Brown',
+			date: 'Feb 21, 2025',
+			reviewTitle: 'Action-Packed Fun',
+			reviewText: 'A must-see for Marvel fans, packed with action and great moments.'
+		},
+		{
+			id: 8,
+			username: 'Lisa Wong',
+			date: 'Feb 22, 2025',
+			reviewTitle: 'Great Visuals, Uneven Pacing',
+			reviewText: 'Great visuals but the pacing could be improved. Still an enjoyable film.'
+		},
+		{
+			id: 9,
+			username: 'Laura Adams',
+			date: 'Feb 20, 2025',
+			reviewTitle: 'Good but Flawed',
+			reviewText: 'Decent but forgets some key character arcs. The action keeps it engaging.'
+		},
+		{
+			id: 10,
+			username: 'Tom Brown',
+			date: 'Feb 21, 2025',
+			reviewTitle: 'Action-Packed Fun',
+			reviewText: 'A must-see for Marvel fans, packed with action and great moments.'
+		},
+		{
+			id: 11,
+			username: 'Lisa Wong',
+			date: 'Feb 22, 2025',
+			reviewTitle: 'Great Visuals, Uneven Pacing',
+			reviewText: 'Great visuals but the pacing could be improved. Still an enjoyable film.'
+		}
+	];
+
+	// State variable to track the number of reviews to display
+	let displayCount = 5;
+
+	// Function to load more reviews
+	function loadMore() {
+		displayCount += 5;
+	}
 </script>
 
 <div class="inline-flex h-full w-full gap-7">
@@ -43,17 +136,24 @@
 			</div>
 			<div class="h-0 self-stretch border-[2.3px] border-[#222222]"></div>
 		</div>
-		<LargerReviewCard />
-		<LargerReviewCard />
-		<LargerReviewCard />
-		<LargerReviewCard />
-		<LargerReviewCard />
-		<div
-			class="inline-flex h-[34.05px] w-[103.08px] items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-[8px]"
-		>
-			<div>
+		<!-- Dynamically render reviews based on displayCount with a key -->
+		{#each reviews.slice(0, displayCount) as review (review.id)}
+			<LargerReviewCard
+				username={review.username}
+				date={review.date}
+				reviewTitle={review.reviewTitle}
+				reviewText={review.reviewText}
+			/>
+		{/each}
+		<!-- Conditionally render Load More button -->
+		{#if displayCount < reviews.length}
+			<button
+				type="button"
+				on:click={loadMore}
+				class="inline-flex h-[34.05px] w-[103.08px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-[8px]"
+			>
 				<span class="break-words font-inter text-[14.73px] font-medium text-white">Load More</span>
-			</div>
-		</div>
+			</button>
+		{/if}
 	</div>
 </div>
