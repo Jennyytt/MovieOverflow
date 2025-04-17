@@ -19,6 +19,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ChevronRight } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
+	import WriteCommentDialog from '$lib/customComponents/movieprofile/WriteCommentDialog.svelte';
 	let isClicked = false;
 
 	function submitRating() {
@@ -61,8 +62,8 @@
 						viewBox="0 0 40 40"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
-						on:click={() => setRating(i + 1)}
-						on:keydown={(e) => e.key === 'Enter' && setRating(i + 1)}
+						onclick={() => setRating(i + 1)}
+						onkeydown={(e) => e.key === 'Enter' && setRating(i + 1)}
 						tabindex="0"
 						role="button"
 						aria-label={`Rate ${i + 1} ${i === 0 ? 'star' : 'stars'}`}
@@ -87,19 +88,14 @@
 			<!-- Post rating button -->
 			<Button
 				class="relative flex h-12 flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-[10px] rounded-[20px] border-[1px] border-solid border-black px-6 py-5 text-[20px] font-bold text-[#eeeeee]"
-				on:click={submitRating}
+				onclick={submitRating}
 				disabled={isClicked}
 			>
 				{isClicked ? 'RATING POSTED' : 'POST RATING'}
 			</Button>
 
 			<!-- Write a comment link -->
-			<Button
-				variant="link"
-				class="h-auto p-0 text-[20px] font-bold text-[#b693dc] underline hover:text-[#c9a7ed]"
-			>
-				WRITE A COMMENT
-			</Button>
+			<WriteCommentDialog />
 		</div>
 	</div>
 </div>

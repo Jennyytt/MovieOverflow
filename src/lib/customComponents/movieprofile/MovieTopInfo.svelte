@@ -82,7 +82,7 @@
 		>
 			<button
 				class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[15px]"
-				on:click={playTrailer}
+				onclick={playTrailer}
 			>
 				<svg
 					class="relative aspect-square h-[70px] w-[70px] flex-shrink-0 overflow-visible"
