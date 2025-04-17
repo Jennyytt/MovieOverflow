@@ -3,7 +3,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	export let username = 'User Name';
 	export let date = 'Feb 24, 2025';
+	export let commentText = 'This is a default comment.';
 	let feedbackState = null;
+
 	function handleLike() {
 		if (feedbackState === 'like') {
 			feedbackState = null;
@@ -11,6 +13,7 @@
 			feedbackState = 'like';
 		}
 	}
+
 	function handleDislike() {
 		if (feedbackState === 'dislike') {
 			feedbackState = null;
@@ -79,10 +82,7 @@
 		<div class="inline-flex w-[494.34px] flex-col gap-1">
 			<div class="line-clamp-5 max-h-[138.075px] overflow-hidden">
 				<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-					The not-so-secret weapon this CAPTAIN AMERICA has going for it is Harrison Ford. Don't
-					believe the nay-sayers out there: Brave New World is a 21st century Tall Tale, and if it
-					takes two viewings to take it all in, so be it hhfhhddjjdjdjdjdj kfjedfsemflse
-					ksegkskgksekg snfnanefkanfk
+					{commentText}
 				</span>
 			</div>
 			<div>
