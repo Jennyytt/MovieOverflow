@@ -1,6 +1,6 @@
 <script>
 	import posterImage from '../../assets/movie-poster-xl.png';
-	import { MoveDown } from '@lucide/svelte';
+	import { ArrowDownWideNarrow, ArrowUpNarrowWide } from '@lucide/svelte';
 	import LargerCommentCard from '$lib/customComponents/comment/LargerCommentCard.svelte';
 	import MovieComCR from '$lib/customComponents/movie/MovieComCR.svelte';
 
@@ -11,14 +11,13 @@
 			username: 'Alex Johnson',
 			date: 'Feb 15, 2025',
 			commentText:
-				'Harrison Ford steals the show! This movie is a thrilling ride with epic action scenes.'
+				'Harrison Ford steals the show! This movie is a thrilling ride with epic action scenes. I loved every minute of it, especially the final battle sequence which was absolutely breathtaking and kept me on the edge of my seat for the entire time. The character development was also top-notch, making this one of the best MCU films yet.'
 		},
 		{
 			id: 2,
 			username: 'Beth Carter',
 			date: 'Feb 16, 2025',
-			commentText:
-				'A bit predictable, but the visuals are stunning. Worth watching for Marvel fans.'
+			commentText: 'A bit predictable, but the visuals are stunning.'
 		},
 		{
 			id: 3,
@@ -78,17 +77,50 @@
 			username: 'Hannah Iverson',
 			date: 'Feb 22, 2025',
 			commentText:
-				'Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans.'
+				'Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans. Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me. Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans. Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.'
 		}
 	];
 
 	// State variable to track the number of comments to display
 	let displayCount = 5;
 
+	// State variable to track sort order ('descending' for newest to oldest, 'ascending' for oldest to newest)
+	let sortOrder = 'descending';
+
 	// Function to load more comments
 	function loadMore() {
 		displayCount += 5;
 	}
+
+	// Function to sort comments
+	function sortComments() {
+		comments = comments.sort((a, b) => {
+			// Convert date strings (e.g., "Feb 15, 2025") to Date objects for comparison
+			const dateA = new Date(a.date);
+			const dateB = new Date(b.date);
+
+			// Primary sorting: by date
+			if (sortOrder === 'descending') {
+				if (dateA > dateB) return -1;
+				if (dateA < dateB) return 1;
+			} else {
+				if (dateA < dateB) return -1;
+				if (dateA > dateB) return 1;
+			}
+
+			// Secondary sorting: by username (A to Z) for equal dates
+			return a.username.localeCompare(b.username);
+		});
+	}
+
+	// Function to toggle sort order
+	function toggleSortOrder() {
+		sortOrder = sortOrder === 'descending' ? 'ascending' : 'descending';
+		sortComments();
+	}
+
+	// Sort comments on initial load
+	sortComments();
 </script>
 
 <div class="inline-flex h-full w-full gap-7">
@@ -123,7 +155,20 @@
 						<span class="font-['Inter'] text-[18.41px] font-semibold text-[#b693dc] underline">
 							Date
 						</span>
-						<MoveDown class="h-[18.41px] w-[18.41px] stroke-[#B693DC]" fill="none" />
+						<button
+							type="button"
+							on:click={toggleSortOrder}
+							aria-label={sortOrder === 'descending'
+								? 'Sort by date ascending'
+								: 'Sort by date descending'}
+							class="cursor-pointer"
+						>
+							{#if sortOrder === 'descending'}
+								<ArrowDownWideNarrow class="h-[18.41px] w-[18.41px] stroke-[#B693DC]" fill="none" />
+							{:else}
+								<ArrowUpNarrowWide class="h-[18.41px] w-[18.41px] stroke-[#B693DC]" fill="none" />
+							{/if}
+						</button>
 					</div>
 				</div>
 			</div>
