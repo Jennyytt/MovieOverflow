@@ -6,6 +6,7 @@
 	export let username = 'User Name';
 	export let date = 'Feb 24, 2025';
 	export let commentText = 'This is a default comment.';
+	export let rating = 5; // Default to 5 stars
 	let feedbackState = null;
 	let showMore = false;
 	let needsShowMore = false;
@@ -58,11 +59,11 @@
 					</span>
 				</div>
 			</div>
-			<div class="inline-flex h-[20px] w-[100px] items-center justify-start">
-				{#each Array(5)}
+			<div class="inline-flex h-[20px] w-[108px] items-center justify-start gap-0.5">
+				{#each [0, 1, 2, 3, 4] as index (index)}
 					<Star
 						class="relative h-6 w-6 flex-shrink-0 overflow-visible stroke-[#FBC02D]"
-						fill="none"
+						fill={index < rating ? '#FBC02D' : 'none'}
 						size="20"
 					/>
 				{/each}

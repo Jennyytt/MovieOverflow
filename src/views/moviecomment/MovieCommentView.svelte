@@ -11,80 +11,94 @@
 			username: 'Alex Johnson',
 			date: 'Feb 15, 2025',
 			commentText:
-				'Harrison Ford steals the show! This movie is a thrilling ride with epic action scenes. I loved every minute of it, especially the final battle sequence which was absolutely breathtaking and kept me on the edge of my seat for the entire time. The character development was also top-notch, making this one of the best MCU films yet.'
+				'Harrison Ford steals the show! This movie is a thrilling ride with epic action scenes. I loved every minute of it, especially the final battle sequence which was absolutely breathtaking and kept me on the edge of my seat for the entire time. The character development was also top-notch, making this one of the best MCU films yet.',
+			rating: 5
 		},
 		{
 			id: 2,
 			username: 'Beth Carter',
 			date: 'Feb 16, 2025',
-			commentText: 'A bit predictable, but the visuals are stunning.'
+			commentText: 'A bit predictable, but the visuals are stunning.',
+			rating: 3
 		},
 		{
 			id: 3,
 			username: 'Chris Davis',
 			date: 'Feb 17, 2025',
-			commentText: 'Loved the storytelling and character development. A great addition to the MCU!'
+			commentText: 'Loved the storytelling and character development. A great addition to the MCU!',
+			rating: 4
 		},
 		{
 			id: 4,
 			username: 'Diana Evans',
 			date: 'Feb 18, 2025',
 			commentText:
-				'The pacing felt off at times, but the action sequences made up for it. Solid movie.'
+				'The pacing felt off at times, but the action sequences made up for it. Solid movie.',
+			rating: 1
 		},
 		{
 			id: 5,
 			username: 'Ethan Foster',
 			date: 'Feb 19, 2025',
 			commentText:
-				'Captain America never disappoints! This one has some of the best fight scenes yet.'
+				'Captain America never disappoints! This one has some of the best fight scenes yet.',
+			rating: 2
 		},
 		{
 			id: 6,
 			username: 'Fiona Green',
 			date: 'Feb 20, 2025',
 			commentText:
-				'A fun watch, but I wish they explored the side characters more. Still enjoyable.'
+				'A fun watch, but I wish they explored the side characters more. Still enjoyable.',
+			rating: 3
 		},
 		{
 			id: 7,
 			username: 'George Harris',
 			date: 'Feb 21, 2025',
-			commentText: 'Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.'
+			commentText: 'Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.',
+			rating: 5
 		},
 		{
 			id: 8,
 			username: 'Hannah Ives',
 			date: 'Feb 22, 2025',
 			commentText:
-				'Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans.'
+				'Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans.',
+			rating: 3
 		},
 		{
 			id: 9,
 			username: 'Fiona Blue',
 			date: 'Feb 20, 2025',
 			commentText:
-				'A fun watch, but I wish they explored the side characters more. Still enjoyable.'
+				'A fun watch, but I wish they explored the side characters more. Still enjoyable.',
+			rating: 1
 		},
 		{
 			id: 10,
 			username: 'Gedson Harrison',
 			date: 'Feb 21, 2025',
-			commentText: 'Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.'
+			commentText: 'Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.',
+			rating: 4
 		},
 		{
 			id: 11,
 			username: 'Hannah Iverson',
 			date: 'Feb 22, 2025',
 			commentText:
-				'Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans. Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me. Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans. Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.'
+				'Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans. Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me. Great visuals, but the plot felt a bit rushed. I’d still recommend it to MCU fans. Epic and action-packed! Harrison Ford as Red Hulk was a highlight for me.',
+			rating: 2
 		}
 	];
 
 	// State variable to track the number of comments to display
 	let displayCount = 5;
 
-	// State variable to track sort order ('descending' for newest to oldest, 'ascending' for oldest to newest)
+	// State variable to track sort mode ('date' or 'rating')
+	let sortMode = 'date';
+
+	// State variable to track sort order ('descending' for newest/highest to oldest/lowest, 'ascending' for oldest/lowest to newest/highest)
 	let sortOrder = 'descending';
 
 	// Function to load more comments
@@ -95,22 +109,45 @@
 	// Function to sort comments
 	function sortComments() {
 		comments = comments.sort((a, b) => {
-			// Convert date strings (e.g., "Feb 15, 2025") to Date objects for comparison
-			const dateA = new Date(a.date);
-			const dateB = new Date(b.date);
+			if (sortMode === 'date') {
+				// Sort by date
+				const dateA = new Date(a.date);
+				const dateB = new Date(b.date);
 
-			// Primary sorting: by date
-			if (sortOrder === 'descending') {
-				if (dateA > dateB) return -1;
-				if (dateA < dateB) return 1;
+				// Primary sorting: by date
+				if (sortOrder === 'descending') {
+					if (dateA > dateB) return -1;
+					if (dateA < dateB) return 1;
+				} else {
+					if (dateA < dateB) return -1;
+					if (dateA > dateB) return 1;
+				}
 			} else {
-				if (dateA < dateB) return -1;
-				if (dateA > dateB) return 1;
+				// Sort by rating
+				const ratingA = a.rating;
+				const ratingB = b.rating;
+
+				// Primary sorting: by rating
+				if (sortOrder === 'descending') {
+					if (ratingA > ratingB) return -1;
+					if (ratingA < ratingB) return 1;
+				} else {
+					if (ratingA < ratingB) return -1;
+					if (ratingA > ratingB) return 1;
+				}
 			}
 
-			// Secondary sorting: by username (A to Z) for equal dates
+			// Secondary sorting: by username (A to Z) for equal dates or ratings
 			return a.username.localeCompare(b.username);
 		});
+	}
+
+	// Function to toggle sort mode
+	function toggleSortMode() {
+		sortMode = sortMode === 'date' ? 'rating' : 'date';
+		// Reset sortOrder to descending when switching modes
+		sortOrder = 'descending';
+		sortComments();
 	}
 
 	// Function to toggle sort order
@@ -152,15 +189,22 @@
 						</span>
 					</div>
 					<div class="flex items-center gap-[6px]">
-						<span class="font-['Inter'] text-[18.41px] font-semibold text-[#b693dc] underline">
-							Date
-						</span>
+						<button
+							type="button"
+							on:click={toggleSortMode}
+							aria-label={sortMode === 'date' ? 'Sort by rating' : 'Sort by date'}
+							class="cursor-pointer border-none bg-transparent p-0"
+						>
+							<span class="font-['Inter'] text-[18.41px] font-semibold text-[#b693dc] underline">
+								{sortMode === 'date' ? 'Date' : 'Rating'}
+							</span>
+						</button>
 						<button
 							type="button"
 							on:click={toggleSortOrder}
 							aria-label={sortOrder === 'descending'
-								? 'Sort by date ascending'
-								: 'Sort by date descending'}
+								? `Sort by ${sortMode} ascending`
+								: `Sort by ${sortMode} descending`}
 							class="cursor-pointer"
 						>
 							{#if sortOrder === 'descending'}
@@ -180,6 +224,7 @@
 				username={comment.username}
 				date={comment.date}
 				commentText={comment.commentText}
+				rating={comment.rating}
 			/>
 		{/each}
 		<!-- Conditionally render Load More button -->
