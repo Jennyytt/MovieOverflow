@@ -62,7 +62,7 @@
   
 		<!-- Login Button -->
 		<div class="h-[115.15px] flex flex-col justify-start items-start gap-[30.62px]">
-		  <Button on:click={handleSubmit} class="w-[449.04px] h-[54.78px] rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-white text-[17.61px] font-[400]">
+		  <Button onclick={handleSubmit} class="w-[449.04px] h-[54.78px] rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-white text-[17.61px] font-[400]">
 			Log in
 		  </Button>
 		</div>

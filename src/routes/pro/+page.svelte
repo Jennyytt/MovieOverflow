@@ -28,7 +28,7 @@
   >
 	<!-- Close Button -->
 	<button
-	  on:click={handleClose}
+	  onclick={handleClose}
 	  class="absolute right-[26px] top-[29px] text-gray-600 hover:text-gray-800"
 	  aria-label="Close"
 	>
@@ -73,7 +73,7 @@
 		<Button
 		  type="button"
 		  class="w-full h-[54.78px] rounded-[31.31px] bg-[#802BB1]/80 text-[17.61px]"
-		  on:click={handleConfirm}
+		  onclick={handleConfirm}
 		>
 		  Confirm
 		</Button>

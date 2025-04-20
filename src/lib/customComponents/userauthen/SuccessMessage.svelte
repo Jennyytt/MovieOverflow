@@ -49,7 +49,7 @@
     <!-- Button -->
     <div class="h-[55px]">
       <Button
-        on:click={goToLogin}
+        onclick={goToLogin}
         class="w-[449.04px] h-[54.78px] bg-[rgba(128,43,177,0.80)] rounded-[31.31px] relative overflow-hidden text-white text-[17.61px] font-[400]">
         Log in
       </Button>

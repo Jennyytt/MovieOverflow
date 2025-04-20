@@ -41,7 +41,7 @@
     <button
       type="button"
       class="absolute right-[15px] top-[15.28px] w-[23.48px] h-[23.48px] cursor-pointer text-gray-500"
-      on:click={() => toggle('main')}
+      onclick={() => toggle('main')}
       aria-label="Toggle password visibility"
     >
       {#if showPassword}
