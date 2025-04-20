@@ -22,7 +22,7 @@
   <!-- Close Icon -->
   <Cross2
     class="absolute top-[24px] right-[24px] w-5 h-5 text-[#666] cursor-pointer"
-    on:click={handleClose}
+    onclick={handleClose}
   />
 
   <Card.Content class="flex flex-col gap-[25px] p-0 w-full">
