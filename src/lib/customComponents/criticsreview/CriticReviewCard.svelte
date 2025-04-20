@@ -8,11 +8,14 @@
 <div class="relative flex w-[1048px] flex-col justify-center gap-8">
 	<MovieInfo />
 	<!-- Review Text -->
-	<div class="text-left text-base font-normal text-white">
+	<div class="text-medium text-left font-[16px] text-white">
 		{review}
 	</div>
-	<!-- Date -->
-	<div class="text-left text-xs font-normal text-white">
-		{date}
+	<!-- Date & Full Review-->
+	<div class="flex flex-row items-center justify-start gap-4">
+		<div class="text-left font-[18px] font-bold text-white">
+			{date}
+		</div>
+		<div class="text-left font-[18px] font-bold text-white underline">Full Review</div>
 	</div>
 </div>
