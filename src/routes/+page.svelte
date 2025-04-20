@@ -7,6 +7,8 @@
 </script>
 
 <div>
+	<br />
+	<br />
 	<BestMovieWithTopPicksView />
 	<br />
 	<br />
