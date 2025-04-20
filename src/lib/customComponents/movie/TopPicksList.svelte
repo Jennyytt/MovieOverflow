@@ -10,11 +10,11 @@
 	];
 </script>
 
-<div class="w-[299px] rounded-lg bg-[#2121214D] p-4">
+<div class="w-[299px] rounded-lg bg-[#1d1d1d] p-4">
 	<!-- Title -->
 	<div class="mb-6 flex items-center gap-2">
 		<Crown color="#A508FF" size={30} />
-		<div class="font-['Inter'] text-[22px] font-bold text-white">Top Picks</div>
+		<div class="text-[22px] font-bold text-white">Top Picks</div>
 	</div>
 	<!-- List -->
 	<div class="flex flex-col gap-6">
@@ -22,12 +22,12 @@
 			<div>
 				<div class="flex items-center gap-3">
 					<!-- Ranking and Purple Line -->
-					<div class="text-[22px] font-bold text-white">
+					<div class="text-[22px] font-bold text-[#d1d7e0]">
 						{i + 1}
 					</div>
 					<div class="h-[32px] w-[3px] rounded-[12px] bg-[#802BB1]"></div>
 					<!-- Movie Title -->
-					<div class="font-Inter text-[20px] font-bold text-white">
+					<div class="text-[20px] font-bold text-[#d1d7e0]">
 						{movie}
 					</div>
 				</div>
