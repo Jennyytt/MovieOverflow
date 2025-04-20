@@ -1,6 +1,7 @@
 <script>
-	import UserProfileView from '../../views/UserProfileView.svelte';
-	import WatchListView from '../../views/WatchListView.svelte';
+	import UserProfileView from '../../views/userprofile/UserProfileView.svelte';
+	import WatchListView from '../../views/userprofile/WatchListView.svelte';
+	import CriticReviewView from '../../views/userprofile/CriticReviewView.svelte';
 </script>
 
 <div>
@@ -8,4 +9,8 @@
 	<br />
 	<br />
 	<WatchListView />
+	<br />
+	<br />
+	<CriticReviewView />
+	<br />
 </div>
