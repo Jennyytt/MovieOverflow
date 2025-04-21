@@ -36,26 +36,24 @@
 				</div>
 				<div>
 					<span
-						class="overflow-hidden whitespace-nowrap break-normal font-inter text-[18.41px] font-medium text-[#cccccc]"
+						class="overflow-hidden whitespace-nowrap break-normal text-[18.41px] font-medium text-[#cccccc]"
 					>
 						{displayUsername}
 					</span>
 				</div>
 			</div>
 			<div>
-				<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
+				<span class="break-words text-[18.41px] font-medium text-[#cccccc]">
 					{date}
 				</span>
 			</div>
 			<div class="self-stretch text-left">
 				<button
 					type="button"
-					on:click={() => handleDelete(commentId)}
+					onclick={() => handleDelete(commentId)}
 					class="cursor-pointer border-none bg-transparent p-0"
 				>
-					<span class="break-words font-['Inter'] text-base font-semibold text-[#f54f4c] underline">
-						Delete
-					</span>
+					<span class="break-words text-base font-semibold text-[#f54f4c] underline"> Delete </span>
 				</button>
 			</div>
 		</div>
@@ -64,18 +62,18 @@
 				class={showMore ? '' : 'line-clamp-5 max-h-[138.075px] overflow-hidden'}
 				bind:this={commentElement}
 			>
-				<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
+				<span class="break-words text-[18.41px] font-medium text-[#cccccc]">
 					{commentText}
 				</span>
 			</div>
 			{#if needsShowMore && !showMore}
 				<button
 					type="button"
-					on:click={toggleShowMore}
+					onclick={toggleShowMore}
 					class="cursor-pointer border-none bg-transparent p-0"
 				>
 					<span
-						class="break-words font-['Inter'] text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+						class="break-words text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
 					>
 						Show More
 					</span>

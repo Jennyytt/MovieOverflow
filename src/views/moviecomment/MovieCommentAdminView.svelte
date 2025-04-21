@@ -1,4 +1,5 @@
 <script>
+	import Button from '$lib/components/ui/button/button.svelte';
 	import posterImage from '../../assets/movie-poster-xl.png';
 	import { ArrowDownWideNarrow, ArrowUpNarrowWide } from '@lucide/svelte';
 	import LargerCommentAdminCard from '$lib/customComponents/comment/LargerCommentAdminCard.svelte';
@@ -11,7 +12,7 @@
 			username: 'Alex Johnson',
 			date: 'Feb 15, 2025',
 			commentText:
-				'Harrison Ford steals the show! This movie is a thrilling ride with epic action scenes. I loved every minute of it, especially the final battle sequence which was absolutely breathtaking and kept me on the edge of my seat for the entire time. The character development was also top-notch, making this one of the best MCU films yet.'
+				'Harrison Ford steals the show! This super amazing movie is a thrilling ride with epic action scenes. I loved every minute of the movie, especially the final battle sequence which was absolutely breathtaking and kept me on the edge of my seat for the entire time. The character development was also top-notch, making this one of the best MCU films yet.'
 		},
 		{
 			id: 2,
@@ -146,26 +147,22 @@
 			<div class="flex items-end justify-between gap-8 self-stretch">
 				<div>
 					<span
-						class="break-words font-['Inter'] text-[22.09px] font-semibold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+						class="break-words text-[22.09px] font-semibold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
 					>
 						Captain America: Brave New World Comments
 					</span>
 				</div>
 				<div class="flex items-center gap-[10px]">
 					<div class="flex items-center">
-						<span
-							class="whitespace-nowrap font-['Inter'] text-[18.41px] font-semibold text-[#cccccc]"
-						>
+						<span class="whitespace-nowrap text-[18.41px] font-semibold text-[#cccccc]">
 							Sort By
 						</span>
 					</div>
 					<div class="flex items-center gap-[6px]">
-						<span class="font-['Inter'] text-[18.41px] font-semibold text-[#b693dc] underline">
-							Date
-						</span>
+						<span class="text-[18.41px] font-semibold text-[#b693dc] underline"> Date </span>
 						<button
 							type="button"
-							on:click={toggleSortOrder}
+							onclick={toggleSortOrder}
 							aria-label={sortOrder === 'descending'
 								? 'Sort by date ascending'
 								: 'Sort by date descending'}
@@ -196,15 +193,13 @@
 		{/each}
 		<!-- Conditionally render Load More button -->
 		{#if displayCount < comments.filter((comment) => !deletedComments.includes(comment.id)).length}
-			<button
+			<Button
 				type="button"
-				on:click={loadMore}
+				onclick={loadMore}
 				class="inline-flex h-[34.05px] w-[103.08px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-2"
 			>
-				<span class="break-words font-['Inter'] text-[14.73px] font-medium text-white">
-					Load More
-				</span>
-			</button>
+				<span class="break-words text-[14.73px] font-medium text-white"> Load More </span>
+			</Button>
 		{/if}
 	</div>
 </div>
