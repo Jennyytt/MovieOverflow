@@ -16,8 +16,7 @@
 	}
   
 	function handleClose() {
-	  // Add close logic, like modal toggle
-	  alert("Modal closed");
+	  history.back() //go back to previous page 
 	}
   </script>
   
