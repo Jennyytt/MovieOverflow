@@ -2,12 +2,20 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
+	import { goto } from '$app/navigation';
+
   
 	let password = "";
 	let confirmPassword = "";
   
 	// Reactive mismatch check
 	$: passwordsMismatch = confirmPassword && password !== confirmPassword;
+
+	function handleSubmit() {
+		if (!passwordsMismatch) {
+			goto('/forgotpassword/success');
+		}
+	}
   </script>
   
   <!-- Centered Layout -->
@@ -42,6 +50,7 @@
 		<!-- Confirm Button -->
 		<div class="h-[115.15px] flex flex-col justify-start items-start gap-[30.62px]">
 		  <Button
+		  onclick={handleSubmit}
 			class="w-[449.04px] h-[54.78px] rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-white text-[17.61px] font-[400]"
 		  >
 			Confirm
