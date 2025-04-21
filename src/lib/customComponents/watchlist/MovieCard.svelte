@@ -18,7 +18,7 @@
 		<!-- duration -->
 		<div class="flex basis-1/2 items-center justify-center">
 			<Clock class="h-4 w-5 pr-1" color="#FBC02D" />
-			<div class="font-Inter font-bold text-white">7.5</div>
+			<div class="font-Inter font-bold text-white">1h 55m</div>
 		</div>
 	</div>
 	<div>
