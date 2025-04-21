@@ -1,9 +1,28 @@
 <script>
 	import { CircleUserRound, ThumbsUp, ThumbsDown, Star } from '@lucide/svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { onMount } from 'svelte';
+
 	export let username = 'User Name';
 	export let date = 'Feb 24, 2025';
+	export let commentText = 'This is a default comment.';
+	export let rating = 5; // Default to 5 stars
 	let feedbackState = null;
+	let showMore = false;
+	let needsShowMore = false;
+	let commentElement;
+
+	// Truncate username to 12 characters and append "..." if longer
+	$: displayUsername = username.length > 12 ? username.slice(0, 12) + '...' : username;
+
+	// Check if the comment exceeds 5 lines
+	onMount(() => {
+		if (commentElement) {
+			// max-h-[138.075px] corresponds to 5 lines at the current font size and line height
+			needsShowMore = commentElement.scrollHeight > 138.075;
+		}
+	});
+
 	function handleLike() {
 		if (feedbackState === 'like') {
 			feedbackState = null;
@@ -11,12 +30,17 @@
 			feedbackState = 'like';
 		}
 	}
+
 	function handleDislike() {
 		if (feedbackState === 'dislike') {
 			feedbackState = null;
 		} else {
 			feedbackState = 'dislike';
 		}
+	}
+
+	function toggleShowMore() {
+		showMore = !showMore;
 	}
 </script>
 
@@ -28,16 +52,18 @@
 					<CircleUserRound class="h-full w-full stroke-[#D1D7E0]" />
 				</div>
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-						{username}
+					<span
+						class="overflow-hidden whitespace-nowrap break-normal font-inter text-[18.41px] font-medium text-[#cccccc]"
+					>
+						{displayUsername}
 					</span>
 				</div>
 			</div>
-			<div class="inline-flex h-[20px] w-[100px] items-center justify-start">
-				{#each Array(5)}
+			<div class="inline-flex h-[20px] w-[108px] items-center justify-start gap-0.5">
+				{#each [0, 1, 2, 3, 4] as index (index)}
 					<Star
 						class="relative h-6 w-6 flex-shrink-0 overflow-visible stroke-[#FBC02D]"
-						fill="none"
+						fill={index < rating ? '#FBC02D' : 'none'}
 						size="20"
 					/>
 				{/each}
@@ -47,51 +73,57 @@
 					{date}
 				</span>
 			</div>
-			<div class="inline-flex h-[20px] w-[40px] items-center justify-start">
+			<div class="inline-flex h-[20px] w-[40px] items-center justify-start gap-1">
 				<Button
 					variant="ghost"
 					size="20"
-					class="relative h-8 w-8 p-0 hover:bg-transparent focus-visible:ring-0"
+					class="relative h-6 w-6 p-0 hover:bg-transparent focus-visible:ring-0"
 					aria-label={feedbackState === 'like' ? 'Remove like' : 'Like this comment'}
 					onclick={handleLike}
 				>
 					<ThumbsUp
-						class="h-[22px] w-[22px] stroke-white"
+						class="h-[20px] w-[20px] stroke-white"
 						fill={feedbackState === 'like' ? '#FFFFFF' : 'none'}
-						size="22"
+						size="20"
 					/>
 				</Button>
 				<Button
 					variant="ghost"
 					size="20"
-					class="relative h-8 w-8 p-0 hover:bg-transparent focus-visible:ring-0"
+					class="relative h-6 w-6 p-0 hover:bg-transparent focus-visible:ring-0"
 					aria-label={feedbackState === 'dislike' ? 'Remove dislike' : 'Dislike this comment'}
 					onclick={handleDislike}
 				>
 					<ThumbsDown
-						class="h-[22px] w-[22px] stroke-white"
+						class="h-[20px] w-[20px] stroke-white"
 						fill={feedbackState === 'dislike' ? '#FFFFFF' : 'none'}
-						size="22"
+						size="20"
 					/>
 				</Button>
 			</div>
 		</div>
-		<div class="inline-flex w-[494.34px] flex-col gap-1">
-			<div class="line-clamp-5 max-h-[138.075px] overflow-hidden">
+		<div class="inline-flex w-[494.34px] flex-col items-start gap-1">
+			<div
+				class={showMore ? '' : 'line-clamp-5 max-h-[138.075px] overflow-hidden'}
+				bind:this={commentElement}
+			>
 				<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-					The not-so-secret weapon this CAPTAIN AMERICA has going for it is Harrison Ford. Don't
-					believe the nay-sayers out there: Brave New World is a 21st century Tall Tale, and if it
-					takes two viewings to take it all in, so be it hhfhhddjjdjdjdjdj kfjedfsemflse
-					ksegkskgksekg snfnanefkanfk
+					{commentText}
 				</span>
 			</div>
-			<div>
-				<span
-					class="break-words font-['Inter'] text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+			{#if needsShowMore && !showMore}
+				<button
+					type="button"
+					on:click={toggleShowMore}
+					class="cursor-pointer border-none bg-transparent p-0"
 				>
-					Show More
-				</span>
-			</div>
+					<span
+						class="break-words font-['Inter'] text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+					>
+						Show More
+					</span>
+				</button>
+			{/if}
 		</div>
 	</div>
 	<div class="h-0 self-stretch border-[1.38px] border-[#222222]"></div>

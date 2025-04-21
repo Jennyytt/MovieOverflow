@@ -1,7 +1,30 @@
 <script>
 	import { CircleUserRound } from '@lucide/svelte';
+	import { onMount } from 'svelte';
+
 	export let username = 'User Name';
 	export let date = 'Feb 24, 2025';
+	export let commentText = 'This is a default comment.';
+	export let commentId; // Added prop for comment ID
+	export let handleDelete = () => {}; // Added prop for delete handler
+	let showMore = false;
+	let needsShowMore = false;
+	let commentElement;
+
+	// Truncate username to 12 characters and append "..." if longer
+	$: displayUsername = username.length > 12 ? username.slice(0, 12) + '...' : username;
+
+	// Check if the comment exceeds 5 lines
+	onMount(() => {
+		if (commentElement) {
+			// max-h-[138.075px] corresponds to 5 lines at the current font size and line height
+			needsShowMore = commentElement.scrollHeight > 138.075;
+		}
+	});
+
+	function toggleShowMore() {
+		showMore = !showMore;
+	}
 </script>
 
 <div class="flex w-full flex-col items-start gap-4">
@@ -12,8 +35,10 @@
 					<CircleUserRound class="h-full w-full stroke-[#D1D7E0]" />
 				</div>
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-						{username}
+					<span
+						class="overflow-hidden whitespace-nowrap break-normal font-inter text-[18.41px] font-medium text-[#cccccc]"
+					>
+						{displayUsername}
 					</span>
 				</div>
 			</div>
@@ -23,27 +48,39 @@
 				</span>
 			</div>
 			<div class="self-stretch text-left">
-				<span class="break-words font-['Inter'] text-base font-semibold text-[#f54f4c] underline">
-					Delete
-				</span>
+				<button
+					type="button"
+					on:click={() => handleDelete(commentId)}
+					class="cursor-pointer border-none bg-transparent p-0"
+				>
+					<span class="break-words font-['Inter'] text-base font-semibold text-[#f54f4c] underline">
+						Delete
+					</span>
+				</button>
 			</div>
 		</div>
-		<div class="inline-flex w-[494.34px] flex-col gap-1">
-			<div class="line-clamp-5 max-h-[138.075px] overflow-hidden">
+		<div class="inline-flex w-[494.34px] flex-col items-start gap-1">
+			<div
+				class={showMore ? '' : 'line-clamp-5 max-h-[138.075px] overflow-hidden'}
+				bind:this={commentElement}
+			>
 				<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-					The not-so-secret weapon this CAPTAIN AMERICA has going for it is Harrison Ford. Don't
-					believe the nay-sayers out there: Brave New World is a 21st century Tall Tale, and if it
-					takes two viewings to take it all in, so be it hhfhhddjjdjdjdjdj kfjedfsemflse
-					ksegkskgksekg snfnanefkanfk
+					{commentText}
 				</span>
 			</div>
-			<div>
-				<span
-					class="break-words font-['Inter'] text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+			{#if needsShowMore && !showMore}
+				<button
+					type="button"
+					on:click={toggleShowMore}
+					class="cursor-pointer border-none bg-transparent p-0"
 				>
-					Show More
-				</span>
-			</div>
+					<span
+						class="break-words font-['Inter'] text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+					>
+						Show More
+					</span>
+				</button>
+			{/if}
 		</div>
 	</div>
 	<div class="h-0 self-stretch border-[1.38px] border-[#222222]"></div>
