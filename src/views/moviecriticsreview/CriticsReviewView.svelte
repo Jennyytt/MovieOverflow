@@ -1,6 +1,6 @@
 <script>
 	import posterImage from '../../assets/movie-poster-xl.png';
-	import { MoveDown } from '@lucide/svelte';
+	import { ArrowDownWideNarrow, ArrowUpNarrowWide } from '@lucide/svelte';
 	import LargerReviewCard from '$lib/customComponents/review/LargerReviewCard.svelte';
 	import MovieComCR from '$lib/customComponents/movie/MovieComCR.svelte';
 
@@ -24,7 +24,7 @@
 		},
 		{
 			id: 3,
-			username: 'Michael Chen',
+			username: 'Michael Cheng',
 			date: 'Feb 17, 2025',
 			reviewTitle: 'Epic and Unmissable',
 			reviewText:
@@ -68,21 +68,21 @@
 		},
 		{
 			id: 9,
-			username: 'Laura Adams',
+			username: 'Laura Kate',
 			date: 'Feb 20, 2025',
 			reviewTitle: 'Good but Flawed',
 			reviewText: 'Decent but forgets some key character arcs. The action keeps it engaging.'
 		},
 		{
 			id: 10,
-			username: 'Tom Brown',
+			username: 'Tommy Kebab',
 			date: 'Feb 21, 2025',
 			reviewTitle: 'Action-Packed Fun',
 			reviewText: 'A must-see for Marvel fans, packed with action and great moments.'
 		},
 		{
 			id: 11,
-			username: 'Lisa Wong',
+			username: 'Lisa Wang',
 			date: 'Feb 22, 2025',
 			reviewTitle: 'Great Visuals, Uneven Pacing',
 			reviewText: 'Great visuals but the pacing could be improved. Still an enjoyable film.'
@@ -92,10 +92,43 @@
 	// State variable to track the number of reviews to display
 	let displayCount = 5;
 
+	// State variable to track sort order ('descending' for newest to oldest, 'ascending' for oldest to newest)
+	let sortOrder = 'descending';
+
 	// Function to load more reviews
 	function loadMore() {
 		displayCount += 5;
 	}
+
+	// Function to sort reviews
+	function sortReviews() {
+		reviews = reviews.sort((a, b) => {
+			// Convert date strings (e.g., "Feb 15, 2025") to Date objects for comparison
+			const dateA = new Date(a.date);
+			const dateB = new Date(b.date);
+
+			// Primary sorting: by date
+			if (sortOrder === 'descending') {
+				if (dateA > dateB) return -1;
+				if (dateA < dateB) return 1;
+			} else {
+				if (dateA < dateB) return -1;
+				if (dateA > dateB) return 1;
+			}
+
+			// Secondary sorting: by username (A to Z) for equal dates
+			return a.username.localeCompare(b.username);
+		});
+	}
+
+	// Function to toggle sort order
+	function toggleSortOrder() {
+		sortOrder = sortOrder === 'descending' ? 'ascending' : 'descending';
+		sortReviews();
+	}
+
+	// Sort reviews on initial load
+	sortReviews();
 </script>
 
 <div class="inline-flex h-full w-full gap-7">
@@ -130,7 +163,20 @@
 						<span class="font-['Inter'] text-[18.41px] font-semibold text-[#b693dc] underline">
 							Date
 						</span>
-						<MoveDown class="h-[18.41px] w-[18.41px] stroke-[#B693DC]" fill="none" />
+						<button
+							type="button"
+							on:click={toggleSortOrder}
+							aria-label={sortOrder === 'descending'
+								? 'Sort by date ascending'
+								: 'Sort by date descending'}
+							class="cursor-pointer"
+						>
+							{#if sortOrder === 'descending'}
+								<ArrowDownWideNarrow class="h-[18.41px] w-[18.41px] stroke-[#B693DC]" fill="none" />
+							{:else}
+								<ArrowUpNarrowWide class="h-[18.41px] w-[18.41px] stroke-[#B693DC]" fill="none" />
+							{/if}
+						</button>
 					</div>
 				</div>
 			</div>

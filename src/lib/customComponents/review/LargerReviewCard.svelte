@@ -6,6 +6,9 @@
 	export let reviewTitle = 'Title Of Critics Review';
 	export let reviewText =
 		'Good movie!<br/>Good!<br/>Good!<br/>Good!<br/>Good movie but have a lot of potential to be even mor...';
+
+	// Truncate username to 12 characters and append "..." if longer
+	$: displayUsername = username.length > 12 ? username.slice(0, 12) + '...' : username;
 </script>
 
 <div class="flex w-full flex-col items-start gap-6">
@@ -18,7 +21,7 @@
 				<div>
 					<span
 						class="overflow-hidden whitespace-nowrap break-normal font-inter text-[18.41px] font-medium text-[#cccccc]"
-						>{username}</span
+						>{displayUsername}</span
 					>
 				</div>
 			</div>
