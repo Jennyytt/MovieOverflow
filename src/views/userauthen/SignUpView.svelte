@@ -10,6 +10,20 @@
 	let username = "";
 	let password = "";
 	let confirmPassword = "";
+	let usernameError = "";
+
+	function handleSubmit() {
+		usernameError = "";
+
+		// Example validation logic
+		if (username.trim().toLowerCase() === 'takenusername') {
+			usernameError = "Your username is already used.";
+		}
+
+		if (!usernameError && !passwordsMismatch()) {
+			alert("Account created!");
+		}
+	}
   
 	function passwordsMismatch() {
 	  return confirmPassword && password !== confirmPassword;
@@ -49,7 +63,9 @@
 			placeholder="Enter your username"
 			class="h-[54.78px] rounded-[11.74px] border border-[rgba(102,102,102,0.35)] px-[23.48px] text-[15.65px] font-[400] placeholder:text-[rgba(102,102,102,0.60)]"
 		  />
-		  <p class="text-[13.7px] text-[#EE1D52] font-[400]">Your username is used already.</p>
+		  {#if usernameError}
+		<p class="text-[13.7px] text-[#EE1D52] font-[400]">{usernameError}</p>
+	{/if}
 		</div>
   
 		<!-- Password Field -->
@@ -62,6 +78,7 @@
 		<!-- Create Account Button -->
 		<div class="h-[115.15px] flex flex-col justify-start items-start gap-[30.62px]">
 		  <Button
+		  	onclick={handleSubmit}
 			class="w-full h-[54.78px] rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-white text-[17.61px] font-[400] text-center flex items-center justify-center"
 		  >
 			Create Account
