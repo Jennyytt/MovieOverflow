@@ -1,65 +1,124 @@
 <script>
+	import { writable } from 'svelte/store';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Bold, Italic, Underline } from '@lucide/svelte';
 	import PublishPopUp from '$lib/customComponents/review/PublishPopUp.svelte';
 
 	let isPublishPopUpOpen = false;
-	let activeFormatting = null; // 'bold', 'italic', 'underline', or null
+	const activeFormatting = writable('none'); // 'none', 'bold', 'italic', or 'underline'
 	let reviewTitle = '';
 	let reviewContent = '';
-	let textareaElement;
+	let contentEditableElement;
 
 	function openPublishPopUp() {
 		isPublishPopUpOpen = true;
 	}
 
 	function toggleFormatting(formatting) {
-		if (activeFormatting === formatting) {
-			activeFormatting = null;
+		if ($activeFormatting === formatting) {
+			// Deactivate the current formatting by setting to 'none'
+			activeFormatting.set('none');
 		} else {
-			activeFormatting = formatting;
+			// Activate the new formatting, deactivating others
+			activeFormatting.set(formatting);
+			if (contentEditableElement) {
+				contentEditableElement.focus();
+			}
 		}
 	}
 
 	function disableFormatting() {
-		activeFormatting = null;
+		// Set to 'none' instead of null
+		activeFormatting.set('none');
+	}
+
+	function handleInput(event) {
+		// Update reviewContent with the plain text content of the contenteditable div
+		reviewContent = event.target.textContent;
+		// Add or remove the 'empty' class based on content
+		if (contentEditableElement) {
+			if (reviewContent.trim() === '') {
+				contentEditableElement.classList.add('empty');
+			} else {
+				contentEditableElement.classList.remove('empty');
+			}
+		}
 	}
 
 	function handleKeydown(event) {
-		if (!activeFormatting || !textareaElement || document.activeElement !== textareaElement) return;
-
-		const start = textareaElement.selectionStart;
-		const end = textareaElement.selectionEnd;
-		const value = reviewContent;
-		const key = event.key;
-
 		// Only apply formatting to printable characters (ignore control keys like Arrow keys)
-		if (key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
-			event.preventDefault();
-			let prefix = '';
-			let suffix = '';
-			switch (activeFormatting) {
+		const key = event.key;
+		if (key.length !== 1 || event.ctrlKey || event.altKey || event.metaKey) return;
+
+		event.preventDefault();
+
+		// Get the current selection and range
+		const selection = window.getSelection();
+		if (selection.rangeCount === 0) return;
+
+		const range = selection.getRangeAt(0);
+		range.deleteContents(); // Remove any selected content
+
+		// If no formatting is active, insert plain text wrapped in a span to reset styles
+		if (!$activeFormatting || $activeFormatting === 'none') {
+			// Use a span to explicitly reset font-weight, font-style, and text-decoration
+			const span = document.createElement('span');
+			span.textContent = key;
+			span.style.fontWeight = 'normal';
+			span.style.fontStyle = 'normal';
+			span.style.textDecoration = 'none';
+			range.insertNode(span);
+
+			// Move the cursor to after the inserted span
+			range.setStartAfter(span);
+			range.setEndAfter(span);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		} else {
+			// Apply formatting if a formatting option is active
+			const span = document.createElement('span');
+			span.textContent = key;
+			switch ($activeFormatting) {
 				case 'bold':
-					prefix = '**';
-					suffix = '**';
+					span.style.fontWeight = 'bold';
 					break;
 				case 'italic':
-					prefix = '*';
-					suffix = '*';
+					span.style.fontStyle = 'italic';
 					break;
 				case 'underline':
-					prefix = '__';
-					suffix = '__';
+					span.style.textDecoration = 'underline';
 					break;
 			}
-			// Insert the character wrapped with formatting at the cursor position
-			reviewContent = value.slice(0, start) + prefix + key + suffix + value.slice(end);
-			// Move cursor to after the inserted text
-			const newPosition = start + prefix.length + 1;
-			setTimeout(() => {
-				textareaElement.selectionStart = newPosition;
-				textareaElement.selectionEnd = newPosition;
-			}, 0);
+
+			// Insert the styled span
+			range.insertNode(span);
+
+			// Move the cursor to after the inserted span
+			range.setStartAfter(span);
+			range.setEndAfter(span);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
+
+		// Update reviewContent
+		reviewContent = contentEditableElement.textContent;
+		// Update the 'empty' class
+		if (reviewContent.trim() === '') {
+			contentEditableElement.classList.add('empty');
+		} else {
+			contentEditableElement.classList.remove('empty');
+		}
+	}
+
+	function handleFocus() {
+		// If the content is empty, move the cursor to the start of the contenteditable div
+		if (contentEditableElement && reviewContent.trim() === '') {
+			const selection = window.getSelection();
+			const range = document.createRange();
+			range.setStart(contentEditableElement, 0);
+			range.setEnd(contentEditableElement, 0);
+			selection.removeAllRanges();
+			selection.addRange(range);
 		}
 	}
 
@@ -69,8 +128,6 @@
 		isPublishPopUpOpen = false;
 	}
 </script>
-
-<svelte:window on:keydown={handleKeydown} />
 
 <div class="flex w-full flex-wrap justify-center gap-4">
 	<div class="flex w-[1170px] items-center justify-between">
@@ -95,19 +152,22 @@
 			<div class="flex items-center gap-7">
 				<button
 					onclick={() => toggleFormatting('bold')}
-					class={`h-7 w-7 ${activeFormatting === 'bold' ? 'bg-purple-700/80' : 'bg-white/10'} flex items-center justify-center rounded-sm`}
+					class={`h-7 w-7 ${$activeFormatting === 'bold' ? 'bg-purple-700/80' : 'bg-white/10'} flex items-center justify-center rounded-sm`}
+					aria-label="Toggle bold formatting"
 				>
 					<Bold class="h-[18.67px] w-[14px] text-white" />
 				</button>
 				<button
 					onclick={() => toggleFormatting('italic')}
-					class={`h-7 w-7 ${activeFormatting === 'italic' ? 'bg-purple-700/80' : 'bg-white/10'} flex items-center justify-center rounded-sm`}
+					class={`h-7 w-7 ${$activeFormatting === 'italic' ? 'bg-purple-700/80' : 'bg-white/10'} flex items-center justify-center rounded-sm`}
+					aria-label="Toggle italic formatting"
 				>
 					<Italic class="h-[18.67px] w-[14px] text-white" />
 				</button>
 				<button
 					onclick={() => toggleFormatting('underline')}
-					class={`h-7 w-7 ${activeFormatting === 'underline' ? 'bg-purple-700/80' : 'bg-white/10'} flex items-center justify-center rounded-sm`}
+					class={`h-7 w-7 ${$activeFormatting === 'underline' ? 'bg-purple-700/80' : 'bg-white/10'} flex items-center justify-center rounded-sm`}
+					aria-label="Toggle underline formatting"
 				>
 					<Underline class="h-[18.67px] w-[14px] text-white" />
 				</button>
@@ -119,14 +179,31 @@
 				placeholder="Type the title of your movie review..."
 				type="text"
 			/>
-			<textarea
-				bind:value={reviewContent}
-				bind:this={textareaElement}
-				class="h-[662px] w-full resize-y rounded-lg border-none bg-[#222222] px-5 py-3 text-sm font-medium text-[#797979] placeholder:align-top placeholder:text-[#797979] focus:outline-none focus:ring-0"
-				placeholder="What are your thoughts on this movie?"
-			></textarea>
+			<div
+				bind:this={contentEditableElement}
+				contenteditable="true"
+				oninput={handleInput}
+				onfocus={handleFocus}
+				onkeydown={handleKeydown}
+				class="content-editable empty h-[662px] w-full rounded-lg border-none bg-[#222222] px-5 py-3 text-sm font-medium font-normal text-[#797979] focus:outline-none focus:ring-0"
+				data-placeholder="What are your thoughts on this movie?"
+				role="textbox"
+				aria-multiline="true"
+				aria-label="Movie review content"
+				aria-placeholder="What are your thoughts on this movie?"
+				tabindex="0"
+				style="white-space: pre-wrap; overflow-y: auto;"
+			></div>
 		</div>
 	</div>
 </div>
 
 <PublishPopUp bind:isOpen={isPublishPopUpOpen} on:confirm={publishReview} />
+
+<style>
+	.content-editable:empty::before,
+	.content-editable.empty::before {
+		content: attr(data-placeholder);
+		color: #797979;
+	}
+</style>

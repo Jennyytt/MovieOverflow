@@ -1,4 +1,5 @@
 <script>
+	import Button from '$lib/components/ui/button/button.svelte';
 	export let isOpen = false;
 
 	function closePopup() {
@@ -17,15 +18,15 @@
 		<div class="flex flex-col items-center gap-8 rounded-lg bg-[#222222] p-10">
 			<span class="text-2xl font-bold text-white">Do you really want to publish your review?</span>
 			<div class="flex gap-16">
-				<button
-					on:click={closePopup}
+				<Button
+					onclick={closePopup}
 					class="rounded-full border border-black bg-purple-700/80 px-6 py-2 text-base font-semibold text-gray-200"
-					>No</button
+					>No</Button
 				>
-				<button
-					on:click={confirmPublish}
+				<Button
+					onclick={confirmPublish}
 					class="rounded-full border border-black bg-purple-700/80 px-6 py-2 text-base font-semibold text-gray-200"
-					>Yes</button
+					>Yes</Button
 				>
 			</div>
 		</div>

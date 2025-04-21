@@ -20,32 +20,32 @@
 				</div>
 				<div>
 					<span
-						class="overflow-hidden whitespace-nowrap break-normal font-inter text-[18.41px] font-medium text-[#cccccc]"
+						class="overflow-hidden whitespace-nowrap break-normal text-[18.41px] font-medium text-[#cccccc]"
 						>{displayUsername}</span
 					>
 				</div>
 			</div>
 			<div>
-				<span class="break-words font-inter text-[18.41px] font-medium text-[#cccccc]">{date}</span>
+				<span class="break-words text-[18.41px] font-medium text-[#cccccc]">{date}</span>
 			</div>
 		</div>
 
 		<div class="inline-flex w-[494.34px] flex-col gap-3">
 			<div>
 				<span
-					class="break-words font-['Inter'] text-[22.09px] font-semibold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+					class="break-words text-[22.09px] font-semibold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
 				>
 					{reviewTitle}
 				</span>
 			</div>
 			<div>
-				<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
+				<span class="break-words text-[18.41px] font-medium text-[#cccccc]">
 					{reviewText}
 				</span>
 			</div>
 			<div>
 				<span
-					class="break-words font-['Inter'] text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+					class="break-words text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
 				>
 					Full Review
 				</span>

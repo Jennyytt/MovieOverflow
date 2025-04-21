@@ -18,7 +18,7 @@
 			<div class="flex flex-col gap-[7px] self-stretch">
 				<div class="self-stretch">
 					<span
-						class="break-words font-['Inter'] text-[22.09px] font-semibold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+						class="break-words text-[22.09px] font-semibold text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
 					>
 						{title}
 					</span>
@@ -26,32 +26,28 @@
 				<div class="inline-flex items-start justify-start gap-3">
 					<div class="flex items-end gap-[7px]">
 						<div>
-							<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
+							<span class="break-words text-[18.41px] font-medium text-[#cccccc]">
 								{rating}
 							</span>
 						</div>
 						<div>
-							<span class="break-words font-['Inter'] text-[18.41px] font-medium text-white">
-								,
-							</span>
+							<span class="break-words text-[18.41px] font-medium text-white"> , </span>
 						</div>
 					</div>
 					<div>
-						<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
+						<span class="break-words text-[18.41px] font-medium text-[#cccccc]">
 							{duration}
 						</span>
 					</div>
 				</div>
 			</div>
 			<div class="h-0 w-[366px] border-[1.38px] border-[#222222]"></div>
-			<div class="inline-flex items-center justify-center gap-[77px] self-stretch">
+			<div class="inline-flex items-center justify-between self-stretch">
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-						Genre
-					</span>
+					<span class="break-words text-[18.41px] font-medium text-[#cccccc]"> Genre </span>
 				</div>
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-normal text-white">
+					<span class="break-words text-[18.41px] font-normal text-white">
 						{genre}
 					</span>
 				</div>
@@ -59,25 +55,21 @@
 			<div class="h-0 w-[366px] border-[1.38px] border-[#222222]"></div>
 			<div class="inline-flex items-center justify-between self-stretch">
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-						Director
-					</span>
+					<span class="break-words text-[18.41px] font-medium text-[#cccccc]"> Director </span>
 				</div>
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-normal text-white">
+					<span class="break-words text-[18.41px] font-normal text-white">
 						{director}
 					</span>
 				</div>
 			</div>
 			<div class="h-0 w-[366px] border-[1.38px] border-[#222222]"></div>
-			<div class="inline-flex items-center justify-between self-stretch opacity-60">
+			<div class="inline-flex items-center justify-between self-stretch">
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-medium text-[#cccccc]">
-						Release Date
-					</span>
+					<span class="break-words text-[18.41px] font-medium text-[#cccccc]"> Release Date </span>
 				</div>
 				<div>
-					<span class="break-words font-['Inter'] text-[18.41px] font-normal text-white">
+					<span class="break-words text-[18.41px] font-normal text-white">
 						{releaseDate}
 					</span>
 				</div>
