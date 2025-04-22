@@ -136,13 +136,13 @@
 
 							<!-- Movie details -->
 							<div class="flex flex-col items-start justify-start">
-								<div class="self-stretch text-[15px] font-bold text-white">
+								<div class="self-stretch font-bold text-white">
 									{movie.title}
 								</div>
-								<div class="self-stretch text-[15px] font-normal text-white">
+								<div class="self-stretch font-normal text-white">
 									{movie.year}
 								</div>
-								<div class="self-stretch text-[15px] font-normal text-white">
+								<div class="self-stretch font-normal text-white">
 									{movie.cast}
 								</div>
 							</div>
