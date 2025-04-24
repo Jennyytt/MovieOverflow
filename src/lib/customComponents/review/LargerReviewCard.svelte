@@ -1,14 +1,19 @@
 <script>
 	// Props for dynamic content
 	import { CircleUserRound } from '@lucide/svelte';
+	import { goto } from '$app/navigation';
 	export let username = 'User Name';
 	export let date = 'Feb 24, 2025';
 	export let reviewTitle = 'Title Of Critics Review';
-	export let reviewText =
-		'Good movie!<br/>Good!<br/>Good!<br/>Good!<br/>Good movie but have a lot of potential to be even mor...';
+	export let reviewText = 'This is a review text';
 
 	// Truncate username to 12 characters and append "..." if longer
 	$: displayUsername = username.length > 12 ? username.slice(0, 12) + '...' : username;
+
+	// Function to navigate to the MovieIndividualReview page
+	function navigateToFullReview() {
+		goto('/movieindividualreview');
+	}
 </script>
 
 <div class="flex w-full flex-col items-start gap-6">
@@ -38,17 +43,18 @@
 					{reviewTitle}
 				</span>
 			</div>
-			<div>
+			<div class="line-clamp-5 max-h-[138.075px] overflow-hidden">
 				<span class="break-words text-[18.41px] font-medium text-[#cccccc]">
 					{reviewText}
 				</span>
 			</div>
 			<div>
-				<span
-					class="break-words text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+				<button
+					onclick={navigateToFullReview}
+					class="cursor-pointer break-words border-none bg-transparent text-[18.41px] font-semibold text-white underline drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
 				>
 					Full Review
-				</span>
+				</button>
 			</div>
 		</div>
 	</div>

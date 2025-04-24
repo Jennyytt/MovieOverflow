@@ -136,13 +136,8 @@
 			<span class="text-[37.44px] font-semibold text-white">Critics Review Entry</span>
 		</div>
 		<div class="flex items-center gap-9">
-			<Button
-				class="rounded-full border border-black bg-purple-700/80 px-6 py-2 text-base font-semibold text-gray-200"
-				>Save Draft</Button
-			>
-			<Button
-				onclick={openPublishPopUp}
-				class="rounded-full border border-black bg-purple-700/80 px-6 py-2 text-base font-semibold text-gray-200"
+			<Button class="rounded-full px-6 py-2 text-base font-semibold">Save Draft</Button>
+			<Button onclick={openPublishPopUp} class="rounded-full px-6 py-2 text-base font-semibold"
 				>Publish</Button
 			>
 		</div>
@@ -175,7 +170,7 @@
 			<input
 				bind:value={reviewTitle}
 				onfocus={disableFormatting}
-				class="h-[46px] w-full rounded-lg border-none bg-[#222222] px-5 py-3 text-sm font-medium text-[#797979] placeholder:text-[#797979] focus:outline-none focus:ring-0"
+				class="h-[46px] w-full rounded-lg border-none bg-[#222222] px-5 py-3 text-sm font-medium text-[#FFFFFF] placeholder:text-[#797979] focus:outline-none focus:ring-0"
 				placeholder="Type the title of your movie review..."
 				type="text"
 			/>
@@ -185,7 +180,7 @@
 				oninput={handleInput}
 				onfocus={handleFocus}
 				onkeydown={handleKeydown}
-				class="content-editable empty h-[662px] w-full rounded-lg border-none bg-[#222222] px-5 py-3 text-sm font-medium font-normal text-[#797979] focus:outline-none focus:ring-0"
+				class="content-editable empty h-[662px] w-full rounded-lg border-none bg-[#222222] px-5 py-3 text-sm font-medium font-normal text-[#FFFFFF] focus:outline-none focus:ring-0"
 				data-placeholder="What are your thoughts on this movie?"
 				role="textbox"
 				aria-multiline="true"
