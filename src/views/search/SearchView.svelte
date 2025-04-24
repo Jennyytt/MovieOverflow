@@ -121,33 +121,35 @@
 			<div class="flex flex-col items-start justify-start gap-[10px] self-stretch">
 				{#each displayedMovies as movie, index (movie.id)}
 					<!-- Movie item -->
-					<div
-						class="flex flex-col items-start justify-start gap-[10px] overflow-hidden bg-transparent"
-					>
-						<div class="flex items-center justify-start gap-[15px] self-stretch">
-							<!-- Movie poster -->
-							<div class="relative h-[138px] w-[92px]">
-								<img
-									class="absolute left-0 top-0 h-[138px] w-[92px]"
-									src={movie.poster}
-									alt={movie.title}
-								/>
-							</div>
+					<a href="movieprofile">
+						<div
+							class="flex flex-col items-start justify-start gap-[10px] overflow-hidden bg-transparent"
+						>
+							<div class="flex items-center justify-start gap-[15px] self-stretch">
+								<!-- Movie poster -->
+								<div class="relative h-[138px] w-[92px]">
+									<img
+										class="absolute left-0 top-0 h-[138px] w-[92px]"
+										src={movie.poster}
+										alt={movie.title}
+									/>
+								</div>
 
-							<!-- Movie details -->
-							<div class="flex flex-col items-start justify-start">
-								<div class="self-stretch font-bold text-white">
-									{movie.title}
-								</div>
-								<div class="self-stretch font-normal text-white">
-									{movie.year}
-								</div>
-								<div class="self-stretch font-normal text-white">
-									{movie.cast}
+								<!-- Movie details -->
+								<div class="flex flex-col items-start justify-start">
+									<div class="self-stretch font-bold text-white">
+										{movie.title}
+									</div>
+									<div class="self-stretch font-normal text-white">
+										{movie.year}
+									</div>
+									<div class="self-stretch font-normal text-white">
+										{movie.cast}
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 
 					<!-- Divider (except after the last item) -->
 					{#if index < displayedMovies.length - 1}
