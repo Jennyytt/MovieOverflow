@@ -6,19 +6,20 @@
 	import UserCommentView from '../../views/userprofile/UserCommentView.svelte';
 </script>
 
-<div>
-	<UserProfileView />
-	<br />
-	<br />
-	<WatchListView />
-	<br />
-	<br />
-	<CriticReviewView />
-	<br />
-	<br />
-	<ReviewDraftView />
-	<br />
-	<br />
-	<UserCommentView />
-	<br />
+<div class="m-0 flex min-h-screen w-full flex-col items-center p-0">
+	<div class="mt-8">
+		<UserProfileView />
+		<br />
+		<br />
+		<WatchListView />
+		<br />
+		<br />
+		<CriticReviewView />
+		<br />
+		<br />
+		<ReviewDraftView />
+		<br />
+		<br />
+		<UserCommentView />
+	</div>
 </div>

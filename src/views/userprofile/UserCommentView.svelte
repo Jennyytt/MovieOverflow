@@ -1,6 +1,130 @@
 <script>
-	import UserCommentBlock from '$lib/customComponents/usercomment/UserCommentBlock.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import UserCommentCard from '$lib/customComponents/usercomment/UserCommentCard.svelte';
+	import { Card } from '$lib/components/ui/card';
+	let comments = [
+		{
+			id: 1,
+			date: 'Feb 15, 2025',
+			rating: 5,
+			like_num: 120,
+			dislike_num: 10,
+			commentText:
+				'Absolutely loved this movie! The action scenes were breathtaking, and the story was engaging from start to finish.'
+		},
+		{
+			id: 2,
+			date: 'Feb 16, 2025',
+			rating: 4,
+			like_num: 95,
+			dislike_num: 20,
+			commentText:
+				'Great visuals and solid performances, but the pacing felt a bit off in the middle.'
+		},
+		{
+			id: 3,
+			date: 'Feb 17, 2025',
+			rating: 3,
+			like_num: 80,
+			dislike_num: 35,
+			commentText:
+				'It was an okay movie. Some parts were predictable, but the humor and action made up for it.'
+		},
+		{
+			id: 4,
+			date: 'Feb 18, 2025',
+			rating: 2,
+			like_num: 50,
+			dislike_num: 60,
+			commentText:
+				'The plot was weak, and the characters felt underdeveloped. Not the best MCU movie.'
+		},
+		{
+			id: 5,
+			date: 'Feb 19, 2025',
+			rating: 1,
+			like_num: 30,
+			dislike_num: 90,
+			commentText:
+				'Disappointed with this one. The story lacked depth, and the action scenes couldn’t save it.'
+		},
+		{
+			id: 6,
+			date: 'Feb 20, 2025',
+			rating: 5,
+			like_num: 150,
+			dislike_num: 5,
+			commentText:
+				'An emotional and action-packed masterpiece! One of the best movies I’ve seen in years.'
+		},
+		{
+			id: 7,
+			date: 'Feb 21, 2025',
+			rating: 4,
+			like_num: 110,
+			dislike_num: 15,
+			commentText:
+				'The performances were top-notch, and the visuals were stunning. A great addition to the MCU.'
+		},
+		{
+			id: 8,
+			date: 'Feb 22, 2025',
+			rating: 3,
+			like_num: 70,
+			dislike_num: 40,
+			commentText:
+				'It was a decent movie, but it didn’t live up to the hype. The ending felt rushed.'
+		},
+		{
+			id: 9,
+			date: 'Feb 23, 2025',
+			rating: 2,
+			like_num: 40,
+			dislike_num: 75,
+			commentText:
+				'The action scenes were good, but the story was all over the place. Not my favorite.'
+		},
+		{
+			id: 10,
+			date: 'Feb 24, 2025',
+			rating: 1,
+			like_num: 20,
+			dislike_num: 100,
+			commentText: 'Terrible movie. The plot made no sense, and the characters were poorly written.'
+		}
+	];
+
+	let displayCount = 3; // Number of comments to display initially
+
+	let sortMode = 'date';
+
+	let sortOrder = 'descending'; // Default sort order
+
+	function loadMore() {
+		displayCount += 3; // Increase the number of displayed comments by 3
+	}
+
+	function sortComments() {
+		comments = comments.sort((a, b) => {
+			if (sortMode === 'date') {
+				// Sort by date
+				const dateA = new Date(a.date);
+				const dateB = new Date(b.date);
+
+				// Primary sorting: by date
+				if (sortOrder === 'descending') {
+					if (dateA > dateB) return -1;
+					if (dateA < dateB) return 1;
+				} else {
+					if (dateA < dateB) return -1;
+					if (dateA > dateB) return 1;
+				}
+			}
+		});
+	}
+
+	// Sort comments on initial load
+	sortComments();
 </script>
 
 <div class="relative flex flex-shrink-0 flex-col items-start justify-center gap-8 self-stretch">
@@ -13,12 +137,39 @@
 			<div class="relative text-left text-[32px] font-semibold text-white">User Comments</div>
 		</div>
 	</div>
-	<UserCommentBlock />
-	<div class="flex w-full justify-center">
-		<Button
-			class="relative flex h-[32px] w-[100px] flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-[10px] rounded-[4px] bg-[#802bb1] font-bold text-white"
+	<Card
+		class="margin-top-[20px] relative box-border w-[1100px] overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
+	>
+		<div
+			class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
 		>
-			Load More
-		</Button>
+			{#each comments.slice(0, displayCount) as comment, index (comment.id)}
+				<UserCommentCard
+					rating={comment.rating}
+					like_num={comment.like_num}
+					dislike_num={comment.dislike_num}
+					commentText={comment.commentText}
+					date={comment.date}
+				/>
+				{#if index < displayCount - 1 && index < comments.length - 1}
+					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
+				{:else}
+					<div class="relative h-[20px]"></div>
+					<!-- Empty spacing for the last review -->
+				{/if}
+			{/each}
+		</div>
+	</Card>
+	<!-- Conditionally render Load More button -->
+	<div class="flex w-full justify-center">
+		{#if displayCount < comments.length}
+			<Button
+				type="button"
+				onclick={loadMore}
+				class="inline-flex h-[34.05px] w-[103.08px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-2"
+			>
+				<span class="break-words text-[14.73px] font-medium text-white"> Load More </span>
+			</Button>
+		{/if}
 	</div>
 </div>
