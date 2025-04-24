@@ -1,6 +1,7 @@
 import requests
+import re
 from bs4 import BeautifulSoup
-from fpdf import FPDF
+#from fpdf import FPDF
 import json
 
 # Function to scrape movie information
@@ -50,10 +51,22 @@ def scrape_movies(url):
             rating = rating_element.text.split('/')[0].strip() if rating_element else "N/A"
             genre_elements = movie_soup.select('a[class="ipc-chip ipc-chip--on-baseAlt"] .ipc-chip__text')
             genres = [genre.text.strip() for genre in genre_elements] if genre_elements else ["N/A"]
-            director = movie_soup.select_one('.ipc-metadata-list-item__list-content-item').text.strip() if movie_soup.select_one('.ipc-metadata-list-item__list-content-item') else "N/A"
+
+            # Extract directors
+            director_span = movie_soup.find('span', string=re.compile(r'Director.*'))
+            director_div = director_span.find_next_sibling('div')
+            director_links = director_div.find_all('a')
+            directors = [link.text.strip() for link in director_links]
+            # Extract writers
+            writer_span = movie_soup.find(['span', 'a'], string=re.compile(r'Writer.*'))
+            writer_div = writer_span.find_next_sibling('div')
+            writer_links = writer_div.find_all('a')
+            writers = [link.text.strip() for link in writer_links]
+            # Extract stars
             stars_section = movie_soup.select_one('li[data-testid="title-pc-principal-credit"]:has(a[href*="cast"])')
             stars_elements = stars_section.select('a.ipc-metadata-list-item__list-content-item--link') if stars_section else []
             stars = [star.text.strip() for star in stars_elements] if stars_elements else ["N/A"]
+
             description = movie_soup.select_one('span[data-testid="plot-xs_to_m"]').text.strip() if movie_soup.select_one('span[data-testid="plot-xs_to_m"]') else "N/A"
             release_year = movie_soup.select_one('a[href*="releaseinfo"]').text.strip() if movie_soup.select_one('a[href*="releaseinfo"]') else "N/A"
             release_date_url = movie_soup.select_one('a[href*="releaseinfo"]')['href'] if movie_soup.select_one('a[href*="releaseinfo"]') else None
@@ -73,7 +86,8 @@ def scrape_movies(url):
                 'title': title, 
                 'rating': rating, 
                 'genres': genres, 
-                'director': director, 
+                'directors': directors,
+                'writers': writers,  
                 'stars': stars, 
                 'description': description, 
                 'release_year': release_year, 
@@ -122,26 +136,27 @@ if __name__ == "__main__":
     movie_data = scrape_movies(imdb_url)
     #uncooment the following line to print the scraped data to the terminal
     # # Print the scraped data
-    # for movie in movie_data:
-    #     print(f"Title: {movie['title']} \n"
-    #           f"Rating: {movie['rating']} \n"
-    #           f"Genres: {', '.join(movie['genres'])} \n"
-    #           f"Director: {movie['director']} \n"
-    #           f"Stars: {', '.join(movie['stars'])} \n"
-    #           f"Description: {movie['description']} \n"
-    #           f"Release Year: {movie['release_year']} \n"
-    #           f"Duration: {movie['duration']} \n"
-    #           f"Certification: {movie['certification']}\n"
-    #           f"Release Date: {movie['release_date']} \n"
-    #           f"Poster URL: {movie['poster_url']} \n"
-    #           f"Trailer URL: {movie['trailer_url']} \n"
-    #           "-----------------------------------")
+    for movie in movie_data:
+        print(f"Title: {movie['title']} \n"
+              f"Rating: {movie['rating']} \n"
+              f"Genres: {', '.join(movie['genres'])} \n"
+              f"Directors: {','.join(movie['directors'])} \n"
+              f"Writers: {', '.join(movie['writers'])} \n"
+              f"Stars: {', '.join(movie['stars'])} \n"
+              f"Description: {movie['description']} \n"
+              f"Release Year: {movie['release_year']} \n"
+              f"Duration: {movie['duration']} \n"
+              f"Certification: {movie['certification']}\n"
+              f"Release Date: {movie['release_date']} \n"
+              f"Poster URL: {movie['poster_url']} \n"
+              f"Trailer URL: {movie['trailer_url']} \n"
+              "-----------------------------------")
     
     # Save the data to a JSON file
-    output_file = "movies.json"
-    try:
-        with open(output_file, 'w', encoding='utf-8') as file:
-            json.dump(movie_data, file, ensure_ascii=False, indent=4)
-        print(f"Movie data saved to {output_file}")
-    except Exception as e:
-        print(f"Error saving data to JSON: {e}")
+    # output_file = "movies.json"
+    # try:
+    #     with open(output_file, 'w', encoding='utf-8') as file:
+    #         json.dump(movie_data, file, ensure_ascii=False, indent=4)
+    #     print(f"Movie data saved to {output_file}")
+    # except Exception as e:
+    #     print(f"Error saving data to JSON: {e}")
