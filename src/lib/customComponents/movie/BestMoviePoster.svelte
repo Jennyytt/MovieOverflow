@@ -13,11 +13,9 @@
 	<!-- Overlay for text -->
 	<div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6">
 		<!-- Title -->
-		<div class="font-['Work Sans'] text-[28px] font-normal text-white">Oppenheimer</div>
+		<div class="text-[28px] font-normal text-white">Oppenheimer</div>
 		<!-- Slogan -->
-		<div class="font-['Work Sans'] mt-2 text-[22px] font-normal text-gray-400">
-			The World Forever Changes
-		</div>
+		<div class="mt-2 text-[22px] font-normal text-gray-400">The World Forever Changes</div>
 		<!-- Rating and Duration -->
 		<div class="mt-3 flex items-center space-x-6">
 			<div class="flex items-center">
