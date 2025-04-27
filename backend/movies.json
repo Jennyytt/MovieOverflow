@@ -1,0 +1,815 @@
+[
+    {
+        "title": "The Shawshank Redemption",
+        "rating": "9.3",
+        "genres": [
+            "Epic",
+            "Period Drama",
+            "Prison Drama",
+            "Drama"
+        ],
+        "directors": [
+            "Frank Darabont"
+        ],
+        "writers": [
+            "Stephen King",
+            "Frank Darabont"
+        ],
+        "stars": [
+            "Tim Robbins",
+            "Morgan Freeman",
+            "Bob Gunton"
+        ],
+        "description": "A banker convicted of uxoricide forms a friendship over a quarter century with a hardened convict, while maintaining his innocence and trying to remain hopeful through simple compassion.",
+        "release_year": "1994",
+        "duration": "2h 22m",
+        "certification": "IIB",
+        "release_date": "September 10, 1994",
+        "poster_url": "https://www.imdb.com/title/tt0111161/mediaviewer/rm1690056449/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi3877612057/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Godfather",
+        "rating": "9.2",
+        "genres": [
+            "Epic",
+            "Gangster",
+            "Tragedy",
+            "Crime",
+            "Drama"
+        ],
+        "directors": [
+            "Francis Ford Coppola"
+        ],
+        "writers": [
+            "Mario Puzo",
+            "Francis Ford Coppola"
+        ],
+        "stars": [
+            "Marlon Brando",
+            "Al Pacino",
+            "James Caan"
+        ],
+        "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+        "release_year": "1972",
+        "duration": "2h 55m",
+        "certification": "IIB",
+        "release_date": "March 14, 1972",
+        "poster_url": "https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1348706585/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Dark Knight",
+        "rating": "9.0",
+        "genres": [
+            "Action Epic",
+            "Epic",
+            "Superhero",
+            "Tragedy",
+            "Action",
+            "Crime",
+            "Drama",
+            "Thriller"
+        ],
+        "directors": [
+            "Christopher Nolan"
+        ],
+        "writers": [
+            "Jonathan Nolan",
+            "Christopher Nolan",
+            "David S. Goyer"
+        ],
+        "stars": [
+            "Christian Bale",
+            "Heath Ledger",
+            "Aaron Eckhart"
+        ],
+        "description": "When a menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman, James Gordon and Harvey Dent must work together to put an end to the madness.",
+        "release_year": "2008",
+        "duration": "2h 32m",
+        "certification": "IIB",
+        "release_date": "July 14, 2008",
+        "poster_url": "https://www.imdb.com/title/tt0468569/mediaviewer/rm4023877632/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi324468761/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Godfather Part II",
+        "rating": "9.0",
+        "genres": [
+            "Epic",
+            "Gangster",
+            "Tragedy",
+            "Crime",
+            "Drama"
+        ],
+        "directors": [
+            "Francis Ford Coppola"
+        ],
+        "writers": [
+            "Francis Ford Coppola",
+            "Mario Puzo"
+        ],
+        "stars": [
+            "Al Pacino",
+            "Robert De Niro",
+            "Robert Duvall"
+        ],
+        "description": "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+        "release_year": "1974",
+        "duration": "3h 22m",
+        "certification": "IIB",
+        "release_date": "December 12, 1974",
+        "poster_url": "https://www.imdb.com/title/tt0071562/mediaviewer/rm862611201/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi696162841/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "12 Angry Men",
+        "rating": "9.0",
+        "genres": [
+            "Legal Drama",
+            "Psychological Drama",
+            "Crime",
+            "Drama"
+        ],
+        "directors": [
+            "Sidney Lumet"
+        ],
+        "writers": [
+            "Reginald Rose"
+        ],
+        "stars": [
+            "Henry Fonda",
+            "Lee J. Cobb",
+            "Martin Balsam"
+        ],
+        "description": "The jury in a New York City murder trial is frustrated by a single member whose skeptical caution forces them to more carefully consider the evidence before jumping to a hasty verdict.",
+        "release_year": "1957",
+        "duration": "1h 36m",
+        "certification": "I",
+        "release_date": "April 10, 1957",
+        "poster_url": "https://www.imdb.com/title/tt0050083/mediaviewer/rm2927108352/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi2924462873/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Lord of the Rings: The Return of the King",
+        "rating": "9.0",
+        "genres": [
+            "Action Epic",
+            "Adventure Epic",
+            "Epic",
+            "Fantasy Epic",
+            "Mountain Adventure",
+            "Quest",
+            "Sword & Sorcery",
+            "Tragedy",
+            "Adventure",
+            "Drama"
+        ],
+        "directors": [
+            "Peter Jackson"
+        ],
+        "writers": [
+            "J.R.R. Tolkien",
+            "Fran Walsh",
+            "Philippa Boyens"
+        ],
+        "stars": [
+            "Elijah Wood",
+            "Viggo Mortensen",
+            "Ian McKellen"
+        ],
+        "description": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+        "release_year": "2003",
+        "duration": "3h 21m",
+        "certification": "IIB",
+        "release_date": "December 1, 2003",
+        "poster_url": "https://www.imdb.com/title/tt0167260/mediaviewer/rm584928512/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi718127897/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Schindler's List",
+        "rating": "9.0",
+        "genres": [
+            "Docudrama",
+            "Epic",
+            "Historical Epic",
+            "Period Drama",
+            "Prison Drama",
+            "Tragedy",
+            "Biography",
+            "Drama",
+            "History"
+        ],
+        "directors": [
+            "Steven Spielberg"
+        ],
+        "writers": [
+            "Thomas Keneally",
+            "Steven Zaillian"
+        ],
+        "stars": [
+            "Liam Neeson",
+            "Ralph Fiennes",
+            "Ben Kingsley"
+        ],
+        "description": "In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.",
+        "release_year": "1993",
+        "duration": "3h 15m",
+        "certification": "II",
+        "release_date": "November 30, 1993",
+        "poster_url": "https://www.imdb.com/title/tt0108052/mediaviewer/rm1610023168/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1158527769/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Pulp Fiction",
+        "rating": "8.9",
+        "genres": [
+            "Dark Comedy",
+            "Drug Crime",
+            "Gangster",
+            "Crime",
+            "Drama"
+        ],
+        "directors": [
+            "Quentin Tarantino"
+        ],
+        "writers": [
+            "Quentin Tarantino",
+            "Roger Avary"
+        ],
+        "stars": [
+            "John Travolta",
+            "Uma Thurman",
+            "Samuel L. Jackson"
+        ],
+        "description": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+        "release_year": "1994",
+        "duration": "2h 34m",
+        "certification": "III",
+        "release_date": "May 21, 1994",
+        "poster_url": "https://www.imdb.com/title/tt0110912/mediaviewer/rm1959546112/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi2620371481/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Lord of the Rings: The Fellowship of the Ring",
+        "rating": "8.9",
+        "genres": [
+            "Action Epic",
+            "Adventure Epic",
+            "Dark Fantasy",
+            "Epic",
+            "Fantasy Epic",
+            "Quest",
+            "Sword & Sorcery",
+            "Adventure",
+            "Drama",
+            "Fantasy"
+        ],
+        "directors": [
+            "Peter Jackson"
+        ],
+        "writers": [
+            "J.R.R. Tolkien",
+            "Fran Walsh",
+            "Philippa Boyens"
+        ],
+        "stars": [
+            "Elijah Wood",
+            "Ian McKellen",
+            "Orlando Bloom"
+        ],
+        "description": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+        "release_year": "2001",
+        "duration": "2h 58m",
+        "certification": "IIB",
+        "release_date": "December 10, 2001",
+        "poster_url": "https://www.imdb.com/title/tt0120737/mediaviewer/rm3592958976/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi684573465/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Lonely Hero in the Duel of Hell's Gate",
+        "rating": "8.8",
+        "genres": [
+            "Adventure Epic",
+            "Dark Comedy",
+            "Desert Adventure",
+            "Epic",
+            "Period Drama",
+            "Quest",
+            "Spaghetti Western",
+            "Western Epic",
+            "Adventure",
+            "Western"
+        ],
+        "directors": [
+            "Sergio Leone"
+        ],
+        "writers": [
+            "Luciano Vincenzoni",
+            "Sergio Leone",
+            "Agenore Incrocci"
+        ],
+        "stars": [
+            "Clint Eastwood",
+            "Eli Wallach",
+            "Lee Van Cleef"
+        ],
+        "description": "A bounty-hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.",
+        "release_year": "1966",
+        "duration": "2h 41m",
+        "certification": "R",
+        "release_date": "December 23, 1966",
+        "poster_url": "https://www.imdb.com/title/tt0060196/mediaviewer/rm1383786241/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi3416964889/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Forrest Gump",
+        "rating": "8.8",
+        "genres": [
+            "Epic",
+            "Drama",
+            "Romance"
+        ],
+        "directors": [
+            "Robert Zemeckis"
+        ],
+        "writers": [
+            "Winston Groom",
+            "Eric Roth"
+        ],
+        "stars": [
+            "Tom Hanks",
+            "Robin Wright",
+            "Gary Sinise"
+        ],
+        "description": "The history of the United States from the 1950s to the '70s unfolds from the perspective of an Alabama man with an IQ of 75, who yearns to be reunited with his childhood sweetheart.",
+        "release_year": "1994",
+        "duration": "2h 22m",
+        "certification": "II",
+        "release_date": "June 23, 1994",
+        "poster_url": "https://www.imdb.com/title/tt0109830/mediaviewer/rm1954748672/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi3567517977/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Lord of the Rings: The Two Towers",
+        "rating": "8.8",
+        "genres": [
+            "Action Epic",
+            "Adventure Epic",
+            "Dark Fantasy",
+            "Epic",
+            "Fantasy Epic",
+            "Quest",
+            "Sword & Sorcery",
+            "Adventure",
+            "Drama",
+            "Fantasy"
+        ],
+        "directors": [
+            "Peter Jackson"
+        ],
+        "writers": [
+            "J.R.R. Tolkien",
+            "Fran Walsh",
+            "Philippa Boyens"
+        ],
+        "stars": [
+            "Elijah Wood",
+            "Ian McKellen",
+            "Viggo Mortensen"
+        ],
+        "description": "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
+        "release_year": "2002",
+        "duration": "2h 59m",
+        "certification": "IIB",
+        "release_date": "December 5, 2002",
+        "poster_url": "https://www.imdb.com/title/tt0167261/mediaviewer/rm306845440/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi701350681/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Fight Club",
+        "rating": "8.8",
+        "genres": [
+            "Psychological Drama",
+            "Psychological Thriller",
+            "Workplace Drama",
+            "Crime",
+            "Drama",
+            "Thriller"
+        ],
+        "directors": [
+            "David Fincher"
+        ],
+        "writers": [
+            "Chuck Palahniuk",
+            "Jim Uhls"
+        ],
+        "stars": [
+            "Brad Pitt",
+            "Edward Norton",
+            "Meat Loaf"
+        ],
+        "description": "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+        "release_year": "1999",
+        "duration": "2h 19m",
+        "certification": "IIB",
+        "release_date": "September 10, 1999",
+        "poster_url": "https://www.imdb.com/title/tt0137523/mediaviewer/rm1412004864/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi123455001/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Inception",
+        "rating": "8.8",
+        "genres": [
+            "Action Epic",
+            "Adventure Epic",
+            "Epic",
+            "Psychological Thriller",
+            "Sci-Fi Epic",
+            "Action",
+            "Adventure",
+            "Sci-Fi",
+            "Thriller"
+        ],
+        "directors": [
+            "Christopher Nolan"
+        ],
+        "writers": [
+            "Christopher Nolan"
+        ],
+        "stars": [
+            "Leonardo DiCaprio",
+            "Joseph Gordon-Levitt",
+            "Elliot Page"
+        ],
+        "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the pro... Read all",
+        "release_year": "2010",
+        "duration": "2h 28m",
+        "certification": "IIB",
+        "release_date": "July 8, 2010",
+        "poster_url": "https://www.imdb.com/title/tt1375666/mediaviewer/rm3426651392/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi2959588889/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Star Wars: Episode V - The Empire Strikes Back",
+        "rating": "8.7",
+        "genres": [
+            "Action Epic",
+            "Adventure Epic",
+            "Dark Fantasy",
+            "Dystopian Sci-Fi",
+            "Epic",
+            "Fantasy Epic",
+            "Globetrotting Adventure",
+            "Quest",
+            "Sci-Fi Epic",
+            "Space Sci-Fi"
+        ],
+        "directors": [
+            "Irvin Kershner"
+        ],
+        "writers": [
+            "Leigh Brackett",
+            "Lawrence Kasdan",
+            "George Lucas"
+        ],
+        "stars": [
+            "Mark Hamill",
+            "Harrison Ford",
+            "Carrie Fisher"
+        ],
+        "description": "After the Empire overpowers the Rebel Alliance, Luke Skywalker begins training with Jedi Master Yoda, while Darth Vader and bounty hunter Boba Fett pursue his friends across the galaxy.",
+        "release_year": "1980",
+        "duration": "2h 4m",
+        "certification": "I",
+        "release_date": "May 17, 1980",
+        "poster_url": "https://www.imdb.com/title/tt0080684/mediaviewer/rm3114097664/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi221753881/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Matrix",
+        "rating": "8.7",
+        "genres": [
+            "Action Epic",
+            "Artificial Intelligence",
+            "Cyberpunk",
+            "Dystopian Sci-Fi",
+            "Gun Fu",
+            "Martial Arts",
+            "Sci-Fi Epic",
+            "Action",
+            "Sci-Fi"
+        ],
+        "directors": [
+            "Lana Wachowski",
+            "Lilly Wachowski"
+        ],
+        "writers": [
+            "Lilly Wachowski",
+            "Lana Wachowski"
+        ],
+        "stars": [
+            "Keanu Reeves",
+            "Laurence Fishburne",
+            "Carrie-Anne Moss"
+        ],
+        "description": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.",
+        "release_year": "1999",
+        "duration": "2h 16m",
+        "certification": "IIB",
+        "release_date": "March 24, 1999",
+        "poster_url": "https://www.imdb.com/title/tt0133093/mediaviewer/rm525547776/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1870579225/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "GoodFellas",
+        "rating": "8.7",
+        "genres": [
+            "Docudrama",
+            "Gangster",
+            "True Crime",
+            "Biography",
+            "Crime",
+            "Drama"
+        ],
+        "directors": [
+            "Martin Scorsese"
+        ],
+        "writers": [
+            "Nicholas Pileggi",
+            "Martin Scorsese"
+        ],
+        "stars": [
+            "Robert De Niro",
+            "Ray Liotta",
+            "Joe Pesci"
+        ],
+        "description": "The story of Henry Hill and his life in the mafia, covering his relationship with his wife Karen and his mob partners Jimmy Conway and Tommy DeVito.",
+        "release_year": "1990",
+        "duration": "2h 25m",
+        "certification": "II",
+        "release_date": "September 9, 1990",
+        "poster_url": "https://www.imdb.com/title/tt0099685/mediaviewer/rm2091797760/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi2673654553/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Interstellar",
+        "rating": "8.7",
+        "genres": [
+            "Adventure Epic",
+            "Epic",
+            "Quest",
+            "Sci-Fi Epic",
+            "Space Sci-Fi",
+            "Time Travel",
+            "Adventure",
+            "Drama",
+            "Sci-Fi"
+        ],
+        "directors": [
+            "Christopher Nolan"
+        ],
+        "writers": [
+            "Jonathan Nolan",
+            "Christopher Nolan"
+        ],
+        "stars": [
+            "Matthew McConaughey",
+            "Anne Hathaway",
+            "Jessica Chastain"
+        ],
+        "description": "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.",
+        "release_year": "2014",
+        "duration": "2h 49m",
+        "certification": "IIA",
+        "release_date": "October 26, 2014",
+        "poster_url": "https://www.imdb.com/title/tt0816692/mediaviewer/rm4043724800/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1586278169/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "One Flew Over the Cuckoo's Nest",
+        "rating": "8.7",
+        "genres": [
+            "Medical Drama",
+            "Psychological Drama",
+            "Drama"
+        ],
+        "directors": [
+            "Milos Forman"
+        ],
+        "writers": [
+            "Lawrence Hauben",
+            "Bo Goldman",
+            "Ken Kesey"
+        ],
+        "stars": [
+            "Jack Nicholson",
+            "Louise Fletcher",
+            "Michael Berryman"
+        ],
+        "description": "A newly admitted mental patient helps his docile companions defy the tyrannical head nurse.",
+        "release_year": "1975",
+        "duration": "2h 13m",
+        "certification": "II",
+        "release_date": "November 19, 1975",
+        "poster_url": "https://www.imdb.com/title/tt0073486/mediaviewer/rm2186479360/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi3943282969/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Se7en",
+        "rating": "8.6",
+        "genres": [
+            "Cop Drama",
+            "Hard-boiled Detective",
+            "Legal Drama",
+            "Police Procedural",
+            "Psychological Drama",
+            "Psychological Thriller",
+            "Serial Killer",
+            "Crime",
+            "Drama",
+            "Mystery"
+        ],
+        "directors": [
+            "David Fincher"
+        ],
+        "writers": [
+            "Andrew Kevin Walker"
+        ],
+        "stars": [
+            "Morgan Freeman",
+            "Brad Pitt",
+            "Kevin Spacey"
+        ],
+        "description": "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives.",
+        "release_year": "1995",
+        "duration": "2h 7m",
+        "certification": "IIB",
+        "release_date": "September 15, 1995",
+        "poster_url": "https://www.imdb.com/title/tt0114369/mediaviewer/rm3116368640/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi2508831257/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "It's a Wonderful Life",
+        "rating": "8.6",
+        "genres": [
+            "Feel-Good Romance",
+            "Holiday Family",
+            "Holiday Romance",
+            "Psychological Drama",
+            "Supernatural Fantasy",
+            "Drama",
+            "Family",
+            "Fantasy",
+            "Holiday",
+            "Romance"
+        ],
+        "directors": [
+            "Frank Capra"
+        ],
+        "writers": [
+            "Frances Goodrich",
+            "Albert Hackett",
+            "Frank Capra"
+        ],
+        "stars": [
+            "James Stewart",
+            "Donna Reed",
+            "Lionel Barrymore"
+        ],
+        "description": "An angel is sent from Heaven to help a desperately frustrated businessman by showing him what life would have been like if he had never existed.",
+        "release_year": "1946",
+        "duration": "2h 10m",
+        "certification": "I",
+        "release_date": "December 20, 1946",
+        "poster_url": "https://www.imdb.com/title/tt0038650/mediaviewer/rm3862243328/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1101988121/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "The Silence of the Lambs",
+        "rating": "8.6",
+        "genres": [
+            "Police Procedural",
+            "Psychological Drama",
+            "Psychological Horror",
+            "Psychological Thriller",
+            "Serial Killer",
+            "Slasher Horror",
+            "Crime",
+            "Drama",
+            "Horror",
+            "Thriller"
+        ],
+        "directors": [
+            "Jonathan Demme"
+        ],
+        "writers": [
+            "Thomas Harris",
+            "Ted Tally"
+        ],
+        "stars": [
+            "Jodie Foster",
+            "Anthony Hopkins",
+            "Scott Glenn"
+        ],
+        "description": "A young F.B.I. cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer, a madman who skins his victims.",
+        "release_year": "1991",
+        "duration": "1h 58m",
+        "certification": "II",
+        "release_date": "January 30, 1991",
+        "poster_url": "https://www.imdb.com/title/tt0102926/mediaviewer/rm3242988544/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi3377380121/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Shichinin no samurai",
+        "rating": "8.6",
+        "genres": [
+            "Action Epic",
+            "Epic",
+            "Period Drama",
+            "Samurai",
+            "Action",
+            "Drama"
+        ],
+        "directors": [
+            "Akira Kurosawa"
+        ],
+        "writers": [
+            "Akira Kurosawa",
+            "Shinobu Hashimoto",
+            "Hideo Oguni"
+        ],
+        "stars": [
+            "Toshirô Mifune",
+            "Takashi Shimura",
+            "Keiko Tsushima"
+        ],
+        "description": "Farmers from a village exploited by bandits hire a veteran samurai for protection, and he gathers six other samurai to join him.",
+        "release_year": "1954",
+        "duration": "3h 27m",
+        "certification": "Not Rated",
+        "release_date": "April 26, 1954",
+        "poster_url": "https://www.imdb.com/title/tt0047478/mediaviewer/rm1230920705/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi2923348761/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Saving Private Ryan",
+        "rating": "8.6",
+        "genres": [
+            "Epic",
+            "Period Drama",
+            "War Epic",
+            "Drama",
+            "War"
+        ],
+        "directors": [
+            "Steven Spielberg"
+        ],
+        "writers": [
+            "Robert Rodat"
+        ],
+        "stars": [
+            "Tom Hanks",
+            "Matt Damon",
+            "Tom Sizemore"
+        ],
+        "description": "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.",
+        "release_year": "1998",
+        "duration": "2h 49m",
+        "certification": "IIB",
+        "release_date": "July 21, 1998",
+        "poster_url": "https://www.imdb.com/title/tt0120815/mediaviewer/rm1924732160/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1908983577/?ref_=tt_vids_vi_1"
+    },
+    {
+        "title": "Cidade de Deus",
+        "rating": "8.6",
+        "genres": [
+            "Caper",
+            "Coming-of-Age",
+            "Gangster",
+            "Crime",
+            "Drama"
+        ],
+        "directors": [
+            "Fernando Meirelles",
+            "Kátia Lund"
+        ],
+        "writers": [
+            "Bráulio Mantovani",
+            "Paulo Lins"
+        ],
+        "stars": [
+            "Alexandre Rodrigues",
+            "Leandro Firmino",
+            "Matheus Nachtergaele"
+        ],
+        "description": "In the slums of Rio, two kids' paths diverge as one struggles to become a photographer and the other a kingpin.",
+        "release_year": "2002",
+        "duration": "2h 10m",
+        "certification": "III",
+        "release_date": "2002",
+        "poster_url": "https://www.imdb.com/title/tt0317248/mediaviewer/rm3233433856/?ref_=tt_ov_i",
+        "trailer_url": "https://www.imdb.com/video/vi1783208985/?ref_=tt_vids_vi_1"
+    }
+]

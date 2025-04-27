@@ -24,7 +24,7 @@ def scrape_movies(url):
             movies_urls.append(full_url)
 
         # Limit the number of movies to scrape (for testing purposes)
-        movies_urls = movies_urls[:10]
+        movies_urls = movies_urls[:50]
 
 
         # Get the information of the top movies
@@ -152,11 +152,11 @@ if __name__ == "__main__":
               f"Trailer URL: {movie['trailer_url']} \n"
               "-----------------------------------")
     
-    # Save the data to a JSON file
-    # output_file = "movies.json"
-    # try:
-    #     with open(output_file, 'w', encoding='utf-8') as file:
-    #         json.dump(movie_data, file, ensure_ascii=False, indent=4)
-    #     print(f"Movie data saved to {output_file}")
-    # except Exception as e:
-    #     print(f"Error saving data to JSON: {e}")
+    #Save the data to a JSON file
+    output_file = "movies.json"
+    try:
+        with open(output_file, 'w', encoding='utf-8') as file:
+            json.dump(movie_data, file, ensure_ascii=False, indent=4)
+        print(f"Movie data saved to {output_file}")
+    except Exception as e:
+        print(f"Error saving data to JSON: {e}")
