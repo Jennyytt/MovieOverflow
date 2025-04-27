@@ -1,7 +1,7 @@
 <script>
 	import { Card } from '$lib/components/ui/card';
 	import { CircleUserRound } from '@lucide/svelte';
-	export let username = 'ABC_User';
+	export let username = 'Test User Name';
 	export let usertype = 'Pro User';
 </script>
 

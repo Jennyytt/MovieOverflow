@@ -5,7 +5,7 @@
 	export let date = 'Feb 24, 2025';
 </script>
 
-<div class="relative flex w-[1048px] flex-col justify-center gap-8">
+<div class="relative flex w-[1048px] flex-col justify-center gap-4">
 	<MovieInfo />
 	<!-- Review Text -->
 	<div class="text-medium text-left font-[16px] text-white">

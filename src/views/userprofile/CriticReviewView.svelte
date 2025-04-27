@@ -111,6 +111,7 @@
 			class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
 		>
 			{#each reviews.slice(0, displayCount) as review, index (review.id)}
+				<div class="relative h-[10px]"></div>
 				<CriticReviewCard date={review.date} review={review.review} />
 				{#if index < displayCount - 1 && index < reviews.length - 1}
 					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>

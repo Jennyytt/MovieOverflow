@@ -13,7 +13,7 @@
 	<MovieInfo />
 	<div class="relative flex w-[1048px] flex-row justify-center gap-8">
 		<!-- Rate, Date, like & Dislike-->
-		<div class="relative flex flex-col justify-start gap-4">
+		<div class="relative flex flex-col justify-start gap-2">
 			<!-- Star rating -->
 			<div class="relative h-[28px]">
 				<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[18px]">

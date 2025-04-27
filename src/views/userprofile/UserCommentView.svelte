@@ -144,6 +144,7 @@
 			class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
 		>
 			{#each comments.slice(0, displayCount) as comment, index (comment.id)}
+				<div class="relative h-[10px]"></div>
 				<UserCommentCard
 					rating={comment.rating}
 					like_num={comment.like_num}
