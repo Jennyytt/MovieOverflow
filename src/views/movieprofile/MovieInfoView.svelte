@@ -1,6 +1,6 @@
 <script>
-	import MovieDetails from '../lib/customComponents/movieprofile/MovieDetailedInfo.svelte';
-	import MovieTopInfo from '../lib/customComponents/movieprofile/MovieTopInfo.svelte';
+	import MovieDetails from '$lib/customComponents/movieprofile/MovieDetailedInfo.svelte';
+	import MovieTopInfo from '$lib/customComponents/movieprofile/MovieTopInfo.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Plus, Check } from 'radix-icons-svelte';
 	import { Toaster, toast } from 'svelte-sonner';

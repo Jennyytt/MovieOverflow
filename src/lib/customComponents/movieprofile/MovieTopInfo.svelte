@@ -4,7 +4,7 @@
 	export let year = '2025';
 	export let rating = 'IIA';
 	export let duration = '1h 58m';
-	export let score = '6.1';
+	export let score = '4.1';
 	// export let posterImage = "image-210.png";
 	// export let trailerBackgroundImage = "../../assets/movie-poster-xl.png";
 	import posterImage from '../../../assets/movie-poster-xl.png';
@@ -56,7 +56,7 @@
 				/>
 				<div class="relative flex flex-shrink-0 flex-row items-center justify-center gap-1">
 					<span class="text-left text-[32px] font-normal text-white">{score}</span>
-					<span class="text-left text-base font-normal text-[#cccccc]">/10</span>
+					<span class="text-left text-base font-normal text-[#cccccc]">/5</span>
 				</div>
 			</div>
 		</div>

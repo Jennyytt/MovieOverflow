@@ -1,9 +1,9 @@
 <script>
-	import ReviewCarouselView from '../../views/ReviewCarouselView.svelte';
-	import CommentCarouselView from '../../views/CommentCarouselView.svelte';
-	import MyRatingView from '../../views/MyRatingView.svelte';
-	import MovieInfoView from '../../views/MovieInfoView.svelte';
-	import WatchOtherMoviesView from '../../views/WatchOtherMoviesView.svelte';
+	import MovieInfoView from '../../views/movieprofile/MovieInfoView.svelte';
+	import ReviewCarouselView from '../../views/movieprofile/ReviewCarouselView.svelte';
+	import CommentCarouselView from '../../views/movieprofile/CommentCarouselView.svelte';
+	import MyRatingView from '../../views/movieprofile/MyRatingView.svelte';
+	import WatchOtherMoviesView from '../../views/movieprofile/WatchOtherMoviesView.svelte';
 </script>
 
 <div>
