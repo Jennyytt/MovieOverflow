@@ -5,14 +5,81 @@
 	import { Input } from '$lib/components/ui/input';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
+	import pb from '$lib/pb'; 
+	
+	pb.collection('users') //check whether the database is connected successfully
+  .getList(1, 1) // fetch the first user (or empty list)
+  .then((res) => console.log('✅ PocketBase connected:', res))
+  .catch((err) => console.error('❌ PocketBase connection error:', err));
+
 
 	let email = '';
 	let username = '';
 	let password = '';
 	let confirmPassword = '';
 	let usernameError = '';
+	let emailError = '';     
+    let passwordError = '';  
+    let successMessage = '';  
 
-	function handleSubmit() {
+
+	 async function handleSubmit() {
+    // Reset previous errors
+    emailError = '';
+    usernameError = '';
+    passwordError = '';
+    successMessage = '';
+
+    // Validation before sending to backend
+    if (!email || !username || !password || !confirmPassword) {
+      if (!email) emailError = 'Email is required.';
+      if (!username) usernameError = 'Username is required.';
+      if (!password) passwordError = 'Password is required.';
+      if (!confirmPassword) passwordError = 'Please confirm your password.';
+      return;
+    }
+
+    if (passwordsMismatch()) {
+      passwordError = 'Passwords do not match.';
+      return;
+    }
+
+    try {
+      //  Create the user in PocketBase
+      const user = await pb.collection('users').create({
+        email,
+        password,
+        passwordConfirm: confirmPassword,
+        username,
+        emailVisibility: true, // optional, makes email publicly visible
+      });
+
+      console.log('User created:', user);
+
+   
+    } catch (error) {
+      console.error('Signup failed:', error);
+
+	  if (error.response) {
+    console.error('PB error response:', error.response.data);
+  }
+
+
+      // Handle field-specific errors from PocketBase
+      if (error.response?.data?.email) {
+        emailError = error.response.data.email.message || 'Invalid email.';
+      }
+      if (error.response?.data?.username) {
+        usernameError = error.response.data.username.message || 'Invalid username.';
+      }
+      if (error.response?.data?.password) {
+        passwordError = error.response.data.password.message || 'Invalid password.';
+      }
+    }
+  }
+
+
+	/* function handleSubmit() {
 		usernameError = '';
 
 		// Example validation logic
@@ -23,7 +90,7 @@
 		if (!usernameError && !passwordsMismatch()) {
 			alert('Account created!');
 		}
-	}
+	} */
 
 	function passwordsMismatch() {
 		return confirmPassword && password !== confirmPassword;
