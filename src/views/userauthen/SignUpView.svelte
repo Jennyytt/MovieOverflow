@@ -6,11 +6,13 @@
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
 	import pb from '$lib/pb'; 
+	import { goto } from '$app/navigation';
+
 	
 	pb.collection('users') //check whether the database is connected successfully
   .getList(1, 1) // fetch the first user (or empty list)
-  .then((res) => console.log('✅ PocketBase connected:', res))
-  .catch((err) => console.error('❌ PocketBase connection error:', err));
+  .then((res) => console.log('PocketBase connected:', res))
+  .catch((err) => console.error(' PocketBase connection error:', err));
 
 
 	let email = '';
@@ -20,63 +22,82 @@
 	let usernameError = '';
 	let emailError = '';     
     let passwordError = '';  
-    let successMessage = '';  
+    
 
+	async function handleSubmit() {
+  emailError = '';
+  usernameError = '';
+  passwordError = '';
 
-	 async function handleSubmit() {
-    // Reset previous errors
-    emailError = '';
-    usernameError = '';
-    passwordError = '';
-    successMessage = '';
+  if (!email || !username || !password || !confirmPassword) {
+    if (!email) emailError = 'Email is required.';
+    if (!username) usernameError = 'Username is required.';
+    if (!password) passwordError = 'Password is required.';
+    if (!confirmPassword) passwordError = 'Please confirm your password.';
+    return;
+  }
 
-    // Validation before sending to backend
-    if (!email || !username || !password || !confirmPassword) {
-      if (!email) emailError = 'Email is required.';
-      if (!username) usernameError = 'Username is required.';
-      if (!password) passwordError = 'Password is required.';
-      if (!confirmPassword) passwordError = 'Please confirm your password.';
+  if (passwordsMismatch()) {
+    passwordError = 'Passwords do not match.';
+    return;
+  }
+
+  try {
+    //  1. Run both username and email checks at the same time (in parallel)
+    const [usernameCheck, emailCheck] = await Promise.allSettled([
+      pb.collection('users').getFirstListItem(`username="${username}"`),
+      pb.collection('users').getFirstListItem(`email="${email}"`)
+    ]);
+
+    //  2. Handle username check result
+    if (usernameCheck.status === 'fulfilled') {
+      usernameError = 'This username is already taken.';
+    } else if (usernameCheck.status === 'rejected' && usernameCheck.reason.status !== 404) {
+      console.error('Unexpected error checking username:', usernameCheck.reason);
+      usernameError = 'Error checking username.';
       return;
     }
 
-    if (passwordsMismatch()) {
-      passwordError = 'Passwords do not match.';
+    //  3. Handle email check result
+    if (emailCheck.status === 'fulfilled') {
+      emailError = 'This email is already registered.';
+    } else if (emailCheck.status === 'rejected' && emailCheck.reason.status !== 404) {
+      console.error('Unexpected error checking email:', emailCheck.reason);
+      emailError = 'Error checking email.';
       return;
     }
 
-    try {
-      //  Create the user in PocketBase
-      const user = await pb.collection('users').create({
-        email,
-        password,
-        passwordConfirm: confirmPassword,
-        username,
-        emailVisibility: true, // optional, makes email publicly visible
-      });
+    // If any errors, stop here
+    if (usernameError || emailError) return;
 
-      console.log('User created:', user);
+    //  4. Create the user if all checks pass
+    const user = await pb.collection('users').create({
+      email,
+      password,
+      passwordConfirm: confirmPassword,
+      username,
+      emailVisibility: true,
+    });
 
-   
-    } catch (error) {
-      console.error('Signup failed:', error);
+    console.log('User created:', user);
+	goto('/signup/success')
+    // (Optional) Redirect to dashboard
 
-	  if (error.response) {
-    console.error('PB error response:', error.response.data);
-  }
+  } catch (error) {
+    console.error('Signup failed:', error);
 
-
-      // Handle field-specific errors from PocketBase
-      if (error.response?.data?.email) {
-        emailError = error.response.data.email.message || 'Invalid email.';
-      }
-      if (error.response?.data?.username) {
-        usernameError = error.response.data.username.message || 'Invalid username.';
-      }
-      if (error.response?.data?.password) {
-        passwordError = error.response.data.password.message || 'Invalid password.';
-      }
+    if (error.response?.data?.email) {
+      emailError = error.response.data.email.message || 'Invalid email.';
+    }
+    if (error.response?.data?.username) {
+      usernameError = error.response.data.username.message || 'Invalid username.';
+    }
+    if (error.response?.data?.password) {
+      passwordError = error.response.data.password.message || 'Invalid password.';
     }
   }
+}
+
 
 
 	/* function handleSubmit() {
@@ -120,6 +141,10 @@
 		<Card.Content class="flex w-[451px] flex-col gap-[15px] p-0">
 			<!-- Email Field -->
 			<EmailField bind:value={email} />
+			{#if emailError}
+			<p class="text-[13.7px] font-[400] text-[#EE1D52]">{emailError}</p>
+			{/if}
+
 
 			<!-- Username -->
 			<div class="flex w-full flex-col">
