@@ -4,30 +4,43 @@
 	import * as Card from '$lib/components/ui/card';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
+	import pb from '$lib/pb';
+	import { goto } from '$app/navigation';
+
 
 	let email = '';
 	let password = '';
 	let emailError = '';
 	let passwordError = '';
 
-	function handleSubmit() {
-		// Reset previous errors
-		emailError = '';
-		passwordError = '';
+	async function handleSubmit() {
+    // Reset previous errors
+    emailError = '';
+    passwordError = '';
 
-		// Validation
-		if (email.trim() !== 'example@email.com') {
-			emailError = 'Your account is not found.';
-		}
-		if (password !== '12345678') {
-			passwordError = 'Incorrect password.';
-		}
+    try {
+        // Attempt login via PocketBase
+        const authData = await pb.collection('users').authWithPassword(email.trim(), password);
 
-		// If both correct, proceed
-		if (!emailError && !passwordError) {
-			alert('Login successful!');
-		}
-	}
+        // If login is successful
+        alert('Login successful!');
+        console.log('Logged in user:', authData.record);
+		await goto('/');
+    } catch (error) {
+        console.error(error);
+
+        // Check if error is about email not found
+        if (error.response?.data?.email) {
+            emailError = 'Your account is not found.';
+        } else if (error.response?.data?.password) {
+            passwordError = 'Incorrect password.';
+        } else {
+            // Generic error fallback
+            emailError = 'Login failed. Please try again.';
+        }
+    }
+}
+
 </script>
 
 <!-- Full page layout: horizontally align logo + login box -->
@@ -48,12 +61,12 @@
 		</div>
 
 		<Card.Content class="flex flex-col gap-[15px] p-0">
-			<!-- ✅ Reusable Email Field -->
+			<!-- Reusable Email Field -->
 			<div class="w-[449.04px]">
 				<EmailField bind:value={email} errorMessage={emailError} />
 			</div>
 
-			<!-- ✅ Reusable Password Field (no confirm) -->
+			<!--  Reusable Password Field (no confirm) -->
 			<div class="w-[449.04px]">
 				<PasswordField bind:value={password} showConfirm={false} errorMessage={passwordError} />
 			</div>
