@@ -18,28 +18,26 @@
     emailError = '';
     passwordError = '';
 
-    try {
-        // Attempt login via PocketBase
-        const authData = await pb.collection('users').authWithPassword(email.trim(), password);
+	try {
+    const authData = await pb.collection('users').authWithPassword(email.trim(), password);
+    console.log('Login successful:', authData);
+    await goto('/');
+} catch (error) {
+    console.error(error);
+	console.log('Error.response:', error.response);
+    // Most auth errors are code 400 with generic message
+	if (
+		error.response?.status === 400 &&
+		error.response?.message&&
+		error.response.message.includes('Failed to authenticate')
+	) {
+		passwordError = 'Incorrect email or password.';
+	} else {
+		emailError = 'Login failed. Please try again.';
+	}
 
-        // If login is successful
-        alert('Login successful!');
-        console.log('Logged in user:', authData.record);
-		await goto('/');
-    } catch (error) {
-        console.error(error);
 
-        // Check if error is about email not found
-        if (error.response?.data?.email) {
-            emailError = 'Your account is not found.';
-        } else if (error.response?.data?.password) {
-            passwordError = 'Incorrect password.';
-        } else {
-            // Generic error fallback
-            emailError = 'Login failed. Please try again.';
-        }
-    }
-}
+}}
 
 </script>
 
