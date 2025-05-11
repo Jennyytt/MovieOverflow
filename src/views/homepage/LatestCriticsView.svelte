@@ -16,6 +16,5 @@
 		</div>
 	</div>
 
-	<!-- Your existing ReviewCarousel component -->
 	<ReviewCarousel />
 </div>
