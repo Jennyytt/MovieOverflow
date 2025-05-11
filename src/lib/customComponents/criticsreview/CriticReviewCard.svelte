@@ -16,6 +16,8 @@
 		<div class="text-left font-[18px] font-bold text-white">
 			{date}
 		</div>
-		<div class="text-left font-[18px] font-bold text-white underline">Full Review</div>
+		<a class="text-left font-[18px] font-bold text-white underline" href="../movieindividualreview"
+			>Full Review</a
+		>
 	</div>
 </div>
