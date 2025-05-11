@@ -8,8 +8,6 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import pb from '$lib/pb';
-	import { goto } from '$app/navigation';
-
 
 	let email = '';
 	let password = '';
