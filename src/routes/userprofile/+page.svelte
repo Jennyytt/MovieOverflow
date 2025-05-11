@@ -11,6 +11,7 @@
 <AuthGuard requireAuth={true} />
 
 <div class="mt-8">
+	<!-- 
 	<div>
 		{#if userInfo}
 			<p>Username: {userInfo.username}</p>
@@ -21,7 +22,7 @@
 		{:else}
 			<p>Loading user information...</p>
 		{/if}
-	</div>
+	</div>-->
 	<UserProfileView {ProUser} {username} />
 	<br />
 	<br />
