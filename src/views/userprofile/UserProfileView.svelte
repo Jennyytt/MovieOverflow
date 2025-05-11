@@ -1,5 +1,6 @@
 <script>
 	import UserProfileBlock from '$lib/customComponents/userprofile/UserProfileBlock.svelte';
+	export let ProUser = false; // Set this to true if the user is a pro user
 </script>
 
 <div class="relative flex flex-shrink-0 flex-col items-start justify-center gap-8 self-stretch">
@@ -13,5 +14,5 @@
 		</div>
 	</div>
 
-	<UserProfileBlock />
+	<UserProfileBlock {ProUser} />
 </div>
