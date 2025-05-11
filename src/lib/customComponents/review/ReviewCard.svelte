@@ -39,7 +39,7 @@
 				{date}
 			</div>
 			<div class="cursor-pointer text-left text-base font-semibold text-[#b693dc] underline">
-				Full review
+				<a href="/movieindividualreview">Full review</a>
 			</div>
 		</div>
 	</div>

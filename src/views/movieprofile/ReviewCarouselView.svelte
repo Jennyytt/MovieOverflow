@@ -16,10 +16,10 @@
 				variant="ghost"
 				size="icon"
 				class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
-				><ChevronRight
-					class="relative h-[23px] w-[23px] flex-shrink-0 font-bold text-white"
-				/></Button
-			>
+				><a href="moviecriticsreview"
+					><ChevronRight class="relative h-[23px] w-[23px] flex-shrink-0 font-bold text-white" /></a
+				>
+			</Button>
 		</div>
 
 		<!-- Add Review button -->
@@ -28,13 +28,16 @@
 				variant="ghost"
 				size="icon"
 				class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
-			>
-				<Plus
-					class="relative inset-0 h-[23px] w-[23px] flex-shrink-0 overflow-visible"
-					color="#B693DC"
-				/>
+				><a href="moviereviewedit">
+					<Plus
+						class="relative inset-0 h-[23px] w-[23px] flex-shrink-0 overflow-visible"
+						color="#B693DC"
+					/></a
+				>
 				<!-- </div> -->
-				<div class="relative text-left text-[18px] font-bold text-[#b693dc] underline">Review</div>
+				<div class="relative text-left text-[18px] font-bold text-[#b693dc] underline">
+					<a href="moviereviewedit">Review</a>
+				</div>
 			</Button>
 		</div>
 	</div>
