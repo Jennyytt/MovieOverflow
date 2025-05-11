@@ -19,11 +19,21 @@
 
 	// Determine if user is PRO
 	$: isPro = $authStore.isAuthenticated && $authStore.user?.isPro;
+
 	// Function to handle PRO button click
 	function handleProClick(event) {
+		// Prevent default navigation
+		event.preventDefault();
+
 		if (isPro) {
-			// Prevent navigation if already PRO
-			event.preventDefault();
+			// Do nothing if already PRO
+			return;
+		} else if ($authStore.isAuthenticated) {
+			// Navigate to PRO upgrade page if logged in but not PRO
+			goto('/pro');
+		} else {
+			// Navigate to login page with redirect parameter if not logged in
+			goto('/login?redirectTo=/pro');
 		}
 	}
 </script>
@@ -61,6 +71,7 @@
 			</div>
 		</div>
 
+		<!-- PRO Button with custom click handler -->
 		<div
 			class="relative flex flex-shrink-0 {isPro
 				? 'cursor-default'
@@ -71,12 +82,12 @@
 				class="relative h-[22px] w-[45px] text-left text-base font-semibold leading-[140%] {isPro
 					? 'text-[#FFC700]'
 					: 'text-[#b693dc]'}"
+				onclick={handleProClick}
+				onkeydown={(e) => e.key === 'Enter' && handleProClick(e)}
+				tabindex="0"
+				role="button"
 			>
-				{#if isPro}
-					PRO
-				{:else}
-					<a href="/pro" onclick={handleProClick}>PRO</a>
-				{/if}
+				PRO
 			</div>
 		</div>
 
