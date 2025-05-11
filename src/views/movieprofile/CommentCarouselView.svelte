@@ -23,6 +23,5 @@
 		</div>
 	</div>
 
-	<!-- Your existing ReviewCarousel component -->
 	<CommentCarousel />
 </div>

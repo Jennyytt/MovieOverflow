@@ -13,7 +13,7 @@
 		<Carousel.Previous class="mx-[16px]" />
 		<Carousel.Content class="-ml-4">
 			<!-- eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars  -->
-			{#each Array(7) as unusedItem, i (i)}
+			{#each Array(10) as unusedItem, i (i)}
 				<Carousel.Item class="pl-3 md:basis-1/4 lg:basis-1/5">
 					<MovieCard />
 				</Carousel.Item>
