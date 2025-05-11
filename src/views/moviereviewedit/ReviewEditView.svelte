@@ -3,6 +3,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Bold, Italic, Underline } from '@lucide/svelte';
 	import PublishPopUp from '$lib/customComponents/review/PublishPopUp.svelte';
+	import { Toaster, toast } from 'svelte-sonner';
 
 	let isPublishPopUpOpen = false;
 	const activeFormatting = writable('none'); // 'none', 'bold', 'italic', or 'underline'
@@ -121,10 +122,10 @@
 			selection.addRange(range);
 		}
 	}
-
+	function saveDraft() {
+		toast.success('Your draft is saved');
+	}
 	function publishReview() {
-		// Placeholder for actual publishing logic
-		console.log('Publishing review:', reviewTitle, reviewContent);
 		isPublishPopUpOpen = false;
 	}
 </script>
@@ -136,7 +137,10 @@
 			<span class="text-[37.44px] font-semibold text-white">Critics Review Entry</span>
 		</div>
 		<div class="flex items-center gap-9">
-			<Button class="rounded-full px-6 py-2 text-base font-semibold">Save Draft</Button>
+			<Toaster />
+			<Button onclick={saveDraft} class="rounded-full px-6 py-2 text-base font-semibold"
+				><a href>Save Draft</a></Button
+			>
 			<Button onclick={openPublishPopUp} class="rounded-full px-6 py-2 text-base font-semibold"
 				>Publish</Button
 			>
