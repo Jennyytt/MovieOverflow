@@ -7,8 +7,6 @@
 	}
 
 	function confirmPublish() {
-		// Placeholder for publish functionality
-		console.log('Review published');
 		closePopup();
 	}
 </script>
@@ -26,8 +24,8 @@
 				<Button
 					onclick={confirmPublish}
 					class="rounded-full border border-black bg-purple-700/80 px-6 py-2 text-base font-semibold text-gray-200"
-					>Yes</Button
-				>
+					><a href="movieindividualreview">Yes</a>
+				</Button>
 			</div>
 		</div>
 	</div>
