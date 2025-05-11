@@ -3,6 +3,7 @@
 	import { CircleUserRound } from '@lucide/svelte';
 	export let username = 'Test User Name';
 	export let usertype = 'Pro User';
+	export let ProUser = false; // Set this to true if the user is a pro user
 </script>
 
 <Card
@@ -22,8 +23,10 @@
 		</div>
 
 		<!-- User Type -->
-		<div class="text-left text-[24px] font-bold leading-[29px] tracking-[-0.02em] text-white">
-			{usertype}
-		</div>
+		{#if ProUser}
+			<div class="text-left text-[24px] font-bold leading-[29px] tracking-[-0.02em] text-white">
+				{usertype}
+			</div>
+		{/if}
 	</div>
 </Card>
