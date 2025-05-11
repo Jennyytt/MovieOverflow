@@ -4,55 +4,59 @@
 	import * as Card from '$lib/components/ui/card';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
-	import pb from '$lib/pb';
+	import { authStore } from '$lib/stores/authStore';
 	import { goto } from '$app/navigation';
-
+	import { page } from '$app/stores';
 
 	let email = '';
 	let password = '';
 	let emailError = '';
 	let passwordError = '';
 
+	// Get the redirect URL from the query parameter
+	$: redirectTo = $page.url.searchParams.get('redirectTo') || '/';
+
 	async function handleSubmit() {
 		try {
-			const authData = await pb.collection("users").authWithPassword(email, password);
-			
-			console.log('Login successful:', authData);
-			console.log('Authenticated:', authData);
-			await goto('/');
+			// Use the auth store instead of directly using PocketBase
+			const result = await authStore.login(email, password);
+
+			if (result.success) {
+				console.log('Login successful');
+				await goto(redirectTo);
+			} else {
+				passwordError = result.error || 'Incorrect email or password.';
+			}
 		} catch (err) {
-			passwordError = 'Incorrect email or password.'
+			passwordError = 'Incorrect email or password.';
 			console.error('Auth failed:', err);
+		}
 	}
-}
 
+	// 	async function handleSubmit() {
+	//     // Reset previous errors
+	//     emailError = '';
+	//     passwordError = '';
 
-// 	async function handleSubmit() {
-//     // Reset previous errors
-//     emailError = '';
-//     passwordError = '';
+	// 	try {
+	//     const authData = await pb.collection('users').authWithPassword(email.trim(), password);
+	//     console.log('Login successful:', authData);
+	//     await goto('/');
+	// } catch (error) {
+	//     console.error(error);
+	// 	console.log('Error.response:', error.response);
+	//     // Most auth errors are code 400 with generic message
+	// 	if (
+	// 		error.response?.status === 400 &&
+	// 		error.response?.message&&
+	// 		error.response.message.includes('Failed to authenticate')
+	// 	) {
+	// 		passwordError = 'Incorrect email or password.';
+	// 	} else {
+	// 		emailError = 'Login failed. Please try again.';
+	// 	}
 
-// 	try {
-//     const authData = await pb.collection('users').authWithPassword(email.trim(), password);
-//     console.log('Login successful:', authData);
-//     await goto('/');
-// } catch (error) {
-//     console.error(error);
-// 	console.log('Error.response:', error.response);
-//     // Most auth errors are code 400 with generic message
-// 	if (
-// 		error.response?.status === 400 &&
-// 		error.response?.message&&
-// 		error.response.message.includes('Failed to authenticate')
-// 	) {
-// 		passwordError = 'Incorrect email or password.';
-// 	} else {
-// 		emailError = 'Login failed. Please try again.';
-// 	}
-
-
-// }}
-
+	// }}
 </script>
 
 <!-- Full page layout: horizontally align logo + login box -->
