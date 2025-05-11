@@ -16,9 +16,9 @@
 				variant="ghost"
 				size="icon"
 				class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
-				><ChevronRight
-					class="relative h-[23px] w-[23px] flex-shrink-0 font-bold text-white"
-				/></Button
+				><a href="moviecomment"
+					><ChevronRight class="relative h-[23px] w-[23px] flex-shrink-0 font-bold text-white" /></a
+				></Button
 			>
 		</div>
 	</div>
