@@ -8,7 +8,9 @@
 <Card
 	class="relative box-border h-[353px] w-[206px] overflow-hidden rounded-[10px] border-transparent bg-transparent"
 >
-	<img src={MoviePosterCarousel} alt="Movie Poster" class=" w-[206px] object-cover" />
+	<a href="../movieprofile">
+		<img src={MoviePosterCarousel} alt="Movie Poster" class=" w-[206px] object-cover" />
+	</a>
 	<div class="flex w-full items-center">
 		<!-- rating-->
 		<div class="flex basis-1/2 items-center justify-center">
