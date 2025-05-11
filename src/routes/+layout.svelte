@@ -6,7 +6,7 @@
 </script>
 
 <NavBar />
-<div class="flex min-h-screen items-center justify-center bg-black">
+<div class="flex min-h-screen items-center justify-center">
 	{@render children()}
 </div>
 <Footer />
