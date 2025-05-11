@@ -5,6 +5,7 @@
 	import ReviewDraftView from '../../views/userprofile/ReviewDraftView.svelte';
 	import UserCommentView from '../../views/userprofile/UserCommentView.svelte';
 	let ProUser = false; // Set this to true if the user is a pro user
+	let username = null;
 
 	import pb from '$lib/pb';
 	export let userId = '0038fspgp919464'; // The user ID
@@ -15,8 +16,9 @@
 	async function fetchUserInfo() {
 		try {
 			userInfo = await pb.collection('users').getOne(userId);
-			// console.log('User Info:', userInfo); Logs the user information
+			console.log('User Info:', userInfo); // Logs the user information
 			ProUser = userInfo.isPro; // Set ProUser based on the fetched data
+			username = userInfo.username; // Set username based on the fetched data
 		} catch (err) {
 			error = err.message;
 			console.error('Error fetching user info:', error);
@@ -28,18 +30,18 @@
 </script>
 
 <div class="mt-8">
-	<!--<div>
-    {#if userInfo}
-        <p>Username: {userInfo.username}</p>
-        <p>Email: {userInfo.email}</p>
-		<p>IsPro: {userInfo.isPro}</p>
-    {:else if error}
-        <p>Error: {error}</p>
-    {:else}
-        <p>Loading user information...</p>
-    {/if}
-</div> -->
-	<UserProfileView {ProUser} />
+	<div>
+		{#if userInfo}
+			<p>Username: {userInfo.username}</p>
+			<p>Email: {userInfo.email}</p>
+			<p>IsPro: {userInfo.isPro}</p>
+		{:else if error}
+			<p>Error: {error}</p>
+		{:else}
+			<p>Loading user information...</p>
+		{/if}
+	</div>
+	<UserProfileView {ProUser} {username} />
 	<br />
 	<br />
 	<WatchlistView />
