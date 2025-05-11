@@ -7,13 +7,17 @@
 
 	let email = '';
 	let successMessage = '';
+	let errorMessage='';
 	async function handleSubmit() {
+		successMessage = '';
+		errorMessage = '';
 	try {
 		await pb.collection('users').requestPasswordReset(email);
 		console.log('Password reset email sent!');
 		successMessage = 'The email is sent. Please check your email for further action.'
 	} catch (err) {
 		console.error('Failed to send reset email:', err);
+		errorMessage = 'No account was found with that email.';
 	}
 }
 </script>
@@ -53,6 +57,9 @@
 				</Button>
 				{#if successMessage}
 					<p class="text-[#5F1F73] text-[14px]">{successMessage}</p>
+				{/if}
+				{#if errorMessage}
+					<p class="text-red-500 text-[14px]">{errorMessage}</p>
 				{/if}
 				<div class="h-[56px] w-[449px]"></div>
 			</div>
