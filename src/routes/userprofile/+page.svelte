@@ -11,6 +11,17 @@
 <AuthGuard requireAuth={true} />
 
 <div class="mt-8">
+	<!--<div>
+    {#if userInfo}
+        <p>Username: {userInfo.username}</p>
+        <p>Email: {userInfo.email}</p>
+		<p>IsPro: {userInfo.isPro}</p>
+    {:else if error}
+        <p>Error: {error}</p>
+    {:else}
+        <p>Loading user information...</p>
+    {/if}
+</div> -->
 	<UserProfileView {ProUser} />
 	<br />
 	<br />
