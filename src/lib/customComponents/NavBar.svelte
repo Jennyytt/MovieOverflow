@@ -16,6 +16,16 @@
 		authStore.logout();
 		goto('/');
 	}
+
+	// Determine if user is PRO
+	$: isPro = $authStore.isAuthenticated && $authStore.user?.isPro;
+	// Function to handle PRO button click
+	function handleProClick(event) {
+		if (isPro) {
+			// Prevent navigation if already PRO
+			event.preventDefault();
+		}
+	}
 </script>
 
 <div class="relative box-border h-[66px] overflow-hidden bg-[#1d1d1d]">
@@ -52,13 +62,21 @@
 		</div>
 
 		<div
-			class="relative flex flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-1 rounded-[20px]"
+			class="relative flex flex-shrink-0 {isPro
+				? 'cursor-default'
+				: 'cursor-pointer'} flex-row items-center justify-center gap-1 rounded-[20px]"
 		>
-			<Gem color="#B693DC" />
+			<Gem color={isPro ? '#FFC700' : '#B693DC'} />
 			<div
-				class="relative h-[22px] w-[45px] text-left text-base font-semibold leading-[140%] text-[#b693dc]"
+				class="relative h-[22px] w-[45px] text-left text-base font-semibold leading-[140%] {isPro
+					? 'text-[#FFC700]'
+					: 'text-[#b693dc]'}"
 			>
-				<a href="/pro">PRO</a>
+				{#if isPro}
+					PRO
+				{:else}
+					<a href="/pro" onclick={handleProClick}>PRO</a>
+				{/if}
 			</div>
 		</div>
 
@@ -78,7 +96,7 @@
 			>
 				<UserRound color="#D1D7E0" />
 				<div class="relative text-center text-base font-semibold leading-[140%] text-[#d1d7e0]">
-					<a href="/userprofile">User Account</a>
+					<a href="/userprofile">Account</a>
 				</div>
 			</div>
 
