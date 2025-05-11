@@ -10,7 +10,7 @@
 			like_num: 120,
 			dislike_num: 10,
 			commentText:
-				'Absolutely loved this movie! The action scenes were breathtaking, and the story was engaging from start to finish.'
+				'I like it, it is not the best but in comparison to what they have launched after endgame this was a good movie. I liked that they gave the spotlight falcon deserves and it truly made me understand Steve’s decision and why he didn’t give the shield to Bucky.(Btw Anthony Mackie did a great job as a lead actor, lots of carisma i love it.'
 		},
 		{
 			id: 2,

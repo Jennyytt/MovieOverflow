@@ -16,6 +16,8 @@
 		<div class="text-left font-[18px] font-bold text-white">
 			Last Edit: {date}
 		</div>
-		<div class="text-left font-[18px] font-bold text-white underline">Edit Review</div>
+		<a class="text-left font-[18px] font-bold text-white underline" href="../moviereviewedit"
+			>Edit Review</a
+		>
 	</div>
 </div>
