@@ -5,25 +5,72 @@
 	import { Input } from '$lib/components/ui/input';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
+	import pb from '$lib/pb'; 
+	import { goto } from '$app/navigation';
+
+	
+	pb.collection('users') //check whether the database is connected successfully
+  .getList(1, 1) // fetch the first user (or empty list)
+  .then((res) => console.log('PocketBase connected:', res))
+  .catch((err) => console.error(' PocketBase connection error:', err));
+
 
 	let email = '';
 	let username = '';
 	let password = '';
 	let confirmPassword = '';
 	let usernameError = '';
+	let emailError = '';     
+    let passwordError = '';  
+    let infoMessage = ''; 
 
-	function handleSubmit() {
-		usernameError = '';
+	async function handleSubmit() {
+		emailError = '';
+		passwordError = '';
+		infoMessage = '';
 
-		// Example validation logic
-		if (username.trim().toLowerCase() === 'takenusername') {
-			usernameError = 'Your username is already used.';
+  if (!email || !password || password.length < 8 || password !== confirmPassword) {
+    if (!email) emailError = 'Email is required.';
+    if (password.length < 8) passwordError = 'Password must be at least 8 characters.';
+    if (password !== confirmPassword) passwordError = 'Passwords do not match.';
+    return;
+  }
+
+	try {
+		const existingEmail = await pb.collection('users').getFirstListItem(`email="${email.trim()}"`);
+		if (existingEmail) {
+		emailError = 'This email is already registered.';
+		return;
 		}
-
-		if (!usernameError && !passwordsMismatch()) {
-			alert('Account created!');
+	} catch (err) {
+		if (err.status !== 404) {
+		console.error('Email check failed:', err);
+		emailError = 'Error checking email.';
+		return;
 		}
 	}
+
+	try {
+		const data = {
+		email: email.trim(),
+		emailVisibility: true,
+		username: username.trim(),
+		isAdmin: true,
+		isPro: true,
+		password,
+		passwordConfirm: confirmPassword,
+		};
+
+		const record = await pb.collection('users').create(data);
+		await pb.collection('users').requestVerification(email);
+		console.log('Account created.');
+		infoMessage = `A verification email has been sent to ${email}. Please check your inbox to complete the registration.`;
+	
+	} catch (error) {
+		console.error('Signup failed:', error);
+	}
+	}
+
 
 	function passwordsMismatch() {
 		return confirmPassword && password !== confirmPassword;
@@ -53,6 +100,10 @@
 		<Card.Content class="flex w-[451px] flex-col gap-[15px] p-0">
 			<!-- Email Field -->
 			<EmailField bind:value={email} />
+			{#if emailError}
+			<p class="text-[13.7px] font-[400] text-[#EE1D52]">{emailError}</p>
+			{/if}
+
 
 			<!-- Username -->
 			<div class="flex w-full flex-col">
@@ -79,6 +130,9 @@
 				>
 					Create Account
 				</Button>
+				{#if infoMessage}
+				<p class="text-[13.7px] font-[450] text-[#5F1F73]">{infoMessage}</p>
+				{/if}
 			</div>
 
 			<!-- Footer -->
