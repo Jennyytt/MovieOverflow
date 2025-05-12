@@ -4,8 +4,6 @@
 	import CriticReviewView from '../../views/userprofile/CriticReviewView.svelte';
 	import ReviewDraftView from '../../views/userprofile/ReviewDraftView.svelte';
 	import UserCommentView from '../../views/userprofile/UserCommentView.svelte';
-	import AuthGuard from '$lib/customComponents/authguard/AuthGuard.svelte';
-	import { authStore } from '$lib/stores/authStore';
 
 	let ProUser = false; // Set this to true if the user is a pro user
 	let username = null;
