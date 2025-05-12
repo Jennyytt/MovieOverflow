@@ -3,18 +3,49 @@
 	import * as Card from '$lib/components/ui/card';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores'; 
+	import { get } from 'svelte/store';
+	import pb from '$lib/pb';
+
+	const token = get(page).url.searchParams.get('token');
 
 	let password = '';
 	let confirmPassword = '';
 
-	// Reactive mismatch check
+	// reactive check for mismatch
 	$: passwordsMismatch = confirmPassword && password !== confirmPassword;
 
-	function handleSubmit() {
-		if (!passwordsMismatch) {
-			goto('/forgotpassword/success');
+	async function handleSubmit() {
+		if (passwordsMismatch) {
+			alert("Passwords do not match.");
+			return;
+		}
+
+		try {
+			await pb.collection('users').confirmPasswordReset(
+				token,
+				password,
+				confirmPassword
+			);
+			console.log('Password reset successful!');
+			await goto('/forgotpassword/success');  // or '/login' if preferred
+		} catch (err) {
+			console.error('Password reset failed:', err);
+			alert("Password reset failed. Please try again.");
 		}
 	}
+
+	// ---
+	// (optional) in your custom confirmation page:
+	// ---
+
+	// note: after this call all previously issued auth tokens are invalidated
+// 	await pb.collection('users').confirmPasswordReset(
+// 		'RESET_TOKEN',
+// 		'NEW_PASSWORD',
+// 		'NEW_PASSWORD_CONFIRM',
+// );
+
 </script>
 
 <!-- Centered Layout -->

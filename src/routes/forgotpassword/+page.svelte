@@ -2,8 +2,24 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
+	import pb from '$lib/pb';
+
 
 	let email = '';
+	let successMessage = '';
+	let errorMessage='';
+	async function handleSubmit() {
+		successMessage = '';
+		errorMessage = '';
+	try {
+		await pb.collection('users').requestPasswordReset(email);
+		console.log('Password reset email sent!');
+		successMessage = 'The email is sent. Please check your email for further action.'
+	} catch (err) {
+		console.error('Failed to send reset email:', err);
+		errorMessage = 'No account was found with that email.';
+	}
+}
 </script>
 
 <Card.Root
@@ -27,18 +43,24 @@
 			</div>
 
 			<!-- Instructions -->
-			<div class="w-full text-[15.93px] font-[400] leading-[20px] tracking-[0.18px] text-[#5F1F73]">
-				We will send a link to your email for password reset. Please check your email for further
-				action.
+			<div class="w-full text-[15.93px] font-[400] leading-[20px] tracking-[0.18px] text-[#5F1F73]"
+				>
+				We will send a link to your email for password reset.
 			</div>
 
 			<!-- Button -->
 			<div class="flex h-[115.15px] flex-col items-start justify-start gap-[30.62px]">
 				<Button
-					class="flex h-[54.78px] w-[449.04px] items-center justify-center rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-[17.61px] font-[400] text-white transition-colors duration-200 hover:bg-[rgba(128,43,177,1)]"
-				>
+					onclick={handleSubmit}
+					class="flex h-[54.78px] w-[449.04px] items-center justify-center rounded-[31.31px] bg-[rgba(128,43,177,0.80)] text-[17.61px] font-[400] text-white transition-colors duration-200 hover:bg-[rgba(128,43,177,1)]">
 					Send Link
 				</Button>
+				{#if successMessage}
+					<p class="text-[#5F1F73] text-[14px]">{successMessage}</p>
+				{/if}
+				{#if errorMessage}
+					<p class="text-red-500 text-[14px]">{errorMessage}</p>
+				{/if}
 				<div class="h-[56px] w-[449px]"></div>
 			</div>
 		</div>
