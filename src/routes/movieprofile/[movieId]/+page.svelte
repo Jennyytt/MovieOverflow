@@ -1,4 +1,3 @@
-<!-- /routes/movieprofile/[movieId]/+page.svelte -->
 <script>
 	import MovieInfoView from '../../../views/movieprofile/MovieInfoView.svelte';
 	import ReviewCarouselView from '../../../views/movieprofile/ReviewCarouselView.svelte';
@@ -10,7 +9,7 @@
 	import { authStore } from '$lib/stores/authStore';
 	import pb from '$lib/pb';
 
-	// Get data from the load function using Svelte 5 syntax
+	// Get data from the load function
 	const { data } = $props();
 
 	// States for movie interactions

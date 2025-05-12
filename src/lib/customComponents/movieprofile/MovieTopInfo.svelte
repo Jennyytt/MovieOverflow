@@ -1,6 +1,4 @@
-<!-- /lib/customComponents/movieprofile/MovieTopInfo.svelte -->
 <script>
-	// Import using Svelte 5 props system
 	let {
 		title = 'Movie Title',
 		year = '',
@@ -8,7 +6,7 @@
 		duration = '',
 		score = '0'
 		// posterURL = null,
-		// trailerVideoId = 'YoHD9XEInc0' // Now using your working video ID
+		// trailerVideoId = 'YoHD9XEInc0'
 	} = $props();
 
 	import defaultPosterImage from '../../../assets/movie-poster-xl.png';
