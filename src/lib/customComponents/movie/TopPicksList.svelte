@@ -18,8 +18,11 @@
 
 			// Fetch movies from PocketBase
 			const result = await pb.collection('movies').getList(1, 6, {
-				filter: `releaseDate >= "${filterDate}"`,
-				sort: '-rating' // Sort by rating in descending order
+				// newest first
+
+				filter: `releaseDate <= "${filterDate}"`,
+				sort: '-rating', // Sort by rating in descending order
+				$autoCancel: false
 			});
 
 			// Map the results to the desired format
