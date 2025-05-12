@@ -6,9 +6,7 @@
 	import { authStore } from '$lib/stores/authStore';
 	import pb from '$lib/pb';
 
-	// Store for movie details
-	// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
-	let watchlistItems = [];
+	// let watchlistItems = [];
 	let movieDetails = [];
 	let isLoading = true;
 	let error = null;
@@ -19,9 +17,11 @@
 		error = null;
 
 		try {
+			// Check if the user is authenticated
 			if (!$authStore.isAuthenticated) {
 				error = 'Please log in to view your watchlist';
 				isLoading = false;
+				console.error('User is not authenticated.');
 				return;
 			}
 
@@ -34,9 +34,9 @@
 				.getFirstListItem(`userId = "${userId}"`);
 
 			// Store the watchlist record
-			watchlistItems = watchlistResult;
+			// watchlistItems = watchlistResult;
 
-			// If no movie IDs in watchlist, return empty array
+			// Check if the watchlist has movie IDs
 			if (!watchlistResult.movieId || watchlistResult.movieId.length === 0) {
 				movieDetails = [];
 				isLoading = false;
@@ -46,7 +46,8 @@
 			// Fetch details for each movie in the watchlist
 			const moviePromises = watchlistResult.movieId.map(async (movieId) => {
 				try {
-					return await pb.collection('movies').getOne(movieId);
+					const movie = await pb.collection('movies').getOne(movieId);
+					return movie;
 				} catch (err) {
 					console.error(`Error fetching movie ${movieId}:`, err);
 					return null;
@@ -62,6 +63,7 @@
 			isLoading = false;
 		} catch (err) {
 			error = err.message;
+			console.error('Error fetching watchlist:', err);
 			isLoading = false;
 		}
 	}
@@ -90,6 +92,7 @@
 			fetchWatchlist();
 		} catch (err) {
 			error = `Failed to remove movie: ${err.message}`;
+			console.error(error);
 		}
 	}
 
