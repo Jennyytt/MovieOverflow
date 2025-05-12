@@ -16,6 +16,7 @@
 	let isInWatchlist = false;
 	let isLoading = true;
 	let watchlistItemId = null;
+	let hasNotification = false;
 
 	// Check if this specific movie is in the user's watchlist
 	async function checkWatchlistStatus() {
@@ -24,6 +25,7 @@
 		try {
 			if (!$authStore.isAuthenticated) {
 				isInWatchlist = false;
+				hasNotification = false;
 				isLoading = false;
 				return;
 			}
@@ -37,22 +39,27 @@
 				});
 
 				if (result.items.length > 0) {
-					// In user's watchlist
-					watchlistItemId = result.items[0].id;
+					// This movie is in the user's watchlist
+					const watchlistItem = result.items[0];
+					watchlistItemId = watchlistItem.id;
 					isInWatchlist = true;
+					hasNotification = watchlistItem.notification || false;
 				} else {
-					// Not in watchlist
+					// Movie not in watchlist
 					watchlistItemId = null;
 					isInWatchlist = false;
+					hasNotification = false;
 				}
 			} catch (err) {
 				console.error('Error checking watchlist status:', err);
 				watchlistItemId = null;
 				isInWatchlist = false;
+				hasNotification = false;
 			}
 		} catch (err) {
 			console.error('Error in watchlist check:', err);
 			isInWatchlist = false;
+			hasNotification = false;
 		} finally {
 			isLoading = false;
 		}
@@ -75,22 +82,71 @@
 				await pb.collection('watchlists').delete(watchlistItemId);
 				watchlistItemId = null;
 				isInWatchlist = false;
+				hasNotification = false;
 				toast('Removed from Watchlist');
 			} else {
 				// Add to watchlist by creating a new record
 				const newItem = await pb.collection('watchlists').create({
 					userId: userId,
 					movieId: movieId,
-					notification: false // Default notification setting
+					notification: true // Default notification setting
 				});
 
 				watchlistItemId = newItem.id;
 				isInWatchlist = true;
+				hasNotification = true;
 				toast.success('Added to Watchlist');
 			}
 		} catch (err) {
 			console.error('Error updating watchlist:', err);
 			toast.error('Failed to update watchlist');
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	// Toggle notification setting for this movie
+	async function toggleReminder() {
+		if (!$authStore.isAuthenticated) {
+			toast.error('Please log in to set reminders');
+			return;
+		}
+
+		isLoading = true;
+
+		try {
+			const userId = $authStore.user.id;
+
+			if (isInWatchlist && watchlistItemId) {
+				// Movie is already in watchlist, just toggle notification setting
+				const newNotificationValue = !hasNotification;
+				await pb.collection('watchlists').update(watchlistItemId, {
+					notification: newNotificationValue
+				});
+
+				hasNotification = newNotificationValue;
+
+				if (newNotificationValue) {
+					toast.success('Reminder created');
+				} else {
+					toast('Reminder removed');
+				}
+			} else {
+				// Movie not in watchlist yet, add it with notification=true
+				const newItem = await pb.collection('watchlists').create({
+					userId: userId,
+					movieId: movieId,
+					notification: true
+				});
+
+				watchlistItemId = newItem.id;
+				isInWatchlist = true;
+				hasNotification = true;
+				toast.success('Added to watchlist with reminder');
+			}
+		} catch (err) {
+			console.error('Error updating reminder:', err);
+			toast.error('Failed to update reminder');
 		} finally {
 			isLoading = false;
 		}
@@ -136,5 +192,5 @@
 		{/if}
 	</Button>
 	<br />
-	<MovieDetails {movie} />
+	<MovieDetails {movie} {hasNotification} {isLoading} {toggleReminder} />
 </div>

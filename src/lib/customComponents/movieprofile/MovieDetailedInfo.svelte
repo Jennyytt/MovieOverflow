@@ -1,25 +1,9 @@
 <script>
 	import { Button } from '$lib/components/ui/button';
-	import { toast } from 'svelte-sonner';
+	import { Bell } from 'radix-icons-svelte';
 
 	// Import props
-	let { movie } = $props();
-
-	// State to track if reminder is set
-	let willRemind = $state(false);
-
-	// Function to toggle reminder state
-	function toggleReminder() {
-		if (willRemind) {
-			toast('Reminder has been removed');
-			willRemind = false;
-		} else {
-			toast.success('Reminder has been created', {
-				description: `${formatReleaseDate(movie.releaseDate)} at 6:00pm`
-			});
-			willRemind = true;
-		}
-	}
+	let { movie, hasNotification = false, isLoading = false, toggleReminder = () => {} } = $props();
 
 	// Helper function to format release date
 	function formatReleaseDate(dateString) {
@@ -130,12 +114,16 @@
 						{formatReleaseDate(movie.releaseDate) || 'TBA'}
 					</div>
 					{#if movie.releaseDate}
+						<!-- Replaced the old reminder button with the new one that uses our watchlist implementation -->
 						<Button
 							onclick={toggleReminder}
-							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] border border-solid border-black px-[25px] py-2"
+							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] border border-solid px-[25px] py-2"
+							disabled={isLoading}
+							variant={hasNotification ? 'default' : 'outline'}
 						>
-							<span class="text-left text-base font-semibold text-[#eeeeee]">
-								{willRemind ? 'Remove Reminder' : 'Set Reminder'}
+							<Bell class="mr-1 h-5 w-5" />
+							<span class="text-left text-base font-semibold">
+								{hasNotification ? 'Reminder Set' : 'Set Reminder'}
 							</span>
 						</Button>
 					{/if}
