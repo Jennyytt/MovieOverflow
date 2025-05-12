@@ -22,96 +22,55 @@
 	let usernameError = '';
 	let emailError = '';     
     let passwordError = '';  
-    
+    let infoMessage = ''; 
 
 	async function handleSubmit() {
-  emailError = '';
-  usernameError = '';
-  passwordError = '';
+		emailError = '';
+		passwordError = '';
+		infoMessage = '';
 
-  if (!email || !username || !password || !confirmPassword) {
+  if (!email || !password || password.length < 8 || password !== confirmPassword) {
     if (!email) emailError = 'Email is required.';
-    if (!username) usernameError = 'Username is required.';
-    if (!password) passwordError = 'Password is required.';
-    if (!confirmPassword) passwordError = 'Please confirm your password.';
+    if (password.length < 8) passwordError = 'Password must be at least 8 characters.';
+    if (password !== confirmPassword) passwordError = 'Passwords do not match.';
     return;
   }
 
-  if (passwordsMismatch()) {
-    passwordError = 'Passwords do not match.';
-    return;
-  }
-
-  try {
-    //  1. Run both username and email checks at the same time (in parallel)
-    const [usernameCheck, emailCheck] = await Promise.allSettled([
-      pb.collection('users').getFirstListItem(`username="${username}"`),
-      pb.collection('users').getFirstListItem(`email="${email}"`)
-    ]);
-
-    //  2. Handle username check result
-    if (usernameCheck.status === 'fulfilled') {
-      usernameError = 'This username is already taken.';
-    } else if (usernameCheck.status === 'rejected' && usernameCheck.reason.status !== 404) {
-      console.error('Unexpected error checking username:', usernameCheck.reason);
-      usernameError = 'Error checking username.';
-      return;
-    }
-
-    //  3. Handle email check result
-    if (emailCheck.status === 'fulfilled') {
-      emailError = 'This email is already registered.';
-    } else if (emailCheck.status === 'rejected' && emailCheck.reason.status !== 404) {
-      console.error('Unexpected error checking email:', emailCheck.reason);
-      emailError = 'Error checking email.';
-      return;
-    }
-
-    // If any errors, stop here
-    if (usernameError || emailError) return;
-
-    //  4. Create the user if all checks pass
-    const user = await pb.collection('users').create({
-      email,
-      password,
-      passwordConfirm: confirmPassword,
-      username,
-      emailVisibility: true,
-    });
-
-    console.log('User created:', user);
-	goto('/signup/success')
-    // (Optional) Redirect to dashboard
-
-  } catch (error) {
-    console.error('Signup failed:', error);
-
-    if (error.response?.data?.email) {
-      emailError = error.response.data.email.message || 'Invalid email.';
-    }
-    if (error.response?.data?.username) {
-      usernameError = error.response.data.username.message || 'Invalid username.';
-    }
-    if (error.response?.data?.password) {
-      passwordError = error.response.data.password.message || 'Invalid password.';
-    }
-  }
-}
-
-
-
-	/* function handleSubmit() {
-		usernameError = '';
-
-		// Example validation logic
-		if (username.trim().toLowerCase() === 'takenusername') {
-			usernameError = 'Your username is already used.';
+	try {
+		const existingEmail = await pb.collection('users').getFirstListItem(`email="${email.trim()}"`);
+		if (existingEmail) {
+		emailError = 'This email is already registered.';
+		return;
 		}
-
-		if (!usernameError && !passwordsMismatch()) {
-			alert('Account created!');
+	} catch (err) {
+		if (err.status !== 404) {
+		console.error('Email check failed:', err);
+		emailError = 'Error checking email.';
+		return;
 		}
-	} */
+	}
+
+	try {
+		const data = {
+		email: email.trim(),
+		emailVisibility: true,
+		username: username.trim(),
+		isAdmin: true,
+		isPro: true,
+		password,
+		passwordConfirm: confirmPassword,
+		};
+
+		const record = await pb.collection('users').create(data);
+		await pb.collection('users').requestVerification(email);
+		console.log('Account created.');
+		infoMessage = `A verification email has been sent to ${email}. Please check your inbox to complete the registration.`;
+	
+	} catch (error) {
+		console.error('Signup failed:', error);
+	}
+	}
+
 
 	function passwordsMismatch() {
 		return confirmPassword && password !== confirmPassword;
@@ -171,6 +130,9 @@
 				>
 					Create Account
 				</Button>
+				{#if infoMessage}
+				<p class="text-[13.7px] font-[450] text-[#5F1F73]">{infoMessage}</p>
+				{/if}
 			</div>
 
 			<!-- Footer -->
