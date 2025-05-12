@@ -1,99 +1,65 @@
 <script>
+	import CriticReviewCard from '../../lib/customComponents/criticsreview/CriticReviewCard.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import UserCommentCard from '$lib/customComponents/usercomment/UserCommentCard.svelte';
 	import { Card } from '$lib/components/ui/card';
-	let comments = [
+	let reviews = [
 		{
 			id: 1,
 			date: 'Feb 15, 2025',
-			rating: 5,
-			like_num: 120,
-			dislike_num: 10,
-			commentText:
-				'Absolutely loved this movie! The action scenes were breathtaking, and the story was engaging from start to finish.'
+			review:
+				'Harrison Ford steals the show! This super amazing movie is a thrilling ride with epic action scenes. I loved every minute of the movie, especially the final battle sequence which was absolutely breathtaking and kept me on the edge of my seat for the entire time. The character development was also top-notch, making this one of the best MCU films yet.'
 		},
 		{
 			id: 2,
 			date: 'Feb 16, 2025',
-			rating: 4,
-			like_num: 95,
-			dislike_num: 20,
-			commentText:
-				'Great visuals and solid performances, but the pacing felt a bit off in the middle.'
+			review: 'A bit predictable, but the visuals are stunning.'
 		},
 		{
 			id: 3,
 			date: 'Feb 17, 2025',
-			rating: 3,
-			like_num: 80,
-			dislike_num: 35,
-			commentText:
-				'It was an okay movie. Some parts were predictable, but the humor and action made up for it.'
+			review: 'Loved the storytelling and character development. A great addition to the MCU!'
 		},
 		{
 			id: 4,
 			date: 'Feb 18, 2025',
-			rating: 2,
-			like_num: 50,
-			dislike_num: 60,
-			commentText:
-				'The plot was weak, and the characters felt underdeveloped. Not the best MCU movie.'
+			review: 'The pacing felt off at times, but the action sequences made up for it. Solid movie.'
 		},
 		{
 			id: 5,
 			date: 'Feb 19, 2025',
-			rating: 1,
-			like_num: 30,
-			dislike_num: 90,
-			commentText:
-				'Disappointed with this one. The story lacked depth, and the action scenes couldn’t save it.'
+			review: 'Captain America never disappoints! This one has some of the best fight scenes yet.'
 		},
 		{
 			id: 6,
 			date: 'Feb 20, 2025',
-			rating: 5,
-			like_num: 150,
-			dislike_num: 5,
-			commentText:
-				'An emotional and action-packed masterpiece! One of the best movies I’ve seen in years.'
+			review:
+				'An emotional rollercoaster! The character arcs were beautifully crafted, and the cinematography was stunning. A must-watch for MCU fans.'
 		},
 		{
 			id: 7,
 			date: 'Feb 21, 2025',
-			rating: 4,
-			like_num: 110,
-			dislike_num: 15,
-			commentText:
-				'The performances were top-notch, and the visuals were stunning. A great addition to the MCU.'
+			review:
+				'While the action scenes were great, the plot felt a bit predictable. Still, the performances made it worth watching.'
 		},
 		{
 			id: 8,
 			date: 'Feb 22, 2025',
-			rating: 3,
-			like_num: 70,
-			dislike_num: 40,
-			commentText:
-				'It was a decent movie, but it didn’t live up to the hype. The ending felt rushed.'
+			review:
+				'The humor was spot on, and the chemistry between the characters was fantastic. One of the better MCU movies in recent years.'
 		},
 		{
 			id: 9,
 			date: 'Feb 23, 2025',
-			rating: 2,
-			like_num: 40,
-			dislike_num: 75,
-			commentText:
-				'The action scenes were good, but the story was all over the place. Not my favorite.'
+			review:
+				'The pacing was a bit uneven, but the emotional payoff in the final act made up for it. A solid entry in the franchise.'
 		},
 		{
 			id: 10,
 			date: 'Feb 24, 2025',
-			rating: 1,
-			like_num: 20,
-			dislike_num: 100,
-			commentText: 'Terrible movie. The plot made no sense, and the characters were poorly written.'
+			review:
+				'Visually stunning and action-packed! The new characters were a great addition, and the story kept me engaged throughout.'
 		}
 	];
-
 	let displayCount = 3; // Number of comments to display initially
 
 	let sortMode = 'date';
@@ -103,9 +69,8 @@
 	function loadMore() {
 		displayCount += 3; // Increase the number of displayed comments by 3
 	}
-
-	function sortComments() {
-		comments = comments.sort((a, b) => {
+	function sortReviews() {
+		reviews = reviews.sort((a, b) => {
 			if (sortMode === 'date') {
 				// Sort by date
 				const dateA = new Date(a.date);
@@ -124,7 +89,7 @@
 	}
 
 	// Sort comments on initial load
-	sortComments();
+	sortReviews();
 </script>
 
 <div class="relative flex flex-shrink-0 flex-col items-start justify-center gap-8 self-stretch">
@@ -134,7 +99,9 @@
 		<!-- Section title with purple line and arrow -->
 		<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-3">
 			<div class="relative h-[37px] w-[5px] flex-shrink-0 rounded-[2px] bg-[#802bb1]"></div>
-			<div class="relative text-left text-[32px] font-semibold text-white">User Comments</div>
+			<div class="relative text-left text-[32px] font-semibold text-white">
+				Previous Critics Reviews
+			</div>
 		</div>
 	</div>
 	<Card
@@ -143,15 +110,9 @@
 		<div
 			class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
 		>
-			{#each comments.slice(0, displayCount) as comment, index (comment.id)}
-				<UserCommentCard
-					rating={comment.rating}
-					like_num={comment.like_num}
-					dislike_num={comment.dislike_num}
-					commentText={comment.commentText}
-					date={comment.date}
-				/>
-				{#if index < displayCount - 1 && index < comments.length - 1}
+			{#each reviews.slice(0, displayCount) as review, index (review.id)}
+				<CriticReviewCard date={review.date} review={review.review} />
+				{#if index < displayCount - 1 && index < reviews.length - 1}
 					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
 				{:else}
 					<div class="relative h-[20px]"></div>
@@ -162,7 +123,7 @@
 	</Card>
 	<!-- Conditionally render Load More button -->
 	<div class="flex w-full justify-center">
-		{#if displayCount < comments.length}
+		{#if displayCount < reviews.length}
 			<Button
 				type="button"
 				onclick={loadMore}
