@@ -1,5 +1,12 @@
 <script>
 	import Poster from '../../assets/movie-poster-xl.png';
+
+	// Get props in Svelte 5 style with destructuring
+	let { query = 'Avengers' } = $props();
+
+	// Debug log to see what we're receiving
+	console.log('SearchView props:', { query });
+
 	// Dummy movie data
 	let allMovies = $state([
 		{
@@ -97,8 +104,6 @@
 	function loadMore() {
 		displayCount = Math.min(displayCount + 5, allMovies.length);
 	}
-	// Dummy query
-	let query = 'Avengers';
 </script>
 
 <div class="flex h-full w-[1170px] flex-col items-start justify-start gap-5">
