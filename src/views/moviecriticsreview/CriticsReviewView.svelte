@@ -28,14 +28,11 @@
 	async function fetchMovieDetails() {
 		try {
 			const record = await pb.collection('movies').getOne(movieId);
-			console.log('Fetched movie record:', record); // Debug log
-
-			// Handle posterURL with pb.files.getUrl()
+			console.warn('Fetched movie record:', record); // Changed to console.warn
 			let posterImageUrl = '';
 			if (record.posterURL) {
 				posterImageUrl = pb.files.getUrl(record, record.posterURL, { thumb: '0x400' });
 			}
-
 			movie = {
 				title: record.title || 'Untitled Movie',
 				rating: record.certification || 'N/A',
