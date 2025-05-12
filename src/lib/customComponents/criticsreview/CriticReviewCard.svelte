@@ -14,8 +14,8 @@
 	<!-- Date & Full Review-->
 	<div class="flex flex-row items-center justify-start gap-4">
 		<div class="text-left font-[18px] font-bold text-white">
-			Last Edit: {date}
+			{date}
 		</div>
-		<div class="text-left font-[18px] font-bold text-white underline">Edit Review</div>
+		<div class="text-left font-[18px] font-bold text-white underline">Full Review</div>
 	</div>
 </div>
