@@ -55,8 +55,8 @@
 		email: email.trim(),
 		emailVisibility: true,
 		username: username.trim(),
-		isAdmin: true,
-		isPro: true,
+		isAdmin: false,
+		isPro: false,
 		password,
 		passwordConfirm: confirmPassword,
 		};
