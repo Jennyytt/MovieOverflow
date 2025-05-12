@@ -7,6 +7,7 @@
 	import { authStore } from '$lib/stores/authStore';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import pb from '$lib/pb';
 
 	let email = '';
 	let password = '';

@@ -2,7 +2,45 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import UserCommentCard from '$lib/customComponents/usercomment/UserCommentCard.svelte';
 	import { Card } from '$lib/components/ui/card';
-	let comments = [
+	import { onMount } from 'svelte';
+	import { authStore } from '$lib/stores/authStore';
+	import pb from '$lib/pb';
+
+	let comments = [];
+
+	// Function to fetch comments for the logged-in user
+	async function fetchComment() {
+		try {
+			// Check if the user is authenticated
+			if (!$authStore.isAuthenticated) {
+				console.error('User is not authenticated.');
+				return;
+			}
+
+			// Get user ID from auth store
+			const userId = $authStore.user.id;
+			// Fetch comments for this user from the 'rating_comments' collection
+			const commentRecords = await pb
+				.collection('ratings_comments')
+				.getFullList(`userId = "${userId}"`);
+
+			// Map the fetched records to the desired format
+			comments = commentRecords.map((record) => ({
+				id: record.id,
+				movieId: record.movieId,
+				date: new Date(record.timestamp).toLocaleDateString('en-CA'),
+				rating: record.rating,
+				commentText: record.commentText
+			}));
+		} catch (err) {
+			console.error('Error fetching comments:', err);
+		}
+	}
+
+	// Fetch comments on component mount
+	onMount(fetchComment);
+
+	/*let comments = [
 		{
 			id: 1,
 			date: 'Feb 15, 2025',
@@ -92,7 +130,7 @@
 			dislike_num: 100,
 			commentText: 'Terrible movie. The plot made no sense, and the characters were poorly written.'
 		}
-	];
+	];*/
 
 	let displayCount = 3; // Number of comments to display initially
 
@@ -147,6 +185,7 @@
 				<div class="relative h-[10px]"></div>
 				<UserCommentCard
 					rating={comment.rating}
+					movieId={comment.movieId}
 					like_num={comment.like_num}
 					dislike_num={comment.dislike_num}
 					commentText={comment.commentText}
