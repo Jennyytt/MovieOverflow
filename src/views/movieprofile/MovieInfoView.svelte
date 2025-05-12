@@ -25,12 +25,13 @@
 		trailerVideoId={movie.trailerURL ? new URL(movie.trailerURL).searchParams.get('v') : ''}
 	/>
 	<br />
+	<!-- Make the button more verbose to debug -->
 	<Button
 		onclick={toggleWatchlist}
 		class="flex h-[42px] w-[227px] items-center justify-center gap-3 rounded-[20px] px-8 py-[11px]"
 		disabled={isLoading}
 	>
-		{#if isInWatchlist}
+		{#if isInWatchlist === true}
 			<Check class="h-5 w-5" />
 			<span class="text-left text-base font-bold">In Watchlist</span>
 		{:else}

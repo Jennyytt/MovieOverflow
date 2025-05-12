@@ -1,4 +1,16 @@
 <script>
+	// Update the onMount hook in /[movieId]/+page.svelte
+	onMount(async () => {
+		await checkMovieStatus();
+	});
+
+	// Make the effect more robust in /[movieId]/+page.svelte
+	$effect(() => {
+		if ($authStore) {
+			checkMovieStatus();
+		}
+	});
+
 	import MovieInfoView from '../../../views/movieprofile/MovieInfoView.svelte';
 	import ReviewCarouselView from '../../../views/movieprofile/ReviewCarouselView.svelte';
 	import CommentCarouselView from '../../../views/movieprofile/CommentCarouselView.svelte';
@@ -52,15 +64,16 @@
 			const userId = $authStore.user.id;
 			const movieId = data.movieId;
 
-			// Check watchlist status
+			// Check watchlist status with debugging
 			try {
 				const watchlistResult = await pb.collection('watchlists').getList(1, 1, {
 					filter: `userId = "${userId}" && movieId = "${movieId}"`,
 					$autoCancel: false // Prevent auto-cancellation
 				});
 
-				if (watchlistResult.items.length > 0) {
+				if (watchlistResult && watchlistResult.items && watchlistResult.items.length > 0) {
 					const watchlistItem = watchlistResult.items[0];
+
 					watchlistItemId = watchlistItem.id;
 					isInWatchlist = true;
 					hasNotification = watchlistItem.notification || false;
@@ -78,7 +91,7 @@
 				hasNotification = false;
 			}
 
-			// Check ratings_comments status
+			// Continue with rating check
 			try {
 				const ratingResult = await pb.collection('ratings_comments').getList(1, 1, {
 					filter: `userId = "${userId}" && movieId = "${movieId}"`,
@@ -290,7 +303,6 @@
 			isLoading = false;
 		}
 	}
-
 	// Toggle reminder setting
 	async function toggleReminder() {
 		if (!$authStore.isAuthenticated) {
