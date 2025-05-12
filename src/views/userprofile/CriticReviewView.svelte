@@ -8,8 +8,17 @@
 	import { authStore } from '$lib/stores/authStore';
 	import pb from '$lib/pb';
 
-	// Function to fetch comments for the logged-in user
+	let currentRequest = null; // Track the current request
+
+	// Function to fetch reviews for the logged-in user
 	async function fetchReview() {
+		if (currentRequest) {
+			currentRequest.abort(); // Cancel any ongoing request
+		}
+
+		const controller = new AbortController();
+		currentRequest = controller;
+
 		try {
 			// Check if the user is authenticated
 			if (!$authStore.isAuthenticated) {
@@ -19,10 +28,13 @@
 
 			// Get user ID from auth store
 			const userId = $authStore.user.id;
-			// Fetch comments for this user from the 'rating_comments' collection
-			const reviewRecords = await pb
-				.collection('critics_reviews')
-				.getFullList(`userId = "${userId}"`, `isDraft = false`);
+
+			// Fetch reviews for this user from the 'critics_reviews' collection
+			const reviewRecords = await pb.collection('critics_reviews').getFullList(undefined, {
+				filter: `userId = "${userId}" && isDraft = false`,
+				signal: controller.signal, // Pass the AbortController signal
+				requestKey: 'getCriticsReviews' // Optional: add a request key for better debugging
+			});
 
 			// Map the fetched records to the desired format
 			reviews = reviewRecords.map((record) => ({
@@ -32,11 +44,20 @@
 				reviewText: record.reviewText
 			}));
 		} catch (err) {
-			console.error('Error fetching reviews:', err);
+			if (err.name === 'AbortError') {
+				console.warn('Request was aborted.');
+			} else {
+				console.error('Error fetching reviews:', err);
+			}
+		} finally {
+			// Clear the current request
+			if (currentRequest === controller) {
+				currentRequest = null;
+			}
 		}
 	}
 
-	// Fetch comments on component mount
+	// Fetch reviews on component mount
 	onMount(fetchReview);
 
 	/*let reviews = [
@@ -149,7 +170,7 @@
 		>
 			{#each reviews.slice(0, displayCount) as review, index (review.id)}
 				<div class="relative h-[10px]"></div>
-				<CriticReviewCard date={review.date} review={review.review} />
+				<CriticReviewCard date={review.date} review={review.reviewText} movieId={review.movieId} />
 				{#if index < displayCount - 1 && index < reviews.length - 1}
 					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
 				{:else}

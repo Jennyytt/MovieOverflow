@@ -9,21 +9,34 @@
 
 	import { ThumbsUp, ThumbsDown } from '@lucide/svelte';
 	import MovieInfo from '$lib/customComponents/movieinfo/MovieInfo.svelte';
-
 	import pb from '$lib/pb';
 
 	let title = 'Unknown Title';
 	let year = 'Unknown Year';
 	let stars = ['Unknown Actor'];
+	let currentRequest = null;
 
 	// Fetch movie details when the component is mounted or movieId changes
-	$: fetchMovieDetails();
+	$: {
+		if (movieId) {
+			fetchMovieDetails();
+		}
+	}
 
 	async function fetchMovieDetails() {
 		if (!movieId) {
 			console.warn('No movieId provided.');
 			return;
 		}
+
+		// Cancel any ongoing request
+		if (currentRequest) {
+			currentRequest.abort();
+		}
+
+		// Create a new AbortController for the current request
+		const controller = new AbortController();
+		currentRequest = controller;
 
 		try {
 			const movie = await pb.collection('movies').getOne(movieId);
@@ -34,6 +47,11 @@
 			stars = movie.stars || ['Unknown Actor'];
 		} catch (err) {
 			console.error('Error fetching movie details:', err);
+		} finally {
+			// Clear the current request
+			if (currentRequest === controller) {
+				currentRequest = null;
+			}
 		}
 	}
 </script>
