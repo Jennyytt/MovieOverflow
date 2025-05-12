@@ -12,7 +12,7 @@
 	let movieDetails = [];
 	let isLoading = true;
 	let error = null;
-
+	pb.autoCancellation(false);
 	// Function to fetch user's watchlist and associated movie details
 	async function fetchWatchlist() {
 		isLoading = true;
@@ -76,7 +76,10 @@
 		try {
 			// Get the current watchlist
 			const userId = $authStore.user.id;
-			const watchlist = await pb.collection('watchlists').getFirstListItem(`userId = "${userId}"`);
+			const watchlist = await pb.collection('watchlists').getFirstListItem(undefined, {
+				filter: `userId = "${userId}"`,
+				requestKey: 'getWatchlist'
+			});
 
 			// Remove the movie ID from the array
 			const updatedMovieIds = watchlist.movieId.filter((id) => id !== movieId);

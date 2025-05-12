@@ -9,7 +9,7 @@
 	import pb from '$lib/pb';
 
 	let currentRequest = null; // Track the current request
-
+	pb.autoCancellation(false);
 	// Function to fetch reviews for the logged-in user
 	async function fetchReview() {
 		if (currentRequest) {
