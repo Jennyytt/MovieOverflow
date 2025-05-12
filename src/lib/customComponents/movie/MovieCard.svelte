@@ -10,7 +10,7 @@
 </script>
 
 <Card
-	class="relative h-[353px] w-[206px] overflow-hidden rounded-[10px] border-transparent bg-transparent"
+	class="relative h-[370px] w-[206px] overflow-hidden rounded-[10px] border-transparent bg-transparent"
 >
 	<img src={posterUrl} alt={movie.title} class="h-[308px] w-[206px] object-cover" />
 
