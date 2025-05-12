@@ -92,7 +92,6 @@
 				src="https://www.youtube.com/embed/YoHD9XEInc0"
 				title={`${title} - Official Trailer`}
 				frameborder="0"
-				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
 				allowfullscreen
 				class="absolute inset-0"
 			></iframe>
