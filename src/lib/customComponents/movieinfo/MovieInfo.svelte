@@ -15,7 +15,7 @@
 		<div class="font-regular text-[15px] tracking-[-0.02em] text-white">{year}</div>
 		<div class="flex flex-row items-center justify-start gap-2">
 			{#each stars as star}
-				<div class="font-regular text-[15px] tracking-[-0.02em] text-white">{star}</div>
+				<div class="font-regular text-[15px] tracking-[-0.02em] text-white">{star},</div>
 			{/each}
 		</div>
 	</div>

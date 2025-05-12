@@ -7,7 +7,7 @@
 	import pb from '$lib/pb';
 
 	let comments = [];
-
+	pb.autoCancellation(false);
 	// Function to fetch comments for the logged-in user
 	async function fetchComment() {
 		try {
@@ -20,9 +20,10 @@
 			// Get user ID from auth store
 			const userId = $authStore.user.id;
 			// Fetch comments for this user from the 'rating_comments' collection
-			const commentRecords = await pb
-				.collection('ratings_comments')
-				.getFullList(`userId = "${userId}"`);
+			const commentRecords = await pb.collection('ratings_comments').getFullList(undefined, {
+				filter: `userId = "${userId}"`,
+				requestKey: 'getUserComments' // Optional: add a request key for better debugging
+			});
 
 			// Map the fetched records to the desired format
 			comments = commentRecords.map((record) => ({
