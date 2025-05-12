@@ -24,7 +24,10 @@
 	}
 
 	import AuthGuard from '$lib/customComponents/authguard/AuthGuard.svelte';
-	let ProUser = true; // Set this to true if the user is a pro user
+	import { authStore } from '$lib/stores/authStore';
+
+	// Get isPro status from auth store
+	$: ProUser = $authStore.user?.isPro || false;
 </script>
 
 <AuthGuard requireAuth={true} />
