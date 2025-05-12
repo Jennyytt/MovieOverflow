@@ -2,8 +2,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Bell, Check } from 'radix-icons-svelte';
 
-	// Import props
-	let { movie, hasNotification = false, isLoading = false, toggleReminder = () => {} } = $props();
+	// Import props using Svelte 5 syntax
+	const { movie, hasNotification = false, isLoading = false, toggleReminder = () => {} } = $props();
 
 	// Helper function to format release date
 	function formatReleaseDate(dateString) {
@@ -117,7 +117,7 @@
 						<!-- Reminder button -->
 						<Button
 							onclick={toggleReminder}
-							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px]  px-[25px] py-2"
+							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] px-[25px] py-2"
 							disabled={isLoading}
 						>
 							<!-- Icon changes based on notification status -->

@@ -1,31 +1,39 @@
 <script>
-	let rating = 0;
-	let lastSubmittedRating = 0; // Track the last submitted rating
+	import Button from '$lib/components/ui/button/button.svelte';
+	import WriteCommentDialog from '$lib/customComponents/movieprofile/WriteCommentDialog.svelte';
+
+	const {
+		userRating = 0,
+		lastSubmittedRating = 0,
+		isLoading = false,
+		submitRating = () => {}
+	} = $props();
+
+	// Local rating state with reactivity
+	let currentRating = $state(0);
+
+	// Initialize and update local rating when prop changes
+	$effect(() => {
+		currentRating = userRating;
+	});
 
 	function setRating(value) {
 		// If clicking the same star, deselect it
-		if (rating === value) {
-			rating = 0; // Reset to 0 stars
+		if (currentRating === value) {
+			currentRating = 0;
 		} else {
-			rating = value; // Otherwise set to the clicked star
-		}
-
-		// Re-enable the button if user selects a different rating than previously submitted
-		if (isClicked && rating !== lastSubmittedRating) {
-			isClicked = false;
+			currentRating = value;
 		}
 	}
 
-	import Button from '$lib/components/ui/button/button.svelte';
-	import { toast } from 'svelte-sonner';
-	import WriteCommentDialog from '$lib/customComponents/movieprofile/WriteCommentDialog.svelte';
-	let isClicked = false;
-
-	function submitRating() {
-		toast.success(`Thank you for rating ${rating} ${rating === 1 ? 'star' : 'stars'}!`);
-		isClicked = true;
-		lastSubmittedRating = rating; // Store the submitted rating
+	function handleSubmitRating() {
+		submitRating(currentRating);
 	}
+
+	// Using $derived instead of reactive statements
+	const isRatingSubmitted = $derived(
+		currentRating === lastSubmittedRating && lastSubmittedRating > 0
+	);
 </script>
 
 <div class="relative flex flex-shrink-0 flex-col items-start justify-start gap-8 self-stretch">
@@ -60,7 +68,7 @@
 						aria-label={`Rate ${i + 1} ${i === 0 ? 'star' : 'stars'}`}
 					>
 						<!-- Filled star path when rating is selected -->
-						{#if i < rating}
+						{#if i < currentRating}
 							<path
 								d="M20.0007 30.4333L8.24492 37.0136L10.8705 23.7998L0.979492 14.653L14.3579 13.0667L20.0007 0.833313L25.6433 13.0667L39.0217 14.653L29.1308 23.7998L31.7563 37.0136L20.0007 30.4333Z"
 								fill="#FBC02D"
@@ -79,10 +87,10 @@
 			<!-- Post rating button -->
 			<Button
 				class="relative flex h-12 flex-shrink-0 cursor-pointer flex-row items-center justify-center gap-[10px] rounded-[20px] border-[1px] border-solid border-black px-6 py-5 text-[20px] font-bold text-[#eeeeee]"
-				onclick={submitRating}
-				disabled={isClicked}
+				onclick={handleSubmitRating}
+				disabled={isRatingSubmitted || isLoading}
 			>
-				{isClicked ? 'RATING POSTED' : 'POST RATING'}
+				{isRatingSubmitted ? 'RATING POSTED' : 'POST RATING'}
 			</Button>
 
 			<!-- Write a comment link -->
