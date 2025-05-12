@@ -1,16 +1,22 @@
 <script>
 	// Props for dynamic content
-	export let title = 'Captain America: Brave New World';
-	export let rating = 'IIA';
-	export let duration = '1h 58m';
+	export let title;
+	export let rating;
+	export let duration;
 	export let posterImage;
-	export let genre = 'Action, Adventure, Fantasy';
-	export let director = 'Julius Onah';
-	export let releaseDate = 'Feb 14, 2025';
+	export let genre;
+	export let directors;
+	export let releaseDate;
 </script>
 
 <div class="inline-flex w-[418px] flex-col items-center justify-start gap-[31px]">
-	<img src={posterImage} alt={`${title} poster`} class="h-[473px] w-[315px] rounded-[3.68px]" />
+	{#if posterImage}
+		<img src={posterImage} alt={`${title} poster`} class="h-[473px] w-[315px] rounded-[3.68px]" />
+	{:else}
+		<div class="flex h-[473px] w-[315px] items-center justify-center rounded-[3.68px] bg-gray-700">
+			<span class="text-white">No Poster Available</span>
+		</div>
+	{/if}
 	<div
 		class="flex flex-col items-center justify-start gap-[10px] self-stretch rounded-[9.2px] border-[2.76px] border-[#222222] bg-black px-[23px] py-[19px]"
 	>
@@ -42,24 +48,24 @@
 				</div>
 			</div>
 			<div class="h-0 w-[366px] border-[1.38px] border-[#222222]"></div>
-			<div class="inline-flex items-center justify-between self-stretch">
-				<div>
+			<div class="inline-flex items-center self-stretch">
+				<div class="pr-4">
 					<span class="break-words text-[18.41px] font-medium text-[#cccccc]"> Genre </span>
 				</div>
-				<div>
+				<div class="ml-auto text-right">
 					<span class="break-words text-[18.41px] font-normal text-white">
 						{genre}
 					</span>
 				</div>
 			</div>
 			<div class="h-0 w-[366px] border-[1.38px] border-[#222222]"></div>
-			<div class="inline-flex items-center justify-between self-stretch">
-				<div>
+			<div class="inline-flex items-center self-stretch">
+				<div class="pr-4">
 					<span class="break-words text-[18.41px] font-medium text-[#cccccc]"> Director </span>
 				</div>
-				<div>
+				<div class="ml-auto text-right">
 					<span class="break-words text-[18.41px] font-normal text-white">
-						{director}
+						{directors}
 					</span>
 				</div>
 			</div>
@@ -77,3 +83,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.text-right {
+		text-align: right;
+	}
+</style>
