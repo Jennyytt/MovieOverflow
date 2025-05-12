@@ -9,25 +9,19 @@
 	let username = null;
 
 	import pb from '$lib/pb';
-	export let userId = '0038fspgp919464'; // The user ID
+	export let userId = null; // The user ID
 	let userInfo = null; // To store the fetched user information
-	let error = null; // To handle errors
+	//let error = null; // To handle errors
 
-	// Fetch user information
-	async function fetchUserInfo() {
-		try {
-			userInfo = await pb.collection('users').getOne(userId);
-			console.log('User Info:', userInfo); // Logs the user information
-			ProUser = userInfo.isPro; // Set ProUser based on the fetched data
-			username = userInfo.username; // Set username based on the fetched data
-		} catch (err) {
-			error = err.message;
-			console.error('Error fetching user info:', error);
-		}
+	// Check if a user is logged in and get their userId
+	if (pb.authStore.isValid) {
+		userId = pb.authStore.model.id; // Get the logged-in user's ID
+		userInfo = pb.authStore.model; // Get the logged-in user's full information
+		ProUser = userInfo.isPro; // Set ProUser based on the fetched data
+		username = userInfo.username; // Set username based on the fetched data
+	} else {
+		console.error('No user is logged in.');
 	}
-
-	// Call the function when the component is mounted
-	fetchUserInfo();
 
 	import AuthGuard from '$lib/customComponents/authguard/AuthGuard.svelte';
 	//let ProUser = true; // Set this to true if the user is a pro user
