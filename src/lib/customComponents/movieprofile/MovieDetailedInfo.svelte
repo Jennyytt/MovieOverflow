@@ -1,32 +1,28 @@
 <script>
 	import { Button } from '$lib/components/ui/button';
-	import { Bell, Check } from 'radix-icons-svelte';
 
-	// Import props using Svelte 5 syntax
-	const { movie, hasNotification = false, isLoading = false, toggleReminder = () => {} } = $props();
+	export let movieDescription =
+		'Neo believes that Morpheus, an elusive figure considered to be the most dangerous man alive, can answer his question -- What is the Matrix? Neo is contacted by Trinity, a beautiful stranger who leads him into an underworld where he meets Morpheus. They fight a brutal battle for their lives against a cadre of viciously intelligent secret agents. It is a truth that could cost Neo something more precious than his life.';
+	export let director = 'Julius Onah';
+	export let writers = ['Rob Edwards', 'Malcolm Spellman', 'Dalan Musson'];
+	export let stars = ['Anthony Mackie', 'Harrison Ford', 'Danny Ramirez'];
+	export let releaseDate = 'Feb 14, 2025';
+	import { toast } from 'svelte-sonner';
 
-	// Helper function to format release date
-	function formatReleaseDate(dateString) {
-		if (!dateString) return '';
+	// State to track if reminder is set
+	let willRemind = false;
 
-		try {
-			const date = new Date(dateString);
-			return date.toLocaleDateString('en-US', {
-				month: 'short',
-				day: 'numeric',
-				year: 'numeric'
+	// Function to toggle reminder state
+	function toggleReminder() {
+		if (willRemind) {
+			toast('Reminder has been removed');
+			willRemind = false;
+		} else {
+			toast.success('Reminder has been created', {
+				description: `${releaseDate} at 6:00pm`
 			});
-		} catch (error) {
-			console.error('Error formatting date:', error);
-			return dateString;
+			willRemind = true;
 		}
-	}
-
-	// Helper function to join arrays with dot separators
-	function formatList(list) {
-		if (!list) return [];
-		if (typeof list === 'string') return [list]; // Handle case where it's a single string
-		return Array.isArray(list) ? list : [];
 	}
 </script>
 
@@ -38,7 +34,7 @@
 	>
 		<!-- Movie Description -->
 		<p class="self-stretch text-left text-base font-normal text-white">
-			{movie.description || 'No description available'}
+			{movieDescription}
 		</p>
 
 		<!-- Divider Line -->
@@ -47,9 +43,7 @@
 		<!-- Director -->
 		<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[91px]">
 			<div class="text-left text-base font-medium text-[#cccccc]">Director</div>
-			<div class="text-left text-base font-normal text-white">
-				{movie.directors || 'Unknown Director'}
-			</div>
+			<div class="text-left text-base font-normal text-white">{director}</div>
 		</div>
 
 		<!-- Divider Line -->
@@ -61,20 +55,16 @@
 		>
 			<div class="text-left text-base font-medium text-[#cccccc]">Writers</div>
 			<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[11px]">
-				{#if formatList(movie.writers).length > 0}
-					{#each formatList(movie.writers) as writer, i}
-						<div class="text-left text-base font-normal text-white">{writer}</div>
-						{#if i < formatList(movie.writers).length - 1}
-							<div
-								class="text-left text-base font-medium leading-[44px] tracking-[-0.02em] text-white"
-							>
-								·
-							</div>
-						{/if}
-					{/each}
-				{:else}
-					<div class="text-left text-base font-normal text-white">Unknown</div>
-				{/if}
+				{#each writers as writer, i}
+					<div class="text-left text-base font-normal text-white">{writer}</div>
+					{#if i < writers.length - 1}
+						<div
+							class="text-left text-base font-medium leading-[44px] tracking-[-0.02em] text-white"
+						>
+							·
+						</div>
+					{/if}
+				{/each}
 			</div>
 		</div>
 
@@ -85,20 +75,16 @@
 		<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[113px]">
 			<div class="text-left text-base font-medium text-[#cccccc]">Stars</div>
 			<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[11px]">
-				{#if formatList(movie.stars).length > 0}
-					{#each formatList(movie.stars) as star, i}
-						<div class="text-left text-base font-normal text-white">{star}</div>
-						{#if i < formatList(movie.stars).length - 1}
-							<div
-								class="text-left text-base font-medium leading-[44px] tracking-[-0.02em] text-white"
-							>
-								·
-							</div>
-						{/if}
-					{/each}
-				{:else}
-					<div class="text-left text-base font-normal text-white">Unknown</div>
-				{/if}
+				{#each stars as star, i}
+					<div class="text-left text-base font-normal text-white">{star}</div>
+					{#if i < stars.length - 1}
+						<div
+							class="text-left text-base font-medium leading-[44px] tracking-[-0.02em] text-white"
+						>
+							·
+						</div>
+					{/if}
+				{/each}
 			</div>
 		</div>
 
@@ -110,27 +96,13 @@
 			<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[54px]">
 				<div class="text-left text-base font-medium text-[#cccccc]">Release Date</div>
 				<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-[51px]">
-					<div class="text-left text-base font-normal text-white">
-						{formatReleaseDate(movie.releaseDate) || 'TBA'}
-					</div>
-					{#if movie.releaseDate}
-						<!-- Reminder button -->
-						<Button
-							onclick={toggleReminder}
-							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] px-[25px] py-2"
-							disabled={isLoading}
-						>
-							<!-- Icon changes based on notification status -->
-							{#if hasNotification}
-								<Check class="mr-1 h-5 w-5" />
-							{:else}
-								<Bell class="mr-1 h-5 w-5" />
-							{/if}
-							<span class="text-left text-base font-semibold">
-								{hasNotification ? 'Reminder Set' : 'Set Reminder'}
-							</span>
-						</Button>
-					{/if}
+					<div class="text-left text-base font-normal text-white">{releaseDate}</div>
+					<Button
+						onclick={toggleReminder}
+						class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] border border-solid border-black px-[25px] py-2 "
+					>
+						<span class="text-left text-base font-semibold text-[#eeeeee]">Set Reminder</span>
+					</Button>
 				</div>
 			</div>
 		</div>

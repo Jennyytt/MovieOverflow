@@ -2,10 +2,6 @@
 	import ReviewCarousel from '$lib/customComponents/review/ReviewCarousel.svelte';
 	import { Plus, ChevronRight } from 'radix-icons-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { authStore } from '$lib/stores/authStore.js';
-
-	// Determine if user is PRO
-	$: isPro = $authStore.isAuthenticated && $authStore.user?.isPro;
 </script>
 
 <div class="relative flex flex-shrink-0 flex-col items-start justify-center gap-8 self-stretch">
@@ -27,25 +23,23 @@
 		</div>
 
 		<!-- Add Review button -->
-		{#if isPro}
-			<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-0">
-				<Button
-					variant="ghost"
-					size="icon"
-					class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
-					><a href="moviereviewedit">
-						<Plus
-							class="relative inset-0 h-[23px] w-[23px] flex-shrink-0 overflow-visible"
-							color="#B693DC"
-						/></a
-					>
-
-					<div class="relative text-left text-[18px] font-bold text-[#b693dc] underline">
-						<a href="moviereviewedit">Review</a>
-					</div>
-				</Button>
-			</div>
-		{/if}
+		<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-0">
+			<Button
+				variant="ghost"
+				size="icon"
+				class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
+				><a href="moviereviewedit">
+					<Plus
+						class="relative inset-0 h-[23px] w-[23px] flex-shrink-0 overflow-visible"
+						color="#B693DC"
+					/></a
+				>
+				<!-- </div> -->
+				<div class="relative text-left text-[18px] font-bold text-[#b693dc] underline">
+					<a href="moviereviewedit">Review</a>
+				</div>
+			</Button>
+		</div>
 	</div>
 
 	<!-- Your existing ReviewCarousel component -->
