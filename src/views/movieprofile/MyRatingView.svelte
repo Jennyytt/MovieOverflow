@@ -2,26 +2,29 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { authStore } from '$lib/stores/authStore';
 	import { toast } from 'svelte-sonner';
-	import pb from '$lib/pb';
 
 	const {
-		movieId,
 		userRating = 0,
 		lastSubmittedRating = 0,
+		userComment = '',
 		isLoading = false,
-		submitRating = () => {}
+		submitRating = () => {},
+		submitComment = () => {}
 	} = $props();
 
 	// Local rating state with reactivity
 	let currentRating = $state(0);
 	let commentText = $state('');
 	let showCommentDialog = $state(false);
-	let commentLoading = $state(false);
-	let existingCommentId = $state(null);
+	// let commentLoading = $state(false);
 
-	// Initialize and update local rating when prop changes
+	// Initialize and update local rating and comment when props change
 	$effect(() => {
 		currentRating = userRating;
+	});
+
+	$effect(() => {
+		commentText = userComment;
 	});
 
 	function setRating(value) {
@@ -49,40 +52,16 @@
 		currentRating === lastSubmittedRating && lastSubmittedRating > 0
 	);
 
-	// Open comment dialog and check for existing comments
+	// Open comment dialog
 	function openCommentDialog() {
 		if (!$authStore.isAuthenticated) {
 			toast.error('Please log in to comment');
 			return;
 		}
 
-		commentLoading = true;
-		// Check for existing comment before showing dialog
-		pb.collection('ratings_comments')
-			.getList(1, 1, {
-				filter: `userId = "${$authStore.user.id}" && movieId = "${movieId}"`,
-				$autoCancel: false // Prevent auto-cancellation
-			})
-			.then((result) => {
-				if (result.items.length > 0) {
-					const item = result.items[0];
-					existingCommentId = item.id;
-					commentText = item.commentText || '';
-					currentRating = item.rating || currentRating;
-				} else {
-					existingCommentId = null;
-					commentText = '';
-				}
-				showCommentDialog = true;
-				commentLoading = false;
-			})
-			.catch((err) => {
-				console.error('Error checking for existing comment:', err);
-				existingCommentId = null;
-				commentText = '';
-				showCommentDialog = true;
-				commentLoading = false;
-			});
+		// Start with existing values or default values
+		commentText = userComment || '';
+		showCommentDialog = true;
 	}
 
 	function closeCommentDialog() {
@@ -90,7 +69,7 @@
 	}
 
 	// Submit comment with rating
-	async function submitComment() {
+	function handleSubmitComment() {
 		if (!$authStore.isAuthenticated) {
 			toast.error('Please log in to comment');
 			return;
@@ -101,43 +80,9 @@
 			return;
 		}
 
-		commentLoading = true;
-		try {
-			const userId = $authStore.user.id;
-
-			// Data to submit
-			const data = {
-				userId: userId,
-				movieId: movieId,
-				rating: currentRating,
-				commentText: commentText || '' // Ensure empty string if null
-			};
-
-			// Update or create comment
-			if (existingCommentId) {
-				await pb.collection('ratings_comments').update(existingCommentId, data, {
-					$autoCancel: false // Prevent auto-cancellation
-				});
-				toast.success('Your comment has been updated');
-			} else {
-				const result = await pb.collection('ratings_comments').create(data, {
-					$autoCancel: false // Prevent auto-cancellation
-				});
-				existingCommentId = result.id;
-				toast.success('Your comment has been posted');
-			}
-
-			// Update main rating in parent (sets lastSubmittedRating)
-			submitRating(currentRating);
-
-			// Close dialog
-			closeCommentDialog();
-		} catch (err) {
-			console.error('Error submitting comment:', err);
-			toast.error('Failed to submit comment');
-		} finally {
-			commentLoading = false;
-		}
+		// Pass to parent to handle API call
+		submitComment(currentRating, commentText);
+		closeCommentDialog();
 	}
 </script>
 
@@ -205,6 +150,14 @@
 			>
 				WRITE A COMMENT
 			</button>
+
+			<!-- Display existing comment if there's one -->
+			{#if userComment}
+				<div class="mt-2 max-w-[80%] text-center text-white">
+					<span class="font-bold">Your comment:</span>
+					{userComment}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -255,10 +208,8 @@
 			></textarea>
 
 			<div class="flex justify-end gap-3">
-				<Button variant="outline" onclick={closeCommentDialog} disabled={commentLoading}>
-					Cancel
-				</Button>
-				<Button onclick={submitComment} disabled={commentLoading || currentRating === 0}>
+				<Button variant="outline" onclick={closeCommentDialog} disabled={isLoading}>Cancel</Button>
+				<Button onclick={handleSubmitComment} disabled={isLoading || currentRating === 0}>
 					Post
 				</Button>
 			</div>

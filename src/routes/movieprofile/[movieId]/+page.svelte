@@ -20,13 +20,13 @@
 	let lastSubmittedRating = $state(0);
 	let isLoading = $state(true);
 	let watchlistItemId = $state(null);
-	let ratingId = $state(null);
 	let ratingCommentId = $state(null);
+	let userComment = $state('');
 
 	// For handling request cancellation
 	let abortControllers = {};
 
-	// Update checkMovieStatus function
+	// Check movie status for the current user
 	async function checkMovieStatus() {
 		isLoading = true;
 
@@ -44,8 +44,8 @@
 				userRating = 0;
 				lastSubmittedRating = 0;
 				watchlistItemId = null;
-				ratingId = null;
 				ratingCommentId = null;
+				userComment = '';
 				isLoading = false;
 				return;
 			}
@@ -71,65 +71,61 @@
 					hasNotification = false;
 				}
 			} catch (err) {
-				console.error('Error checking watchlist status:', err);
+				if (!err.isAbort) {
+					console.error('Error checking watchlist status:', err);
+				}
 				watchlistItemId = null;
 				isInWatchlist = false;
 				hasNotification = false;
 			}
 
-			// First check for ratings with comments
+			// Check ratings_comments status
 			try {
-				const commentRatingResult = await pb.collection('ratings_comments').getList(1, 1, {
+				const ratingResult = await pb.collection('ratings_comments').getList(1, 1, {
 					filter: `userId = "${userId}" && movieId = "${movieId}"`,
 					$autoCancel: false // Prevent auto-cancellation
 				});
 
-				if (commentRatingResult.items.length > 0) {
-					const commentRatingItem = commentRatingResult.items[0];
-					ratingCommentId = commentRatingItem.id;
-					userRating = commentRatingItem.rating || 0;
+				if (ratingResult.items.length > 0) {
+					const ratingItem = ratingResult.items[0];
+					ratingCommentId = ratingItem.id;
+					userRating = ratingItem.rating || 0;
+					userComment = ratingItem.commentText || '';
 					lastSubmittedRating = userRating;
-
-					// Found a rating with comment, don't need to check regular ratings
-					ratingId = null;
 				} else {
-					// No comment rating, check for regular rating
 					ratingCommentId = null;
-
-					const ratingResult = await pb.collection('ratings').getList(1, 1, {
-						filter: `userId = "${userId}" && movieId = "${movieId}"`,
-						$autoCancel: false // Prevent auto-cancellation
-					});
-
-					if (ratingResult.items.length > 0) {
-						const ratingItem = ratingResult.items[0];
-						ratingId = ratingItem.id;
-						userRating = ratingItem.rating || 0;
-						lastSubmittedRating = userRating;
-					} else {
-						ratingId = null;
-						userRating = 0;
-						lastSubmittedRating = 0;
-					}
+					userRating = 0;
+					userComment = '';
+					lastSubmittedRating = 0;
 				}
 			} catch (err) {
-				console.error('Error checking rating status:', err);
-				ratingId = null;
+				if (!err.isAbort) {
+					console.error('Error checking rating status:', err);
+				}
 				ratingCommentId = null;
 				userRating = 0;
+				userComment = '';
 				lastSubmittedRating = 0;
 			}
 		} catch (err) {
-			console.error('Error checking movie status:', err);
+			if (!err.isAbort) {
+				console.error('Error checking movie status:', err);
+			}
 		} finally {
 			isLoading = false;
 		}
 	}
 
-	// Submit rating function
+	// Submit or update rating
 	async function submitRating(rating) {
 		if (!$authStore.isAuthenticated) {
 			toast.error('Please log in to rate this movie');
+			return;
+		}
+
+		// Validate rating
+		if (!rating || rating <= 0 || rating > 5) {
+			toast.error('Please select a valid rating between 1 and 5 stars');
 			return;
 		}
 
@@ -145,44 +141,104 @@
 			const userId = $authStore.user.id;
 			const movieId = data.movieId;
 
-			// Check if there's an existing rating with comment first
 			if (ratingCommentId) {
-				// Update the rating in ratings_comments
-				await pb.collection('ratings_comments').update(
-					ratingCommentId,
-					{ rating: rating },
-					{ $autoCancel: false } // Prevent auto-cancellation
-				);
-			}
-			// If no comment rating but there is a regular rating
-			else if (ratingId) {
 				// Update existing rating
-				await pb.collection('ratings').update(
-					ratingId,
-					{ rating: rating },
-					{ $autoCancel: false } // Prevent auto-cancellation
-				);
-			}
-			// No existing ratings, create a new one
-			else {
-				// Create new rating
-				const newRating = await pb.collection('ratings').create(
+				await pb
+					.collection('ratings_comments')
+					.update(ratingCommentId, { rating: rating }, { $autoCancel: false });
+				toast.success(`Rating updated to ${rating} ${rating === 1 ? 'star' : 'stars'}!`);
+			} else {
+				// Create new rating without comment
+				const newRating = await pb.collection('ratings_comments').create(
 					{
 						userId: userId,
 						movieId: movieId,
-						rating: rating
+						rating: rating,
+						commentText: '' // Empty comment initially
 					},
-					{ $autoCancel: false } // Prevent auto-cancellation
+					{ $autoCancel: false }
 				);
-				ratingId = newRating.id;
+				ratingCommentId = newRating.id;
+				toast.success(`Thank you for rating ${rating} ${rating === 1 ? 'star' : 'stars'}!`);
 			}
 
 			userRating = rating;
 			lastSubmittedRating = rating;
-			toast.success(`Thank you for rating ${rating} ${rating === 1 ? 'star' : 'stars'}!`);
 		} catch (err) {
 			console.error('Error submitting rating:', err);
 			toast.error('Failed to submit rating');
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	// Submit or update comment with rating
+	async function submitComment(rating, comment) {
+		if (!$authStore.isAuthenticated) {
+			toast.error('Please log in to comment');
+			return;
+		}
+
+		// Validate rating
+		if (!rating || rating <= 0 || rating > 5) {
+			toast.error('Please select a valid rating between 1 and 5 stars');
+			return;
+		}
+
+		isLoading = true;
+
+		// Cancel any previous request
+		if (abortControllers.submitComment) {
+			abortControllers.submitComment.abort();
+		}
+		abortControllers.submitComment = new AbortController();
+
+		try {
+			const userId = $authStore.user.id;
+			const movieId = data.movieId;
+			const commentText = comment || ''; // Ensure empty string if null
+
+			if (ratingCommentId) {
+				// Update existing rating and comment
+				await pb.collection('ratings_comments').update(
+					ratingCommentId,
+					{
+						rating: rating,
+						commentText: commentText
+					},
+					{ $autoCancel: false }
+				);
+
+				toast.success(
+					comment ? 'Your rating and comment have been updated!' : 'Your rating has been updated!'
+				);
+			} else {
+				// Create new rating with comment
+				const newRecord = await pb.collection('ratings_comments').create(
+					{
+						userId: userId,
+						movieId: movieId,
+						rating: rating,
+						commentText: commentText
+					},
+					{ $autoCancel: false }
+				);
+
+				ratingCommentId = newRecord.id;
+				toast.success(
+					comment ? 'Your rating and comment have been posted!' : 'Your rating has been posted!'
+				);
+			}
+
+			userRating = rating;
+			userComment = commentText;
+			lastSubmittedRating = rating;
+
+			// Refresh movie status
+			await checkMovieStatus();
+		} catch (err) {
+			console.error('Error submitting comment:', err);
+			toast.error('Failed to submit comment');
 		} finally {
 			isLoading = false;
 		}
@@ -349,8 +405,10 @@
 			movieId={data.movieId}
 			{userRating}
 			{lastSubmittedRating}
+			{userComment}
 			{isLoading}
 			{submitRating}
+			{submitComment}
 		/>
 		<br />
 		<br />
