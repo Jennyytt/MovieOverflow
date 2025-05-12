@@ -11,8 +11,8 @@
 	export let duration = '1h 55m';
 
 	export let movieId = '';
-	// eslint-disable-next-line svelte/valid-compile
-	export let watchlistId = null;
+
+	//export let watchlistId = null;
 
 	export let posterURL = null;
 
