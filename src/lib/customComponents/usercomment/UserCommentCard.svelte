@@ -11,7 +11,6 @@
 	import MovieInfo from '$lib/customComponents/movieinfo/MovieInfo.svelte';
 	import pb from '$lib/pb';
 
-	//let movieDetails = null; // To store the fetched movie details
 	let title = 'Unknown Title';
 	let year = 'Unknown Year';
 	let stars = ['Unknown Actor'];
@@ -29,7 +28,6 @@
 			const movie = await pb.collection('movies').getOne(movieId);
 
 			// Update movie details
-			//movieDetails = movie;
 			title = movie.title || 'Unknown Title';
 			year = movie.release_year || 'Unknown Year';
 			stars = movie.stars || ['Unknown Actor'];
