@@ -1,17 +1,64 @@
 <script>
 	export let rating = 4;
-	export let review =
+	export let commentText =
 		'I like it, it is not the best but in comparison to what they have launched after endgame this was a good movie. I liked that they gave the spotlight falcon deserves and it truly made me understand Steve’s decision and why he didn’t give the shield to Bucky.(Btw Anthony Mackie did a great job as a lead actor, lots of carisma i love it...';
 	export let date = 'Feb 24, 2025';
 	export let like_num = 100;
 	export let dislike_num = 200;
+	export let movieId = null; // Example movie ID, replace with actual data
+
 	import { ThumbsUp, ThumbsDown } from '@lucide/svelte';
 	import MovieInfo from '$lib/customComponents/movieinfo/MovieInfo.svelte';
+	import pb from '$lib/pb';
+
+	let title = 'Unknown Title';
+	let year = 'Unknown Year';
+	let stars = ['Unknown Actor'];
+	let currentRequest = null;
+
+	// Fetch movie details when the component is mounted or movieId changes
+	$: {
+		if (movieId) {
+			fetchMovieDetails();
+		}
+	}
+
+	async function fetchMovieDetails() {
+		if (!movieId) {
+			console.warn('No movieId provided.');
+			return;
+		}
+
+		// Cancel any ongoing request
+		if (currentRequest) {
+			currentRequest.abort();
+		}
+
+		// Create a new AbortController for the current request
+		const controller = new AbortController();
+		currentRequest = controller;
+
+		try {
+			const movie = await pb.collection('movies').getOne(movieId);
+
+			// Update movie details
+			title = movie.title || 'Unknown Title';
+			year = movie.release_year || 'Unknown Year';
+			stars = movie.stars || ['Unknown Actor'];
+		} catch (err) {
+			console.error('Error fetching movie details:', err);
+		} finally {
+			// Clear the current request
+			if (currentRequest === controller) {
+				currentRequest = null;
+			}
+		}
+	}
 </script>
 
 <div class="relative flex w-[1048px] flex-col justify-center gap-8">
-	<MovieInfo />
-	<div class="relative flex w-[1048px] flex-row justify-center gap-8">
+	<MovieInfo {title} {year} {stars} />
+	<div class="relative flex w-[1048px] flex-row justify-start gap-8">
 		<!-- Rate, Date, like & Dislike-->
 		<div class="relative flex flex-col justify-start gap-2">
 			<!-- Star rating -->
@@ -26,7 +73,7 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 						>
-							{#if i < rating && _ > -1}
+							{#if i < rating && _ != -100}
 								<path
 									d="M10.0007 15.2167L4.12246 18.5068L5.43525 11.8999L0.489746 7.3265L7.17895 6.53335L10.0007 0.416656L12.8217 6.53335L19.5108 7.3265L14.5654 11.8999L15.8782 18.5068L10.0007 15.2167Z"
 									fill="#FBC02D"
@@ -54,14 +101,10 @@
 			</div>
 		</div>
 		<!-- comment & full comment button-->
-		<div class="relative flex flex-col justify-center gap-8">
+		<div class="relative flex flex-col justify-start gap-8">
 			<!-- Review Text -->
 			<div class="text-medium text-left font-[16px] text-white">
-				{review}
-			</div>
-			<!-- Date & Full Review-->
-			<div class="flex flex-row items-center justify-start gap-4">
-				<div class="text-left font-[18px] font-bold text-white underline">Show More</div>
+				{commentText}
 			</div>
 		</div>
 	</div>

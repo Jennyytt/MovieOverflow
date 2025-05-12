@@ -4,30 +4,59 @@
 	import * as Card from '$lib/components/ui/card';
 	import EmailField from '$lib/customComponents/userauthen/EmailField.svelte';
 	import PasswordField from '$lib/customComponents/userauthen/PasswordField.svelte';
+	import { authStore } from '$lib/stores/authStore';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	let email = '';
 	let password = '';
 	let emailError = '';
 	let passwordError = '';
 
-	function handleSubmit() {
-		// Reset previous errors
-		emailError = '';
-		passwordError = '';
+	// Get the redirect URL from the query parameter
+	$: redirectTo = $page.url.searchParams.get('redirectTo') || '/';
 
-		// Validation
-		if (email.trim() !== 'example@email.com') {
-			emailError = 'Your account is not found.';
-		}
-		if (password !== '12345678') {
-			passwordError = 'Incorrect password.';
-		}
+	async function handleSubmit() {
+		try {
+			// Use the auth store instead of directly using PocketBase
+			const result = await authStore.login(email, password);
 
-		// If both correct, proceed
-		if (!emailError && !passwordError) {
-			alert('Login successful!');
+			if (result.success) {
+				console.log('Login successful');
+				await goto(redirectTo);
+			} else {
+				passwordError = result.error || 'Incorrect email or password.';
+			}
+		} catch (err) {
+			passwordError = 'Incorrect email or password.';
+			console.error('Auth failed:', err);
 		}
 	}
+
+	// 	async function handleSubmit() {
+	//     // Reset previous errors
+	//     emailError = '';
+	//     passwordError = '';
+
+	// 	try {
+	//     const authData = await pb.collection('users').authWithPassword(email.trim(), password);
+	//     console.log('Login successful:', authData);
+	//     await goto('/');
+	// } catch (error) {
+	//     console.error(error);
+	// 	console.log('Error.response:', error.response);
+	//     // Most auth errors are code 400 with generic message
+	// 	if (
+	// 		error.response?.status === 400 &&
+	// 		error.response?.message&&
+	// 		error.response.message.includes('Failed to authenticate')
+	// 	) {
+	// 		passwordError = 'Incorrect email or password.';
+	// 	} else {
+	// 		emailError = 'Login failed. Please try again.';
+	// 	}
+
+	// }}
 </script>
 
 <!-- Full page layout: horizontally align logo + login box -->
@@ -48,12 +77,12 @@
 		</div>
 
 		<Card.Content class="flex flex-col gap-[15px] p-0">
-			<!-- ✅ Reusable Email Field -->
+			<!-- Reusable Email Field -->
 			<div class="w-[449.04px]">
 				<EmailField bind:value={email} errorMessage={emailError} />
 			</div>
 
-			<!-- ✅ Reusable Password Field (no confirm) -->
+			<!--  Reusable Password Field (no confirm) -->
 			<div class="w-[449.04px]">
 				<PasswordField bind:value={password} showConfirm={false} errorMessage={passwordError} />
 			</div>

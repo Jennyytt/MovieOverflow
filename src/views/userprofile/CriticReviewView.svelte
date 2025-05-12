@@ -2,7 +2,65 @@
 	import CriticReviewCard from '../../lib/customComponents/criticsreview/CriticReviewCard.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Card } from '$lib/components/ui/card';
-	let reviews = [
+	let reviews = [];
+
+	import { onMount } from 'svelte';
+	import { authStore } from '$lib/stores/authStore';
+	import pb from '$lib/pb';
+
+	let currentRequest = null; // Track the current request
+
+	// Function to fetch reviews for the logged-in user
+	async function fetchReview() {
+		if (currentRequest) {
+			currentRequest.abort(); // Cancel any ongoing request
+		}
+
+		const controller = new AbortController();
+		currentRequest = controller;
+
+		try {
+			// Check if the user is authenticated
+			if (!$authStore.isAuthenticated) {
+				console.error('User is not authenticated.');
+				return;
+			}
+
+			// Get user ID from auth store
+			const userId = $authStore.user.id;
+
+			// Fetch reviews for this user from the 'critics_reviews' collection
+			const reviewRecords = await pb.collection('critics_reviews').getFullList(undefined, {
+				filter: `userId = "${userId}" && isDraft = false`,
+				signal: controller.signal, // Pass the AbortController signal
+				requestKey: 'getCriticsReviews' // Optional: add a request key for better debugging
+			});
+
+			// Map the fetched records to the desired format
+			reviews = reviewRecords.map((record) => ({
+				id: record.id,
+				movieId: record.movieId,
+				date: new Date(record.timestamp).toLocaleDateString('en-CA'),
+				reviewText: record.reviewText
+			}));
+		} catch (err) {
+			if (err.name === 'AbortError') {
+				console.warn('Request was aborted.');
+			} else {
+				console.error('Error fetching reviews:', err);
+			}
+		} finally {
+			// Clear the current request
+			if (currentRequest === controller) {
+				currentRequest = null;
+			}
+		}
+	}
+
+	// Fetch reviews on component mount
+	onMount(fetchReview);
+
+	/*let reviews = [
 		{
 			id: 1,
 			date: 'Feb 15, 2025',
@@ -59,7 +117,7 @@
 			review:
 				'Visually stunning and action-packed! The new characters were a great addition, and the story kept me engaged throughout.'
 		}
-	];
+	];*/
 	let displayCount = 3; // Number of comments to display initially
 
 	let sortMode = 'date';
@@ -112,7 +170,7 @@
 		>
 			{#each reviews.slice(0, displayCount) as review, index (review.id)}
 				<div class="relative h-[10px]"></div>
-				<CriticReviewCard date={review.date} review={review.review} />
+				<CriticReviewCard date={review.date} review={review.reviewText} movieId={review.movieId} />
 				{#if index < displayCount - 1 && index < reviews.length - 1}
 					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
 				{:else}

@@ -1,8 +1,6 @@
 <script>
-	import Button from '$lib/components/ui/button/button.svelte';
 	import posterImage from '../../assets/movie-poster-xl.png';
 	import { CircleUserRound } from '@lucide/svelte';
-	import { goto } from '$app/navigation';
 	import MovieComCR from '$lib/customComponents/movie/MovieComCR.svelte';
 	export let username = 'Jeffrey Lawwwwwwwww';
 	export let date = 'Feb 24, 2025';
@@ -15,11 +13,6 @@
 
 	// Split the reviewText into paragraphs based on <br /> tags
 	let paragraphs = reviewText.split('<br />').filter((p) => p.trim() !== '');
-
-	// Function to navigate to the MovieIndividualReview page
-	function navigateToCriticsReview() {
-		goto('/moviecriticsreview');
-	}
 </script>
 
 <div class="inline-flex h-full w-full gap-7">
@@ -40,12 +33,6 @@
 				>
 					Captain America: Brave New World Critics Review
 				</span>
-			</div>
-			<div>
-				<Button
-					onclick={navigateToCriticsReview}
-					class="rounded-full px-6 py-2 text-base font-semibold">Back</Button
-				>
 			</div>
 		</div>
 		<div class="h-0 w-[725.34px] border-[2.3px] border-[#222222]"></div>
