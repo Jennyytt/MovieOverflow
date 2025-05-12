@@ -4,6 +4,7 @@
 	import CriticReviewView from '../../views/userprofile/CriticReviewView.svelte';
 	import ReviewDraftView from '../../views/userprofile/ReviewDraftView.svelte';
 	import UserCommentView from '../../views/userprofile/UserCommentView.svelte';
+
 	let ProUser = false; // Set this to true if the user is a pro user
 	let username = null;
 
@@ -27,7 +28,12 @@
 
 	// Call the function when the component is mounted
 	fetchUserInfo();
+
+	import AuthGuard from '$lib/customComponents/authguard/AuthGuard.svelte';
+	//let ProUser = true; // Set this to true if the user is a pro user
 </script>
+
+<AuthGuard requireAuth={true} />
 
 <div class="mt-8">
 	<!-- 
