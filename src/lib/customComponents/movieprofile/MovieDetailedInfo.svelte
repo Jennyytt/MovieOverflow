@@ -1,6 +1,6 @@
 <script>
 	import { Button } from '$lib/components/ui/button';
-	import { Bell } from 'radix-icons-svelte';
+	import { Bell, Check } from 'radix-icons-svelte';
 
 	// Import props
 	let { movie, hasNotification = false, isLoading = false, toggleReminder = () => {} } = $props();
@@ -114,14 +114,18 @@
 						{formatReleaseDate(movie.releaseDate) || 'TBA'}
 					</div>
 					{#if movie.releaseDate}
-						<!-- Replaced the old reminder button with the new one that uses our watchlist implementation -->
+						<!-- Reminder button -->
 						<Button
 							onclick={toggleReminder}
-							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px] border border-solid px-[25px] py-2"
+							class="flex flex-row items-center justify-center gap-[10px] rounded-[20px]  px-[25px] py-2"
 							disabled={isLoading}
-							variant={hasNotification ? 'default' : 'outline'}
 						>
-							<Bell class="mr-1 h-5 w-5" />
+							<!-- Icon changes based on notification status -->
+							{#if hasNotification}
+								<Check class="mr-1 h-5 w-5" />
+							{:else}
+								<Bell class="mr-1 h-5 w-5" />
+							{/if}
 							<span class="text-left text-base font-semibold">
 								{hasNotification ? 'Reminder Set' : 'Set Reminder'}
 							</span>

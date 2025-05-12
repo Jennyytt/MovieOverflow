@@ -44,11 +44,13 @@
 					watchlistItemId = watchlistItem.id;
 					isInWatchlist = true;
 					hasNotification = watchlistItem.notification || false;
+					console.log('Watchlist check: In watchlist, notification:', hasNotification);
 				} else {
 					// Movie not in watchlist
 					watchlistItemId = null;
 					isInWatchlist = false;
 					hasNotification = false;
+					console.log('Watchlist check: Not in watchlist');
 				}
 			} catch (err) {
 				console.error('Error checking watchlist status:', err);
@@ -127,9 +129,11 @@
 				hasNotification = newNotificationValue;
 
 				if (newNotificationValue) {
-					toast.success('Reminder created');
+					toast.success('Reminder has been created', {
+						description: `${movie.releaseDate} at 6:00pm`
+					});
 				} else {
-					toast('Reminder removed');
+					toast('Reminder has been removed');
 				}
 			} else {
 				// Movie not in watchlist yet, add it with notification=true
@@ -152,8 +156,10 @@
 		}
 	}
 
-	// Update watchlist check when component mounts or when user/movie changes
-	onMount(checkWatchlistStatus);
+	// Update watchlist check when component mounts
+	onMount(() => {
+		checkWatchlistStatus();
+	});
 
 	// Re-check when movieId changes
 	$: if (movieId) {
@@ -161,7 +167,7 @@
 	}
 
 	// Re-check when auth state changes
-	$: if ($authStore.isAuthenticated !== undefined) {
+	$: if ($authStore) {
 		checkWatchlistStatus();
 	}
 </script>
