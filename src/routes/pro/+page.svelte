@@ -1,19 +1,30 @@
 <script>
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
-	import { X } from '@lucide/svelte'; // Close icon, optional
+	import { X } from '@lucide/svelte'; 
+	import pb from '$lib/pb'
 
 	let licenseKey = '';
 	let errorMessage = '';
 
-	function handleConfirm() {
-		if (licenseKey.trim() !== '123456789') {
-			errorMessage = 'Your key is invalid, please re-enter.';
+	async function handleConfirm() {
+	errorMessage = '';
+
+	try {
+		const record = await pb.collection('licenses').getFirstListItem(`licenseKey = "${licenseKey.trim()}"`);
+
+		if (record.isActive) {
+			errorMessage = 'This license key is already active.';
 		} else {
-			errorMessage = '';
-			alert('License confirmed!');
+			await pb.collection('licenses').update(record.id, { isActive: true });
+			alert('License confirmed and activated!');
 		}
+	} catch (err) {
+		console.error('License lookup failed:', err);
+		errorMessage = 'Invalid Key.';
 	}
+}
+
 
 	function handleClose() {
 		history.back(); //go back to previous page
