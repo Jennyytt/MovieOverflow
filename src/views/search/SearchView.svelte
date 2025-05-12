@@ -1,104 +1,64 @@
 <script>
 	import Poster from '../../assets/movie-poster-xl.png';
-	// Dummy movie data
-	let allMovies = $state([
-		{
-			id: 1,
-			title: 'Captain America: Brave New World',
-			year: '2025',
-			cast: 'Anthony Mackie, Harrison Ford, Tim Blake Nelson',
-			poster: Poster
-		},
-		{
-			id: 2,
-			title: 'The Avengers: Secret Wars',
-			year: '2026',
-			cast: 'Robert Downey Jr., Chris Evans, Scarlett Johansson',
-			poster: Poster
-		},
-		{
-			id: 3,
-			title: 'Black Panther: Wakanda Forever',
-			year: '2024',
-			cast: "Letitia Wright, Lupita Nyong'o, Danai Gurira",
-			poster: Poster
-		},
-		{
-			id: 4,
-			title: 'Thor: Love and Thunder',
-			year: '2023',
-			cast: 'Chris Hemsworth, Natalie Portman, Tessa Thompson',
-			poster: Poster
-		},
-		{
-			id: 5,
-			title: 'Doctor Strange: Multiverse of Madness',
-			year: '2022',
-			cast: 'Benedict Cumberbatch, Elizabeth Olsen, Xochitl Gomez',
-			poster: Poster
-		},
-		{
-			id: 6,
-			title: 'Spider-Man: No Way Home',
-			year: '2021',
-			cast: 'Tom Holland, Zendaya, Benedict Cumberbatch',
-			poster: Poster
-		},
-		{
-			id: 7,
-			title: 'Eternals',
-			year: '2021',
-			cast: 'Gemma Chan, Richard Madden, Angelina Jolie',
-			poster: Poster
-		},
-		{
-			id: 8,
-			title: 'Shang-Chi and the Legend of the Ten Rings',
-			year: '2021',
-			cast: 'Simu Liu, Awkwafina, Tony Leung',
-			poster: Poster
-		},
-		{
-			id: 9,
-			title: 'Black Widow',
-			year: '2021',
-			cast: 'Scarlett Johansson, Florence Pugh, David Harbour',
-			poster: Poster
-		},
-		{
-			id: 10,
-			title: 'Guardians of the Galaxy Vol. 3',
-			year: '2023',
-			cast: 'Chris Pratt, Zoe Saldana, Dave Bautista',
-			poster: Poster
-		},
-		{
-			id: 11,
-			title: 'Guardians of the Galaxy Vol. 3',
-			year: '2023',
-			cast: 'Chris Pratt, Zoe Saldana, Dave Bautista',
-			poster: Poster
-		},
-		{
-			id: 12,
-			title: 'Guardians of the Galaxy Vol. 3',
-			year: '2023',
-			cast: 'Chris Pratt, Zoe Saldana, Dave Bautista',
-			poster: Poster
-		}
-	]);
+	import pb from '$lib/pb';
 
+	// Get props in Svelte 5 style with destructuring
+	let { query = 'Avengers' } = $props();
+
+	// Debug log to see what we're receiving
+	console.log('SearchView props:', { query });
+
+	// Movies state
+	let allMovies = $state([]);
 	let displayCount = $state(5);
 
 	// Display movie based on current count
 	let displayedMovies = $derived(allMovies.slice(0, displayCount));
 
+	// Function to search movies from PocketBase
+	async function searchMovies() {
+		try {
+			// Create a filter for PocketBase
+			const filter = `title ~ "${query}" || directors ~ "${query}" || writers ~ "${query}" || stars ~ "${query}" || description ~ "${query}"`;
+
+			// Fetch movies from PocketBase
+			const result = await pb.collection('movies').getList(1, 50, {
+				filter: filter,
+				sort: '-created'
+			});
+
+			// Format results to match expected structure
+			if (result && result.items && result.items.length > 0) {
+				allMovies = result.items.map((movie) => ({
+					id: movie.id,
+					title: movie.title || 'Untitled',
+					year: movie.releaseDate
+						? new Date(movie.releaseDate).getFullYear().toString()
+						: 'Unknown',
+					cast: movie.stars || 'Cast not available',
+					poster: movie.poster ? pb.files.getUrl(movie, movie.poster) : Poster
+				}));
+			} else {
+				console.log('No search results found for:', query);
+				// If no results, use an empty array
+				allMovies = [];
+			}
+		} catch (err) {
+			console.error('Error searching movies:', err);
+			// On error, keep empty array
+			allMovies = [];
+		}
+	}
+
 	// Load more movies function
 	function loadMore() {
 		displayCount = Math.min(displayCount + 5, allMovies.length);
 	}
-	// Dummy query
-	let query = 'Avengers';
+
+	// Search when component mounts or when query changes
+	$effect(() => {
+		searchMovies();
+	});
 </script>
 
 <div class="flex h-full w-[1170px] flex-col items-start justify-start gap-5">
