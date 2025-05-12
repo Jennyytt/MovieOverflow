@@ -9,6 +9,7 @@
 
 	import { ThumbsUp, ThumbsDown } from '@lucide/svelte';
 	import MovieInfo from '$lib/customComponents/movieinfo/MovieInfo.svelte';
+
 	import pb from '$lib/pb';
 
 	let title = 'Unknown Title';

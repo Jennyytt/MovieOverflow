@@ -2,7 +2,44 @@
 	import CriticReviewCard from '../../lib/customComponents/criticsreview/CriticReviewCard.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Card } from '$lib/components/ui/card';
-	let reviews = [
+	let reviews = [];
+
+	import { onMount } from 'svelte';
+	import { authStore } from '$lib/stores/authStore';
+	import pb from '$lib/pb';
+
+	// Function to fetch comments for the logged-in user
+	async function fetchReview() {
+		try {
+			// Check if the user is authenticated
+			if (!$authStore.isAuthenticated) {
+				console.error('User is not authenticated.');
+				return;
+			}
+
+			// Get user ID from auth store
+			const userId = $authStore.user.id;
+			// Fetch comments for this user from the 'rating_comments' collection
+			const reviewRecords = await pb
+				.collection('critics_reviews')
+				.getFullList(`userId = "${userId}"`, `isDraft = false`);
+
+			// Map the fetched records to the desired format
+			reviews = reviewRecords.map((record) => ({
+				id: record.id,
+				movieId: record.movieId,
+				date: new Date(record.timestamp).toLocaleDateString('en-CA'),
+				reviewText: record.reviewText
+			}));
+		} catch (err) {
+			console.error('Error fetching reviews:', err);
+		}
+	}
+
+	// Fetch comments on component mount
+	onMount(fetchReview);
+
+	/*let reviews = [
 		{
 			id: 1,
 			date: 'Feb 15, 2025',
@@ -59,7 +96,7 @@
 			review:
 				'Visually stunning and action-packed! The new characters were a great addition, and the story kept me engaged throughout.'
 		}
-	];
+	];*/
 	let displayCount = 3; // Number of comments to display initially
 
 	let sortMode = 'date';
