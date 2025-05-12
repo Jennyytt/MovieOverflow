@@ -16,6 +16,7 @@
 	// State to track if movie is in watchlist
 	let isInWatchlist = false;
 	let isLoading = true;
+	let watchlistId = null;
 
 	// Check if movie is in user's watchlist
 	async function checkWatchlistStatus() {
@@ -30,13 +31,36 @@
 
 			const userId = $authStore.user.id;
 
-			// Try to find the watchlist for this user
-			const watchlist = await pb.collection('watchlists').getFirstListItem(`userId = "${userId}"`);
+			try {
+				// Try to find the watchlist for this user
+				const result = await pb.collection('watchlists').getList(1, 1, {
+					filter: `userId = "${userId}"`
+				});
 
-			// Check if this movie is in the watchlist
-			isInWatchlist = watchlist.movieId.includes(movieId);
+				if (result.items.length > 0) {
+					const watchlist = result.items[0];
+					watchlistId = watchlist.id;
+
+					// Check if movieId is an array
+					if (Array.isArray(watchlist.movieId)) {
+						isInWatchlist = watchlist.movieId.includes(movieId);
+					} else if (watchlist.movieId) {
+						// Handle case where it might not be an array
+						isInWatchlist = watchlist.movieId === movieId;
+					} else {
+						isInWatchlist = false;
+					}
+				} else {
+					// No watchlist found
+					isInWatchlist = false;
+					watchlistId = null;
+				}
+			} catch (err) {
+				console.error('Error in getList:', err);
+				isInWatchlist = false;
+				watchlistId = null;
+			}
 		} catch (err) {
-			// If error is "no items found", it means user has no watchlist yet
 			isInWatchlist = false;
 			console.error('Error checking watchlist status:', err);
 		} finally {
@@ -44,51 +68,76 @@
 		}
 	}
 
-	// Toggle watchlist state
 	async function toggleWatchlist() {
 		if (!$authStore.isAuthenticated) {
 			toast.error('Please log in to add movies to your watchlist');
 			return;
 		}
 
+		isLoading = true;
+
 		try {
 			const userId = $authStore.user.id;
 
-			// Get existing watchlist or create new one
-			let watchlist;
-			try {
-				watchlist = await pb.collection('watchlists').getFirstListItem(`userId = "${userId}"`);
-			} catch {
-				// No watchlist exists, create one
-				watchlist = await pb.collection('watchlists').create({
+			// If watchlist record already exist
+			if (watchlistId) {
+				// Get the current watchlist
+				const currentWatchlist = await pb.collection('watchlists').getOne(watchlistId);
+				let movieIds = Array.isArray(currentWatchlist.movieId)
+					? [...currentWatchlist.movieId]
+					: currentWatchlist.movieId
+						? [currentWatchlist.movieId]
+						: [];
+
+				if (isInWatchlist) {
+					// Remove movie from watchlist
+					movieIds = movieIds.filter((id) => id !== movieId);
+
+					// Check if this is the last movie
+					if (movieIds.length === 0) {
+						// If yes, delete the entire watchlist record
+						await pb.collection('watchlists').delete(watchlistId);
+						watchlistId = null;
+					} else {
+						// Only update the existing record
+						await pb.collection('watchlists').update(watchlistId, {
+							movieId: movieIds
+						});
+					}
+					toast('Removed from Watchlist');
+					isInWatchlist = false;
+				} else {
+					// Add movie to watchlist
+					if (!movieIds.includes(movieId)) {
+						movieIds.push(movieId);
+						await pb.collection('watchlists').update(watchlistId, {
+							movieId: movieIds
+						});
+					}
+					toast.success('Added to Watchlist');
+					isInWatchlist = true;
+				}
+			} else {
+				// Watchlist record not yet created
+				// Create a new watchlist record with this movie
+				const newWatchlist = await pb.collection('watchlists').create({
 					userId: userId,
-					movieId: [],
+					movieId: [movieId], // Start with an array containing this movie
 					notification: true
 				});
-			}
 
-			if (isInWatchlist) {
-				// Remove from watchlist
-				const updatedMovieIds = watchlist.movieId.filter((id) => id !== movieId);
-				await pb.collection('watchlists').update(watchlist.id, {
-					movieId: updatedMovieIds
-				});
-				toast('Removed from Watchlist');
-				isInWatchlist = false;
-			} else {
-				// Add to watchlist
-				if (!watchlist.movieId.includes(movieId)) {
-					const updatedMovieIds = [...watchlist.movieId, movieId];
-					await pb.collection('watchlists').update(watchlist.id, {
-						movieId: updatedMovieIds
-					});
-				}
-				toast.success('Added to Watchlist');
+				watchlistId = newWatchlist.id;
 				isInWatchlist = true;
+				toast.success('Added to Watchlist');
 			}
 		} catch (err) {
-			toast.error('Failed to update watchlist');
 			console.error('Error updating watchlist:', err);
+			toast.error('Failed to update watchlist');
+			if (err.response) {
+				console.error('Response data:', err.response.data);
+			}
+		} finally {
+			isLoading = false;
 		}
 	}
 
