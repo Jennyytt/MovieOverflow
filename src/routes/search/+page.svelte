@@ -3,13 +3,15 @@
 
 	// In SvelteKit, data is provided as a prop automatically
 	export let data;
-
-	// Debug log to see what data we have
-	console.log('Search page data:', data);
 </script>
 
 <div>
 	<br />
-	<SearchView query={data.query} />
+	<SearchView
+		query={data.query}
+		movies={data.movies}
+		totalCount={data.totalCount}
+		error={data.error}
+	/>
 	<br />
 </div>
