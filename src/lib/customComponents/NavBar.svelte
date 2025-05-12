@@ -5,10 +5,18 @@
 	import { authStore } from '$lib/stores/authStore';
 	import { goto } from '$app/navigation';
 
-	// ! TODO: Function to handle search click
+	// Add state for search input
+	let searchQuery = $state('');
+
+	// Function to handle search click
 	function handleSearchClick() {
-		// const searchInput = document.querySelector('input[type="text"]');
-		// 		const query = searchInput.value;
+		// Only navigate if there's actually a search query
+		if (searchQuery && searchQuery.trim()) {
+			goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+		} else {
+			// If empty search, still go to search page but without query
+			goto('/search');
+		}
 	}
 
 	// Function to handle logout
@@ -17,8 +25,8 @@
 		goto('/');
 	}
 
-	// Determine if user is PRO
-	$: isPro = $authStore.isAuthenticated && $authStore.user?.isPro;
+	// Determine if user is PRO - change from $: to $derived for Svelte 5
+	let isPro = $derived($authStore.isAuthenticated && $authStore.user?.isPro);
 
 	// Function to handle PRO button click
 	function handleProClick(event) {
@@ -57,6 +65,8 @@
 				class="relative h-[56px] w-[514px] min-w-[250px] flex-shrink-0 flex-row items-center justify-between rounded-[10px] border-[#2B2B2B] bg-[#2b2b2b] px-4 py-3 pr-12 text-white"
 				placeholder="What do you want to search?"
 				type="text"
+				bind:value={searchQuery}
+				onkeydown={(e) => e.key === 'Enter' && handleSearchClick()}
 			/>
 			<!-- Positioned the search icon at the right side of the search bar -->
 			<div
@@ -67,7 +77,7 @@
 				role="button"
 				aria-label="Search"
 			>
-				<a href="/search"><Search color="#D1D7E0" size={20} /></a>
+				<Search color="#D1D7E0" size={20} />
 			</div>
 		</div>
 
