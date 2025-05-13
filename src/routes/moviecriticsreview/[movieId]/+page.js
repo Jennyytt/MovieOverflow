@@ -21,8 +21,9 @@ export async function load({ params }) {
 				day: 'numeric',
 				year: 'numeric'
 			}),
+			// Specifically use the reviewTitle field and ensure it exists
 			reviewTitle: review.reviewTitle || 'Untitled Review',
-			reviewText: review.reviewText
+			reviewText: review.reviewText || ''
 		}));
 
 		return {
