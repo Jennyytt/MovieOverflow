@@ -2,11 +2,56 @@
 	import { Card } from '$lib/components/ui/card';
 	import { CircleUserRound } from '@lucide/svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	// Define an array of hardcoded comments
+	const commentOptions = [
+		{
+			username: 'Robert',
+			commentText:
+				'Absolutely stunning cinematography and masterful storytelling. This film will be studied for generations to come.',
+			date: 'April 30, 2025'
+		},
+		{
+			username: 'Scarlett',
+			commentText:
+				'The character development in this film was exceptional. I found myself completely invested in their journey.',
+			date: 'May 2, 2025'
+		},
+		{
+			username: 'Mark Ruffalo',
+			commentText:
+				'While the visual effects were impressive, the plot had several holes that were hard to overlook.',
+			date: 'May 6, 2025'
+		},
+		{
+			username: 'Chris Hemsworth',
+			commentText:
+				"Don't waste your time. The dialogue was stilted and the ending made no sense whatsoever.",
+			date: 'May 8, 2025'
+		},
+		{
+			username: 'Chris ',
+			commentText: 'To my surprise, I thoroughly enjoyed this movie for the entire runtime.',
+			date: 'May 1, 2025'
+		},
+		{
+			username: 'yool',
+			commentText: ' saw an early screening of The Accountant 2.',
+			date: 'May 4, 2025'
+		},
+		{
+			username: 'Hemsworth',
+			commentText: 'The dialogue was stilted and the ending made no sense whatsoever.',
+			date: 'May 11, 2025'
+		}
+	];
 
-	export let username = 'User Name';
-	export let commentText =
-		"The not-so-secret weapon this CAPTAIN AMERICA has going for it is Harrison Ford. Don't believe the nay-sayers out there: Brave New World is a 21st century Tall Tale, and if it takes two viewings to take it all in, so be it";
-	export let date = 'Feb 25, 2025';
+	// Pick a random comment
+	const randomComment = commentOptions[Math.floor(Math.random() * commentOptions.length)];
+
+	// Set the props
+	export let username = randomComment.username;
+	export let commentText = randomComment.commentText;
+	export let date = randomComment.date;
 
 	// Track the like/dislike state
 	// null = neither, "like" = thumbs up, "dislike" = thumbs down
