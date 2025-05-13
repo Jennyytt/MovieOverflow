@@ -2,9 +2,10 @@
 	import { Card } from '$lib/components/ui/card';
 	import { CircleUserRound } from '@lucide/svelte';
 	export let username = 'User Name';
-	export let reviewText =
-		"The not-so-secret weapon this CAPTAIN AMERICA has going for it is Harrison Ford. Don't believe the nay-sayers out there: Brave New World is a 21st century Tall Tale, and if it takes two viewings to take it all in, so be it";
+	export let reviewText = 'My review.';
 	export let date = 'Feb 25, 2025';
+	export let movieId = '0fk9578f58vl9s8'; // Default movie
+	export let reviewId = 'ikz34445a9zk1r0'; // Default review
 </script>
 
 <Card
@@ -39,7 +40,7 @@
 				{date}
 			</div>
 			<div class="cursor-pointer text-left text-base font-semibold text-[#b693dc] underline">
-				<a href="/movieindividualreview">Full review</a>
+				<a href={`/movieindividualreview/${movieId}/${reviewId}`}>Full review</a>
 			</div>
 		</div>
 	</div>

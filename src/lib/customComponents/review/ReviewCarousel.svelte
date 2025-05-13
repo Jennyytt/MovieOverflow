@@ -4,12 +4,21 @@
 	import pb from '$lib/pb';
 	import { onMount } from 'svelte';
 
+	// Accept movieId as a prop, to use when fetching reviews
+	export let movieId = undefined;
+
 	let reviews = [];
 
 	onMount(async () => {
 		try {
+			// Create a filter based on movieId if it's provided
+			let filter = 'isDraft=false';
+			if (movieId) {
+				filter += ` && movieId="${movieId}"`;
+			}
+
 			const result = await pb.collection('critics_reviews').getList(1, 3, {
-				filter: 'isDraft=false',
+				filter: filter,
 				sort: '-timestamp',
 				expand: 'userId',
 				$autoCancel: false
@@ -17,6 +26,7 @@
 
 			reviews = result.items.map((r) => ({
 				id: r.id,
+				movieId: r.movieId || movieId, // Use the review's movieId or the passed movieId
 				username: r.expand?.userId?.username ?? 'Anonymous',
 				content: r.reviewText,
 				timestamp: r.timestamp
@@ -41,6 +51,8 @@
 							day: 'numeric',
 							year: 'numeric'
 						})}
+						movieId={review.movieId || movieId}
+						reviewId={review.id}
 					/>
 				</Carousel.Item>
 			{/each}
