@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import { ArrowDownWideNarrow, ArrowUpNarrowWide } from '@lucide/svelte';
 	import LargerReviewCard from '$lib/customComponents/review/LargerReviewCard.svelte';
 	import MovieComCR from '$lib/customComponents/movie/MovieComCR.svelte';
@@ -23,6 +22,12 @@
 	// State to track loading and error status
 	let isLoading = true;
 	let fetchError = null;
+
+	// State variable to track the number of reviews to display - initialized as reactive
+	let displayCount = 5;
+
+	// State variable to track sort order ('descending' for newest to oldest, 'ascending' for oldest to newest)
+	let sortOrder = 'descending';
 
 	// Fetch movie details
 	async function fetchMovieDetails() {
@@ -48,7 +53,6 @@
 			};
 
 			await fetchReviewsWithDetails();
-
 			isLoading = false;
 		} catch (error) {
 			console.error('Error fetching movie details:', error);
@@ -84,6 +88,9 @@
 
 			// Sort reviews based on current sort order
 			sortReviews();
+
+			// Reset display count to show only first 5 reviews initially
+			displayCount = 5;
 		} catch (error) {
 			console.error('Error fetching review details:', error);
 		}
@@ -92,13 +99,6 @@
 	// Fetch movie details on client mount
 	onMount(fetchMovieDetails);
 
-	// State variable to track the number of reviews to display
-	let displayCount = 5;
-
-	// State variable to track sort order ('descending' for newest to oldest, 'ascending' for oldest to newest)
-	let sortOrder = 'descending';
-
-	// Function to load more reviews
 	function loadMore() {
 		displayCount += 5;
 	}
@@ -192,24 +192,28 @@
 				<p>No reviews available for this movie.</p>
 			</div>
 		{:else}
-			{#each reviews.slice(0, displayCount) as review (review.id)}
-				<LargerReviewCard
-					username={review.username}
-					date={review.date}
-					reviewTitle={review.reviewTitle}
-					reviewText={review.reviewText}
-					{movieId}
-					reviewId={review.id}
-				/>
-			{/each}
-			{#if displayCount < reviews.length}
-				<Button
-					on:click={loadMore}
-					class="inline-flex h-[34.05px] w-[103.08px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-[8px]"
-				>
-					<span class="break-words text-[14.73px] font-medium text-white">Load More</span>
-				</Button>
-			{/if}
+			<div class="flex w-full flex-col items-center gap-4">
+				{#each reviews.slice(0, displayCount) as review (review.id)}
+					<LargerReviewCard
+						username={review.username}
+						date={review.date}
+						reviewTitle={review.reviewTitle}
+						reviewText={review.reviewText}
+						{movieId}
+						reviewId={review.id}
+					/>
+				{/each}
+
+				{#if displayCount < reviews.length}
+					<!-- Change to a plain HTML button for simplicity to rule out component issues -->
+					<button
+						on:click={loadMore}
+						class="inline-flex h-[34.05px] w-[110px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-[8px] text-white"
+					>
+						Load More
+					</button>
+				{/if}
+			</div>
 		{/if}
 	</div>
 </div>
