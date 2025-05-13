@@ -1,12 +1,16 @@
 <script>
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { createEventDispatcher } from 'svelte';
+
 	export let isOpen = false;
+	const dispatch = createEventDispatcher();
 
 	function closePopup() {
 		isOpen = false;
 	}
 
 	function confirmPublish() {
+		dispatch('confirm');
 		closePopup();
 	}
 </script>
@@ -24,8 +28,8 @@
 				<Button
 					onclick={confirmPublish}
 					class="rounded-full border border-black bg-purple-700/80 px-6 py-2 text-base font-semibold text-gray-200"
-					><a href="movieindividualreview">Yes</a>
-				</Button>
+					>Yes</Button
+				>
 			</div>
 		</div>
 	</div>
