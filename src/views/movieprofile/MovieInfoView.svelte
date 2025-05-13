@@ -17,12 +17,12 @@
 <div>
 	<MovieTopInfo
 		title={movie.title}
-		year={movie.release_year?.toString() || ''}
-		rating={movie.certification || ''}
-		duration={movie.duration || ''}
-		score={movie.rating?.toString() || '0'}
+		year={movie.release_year?.toString() ?? ''}
+		rating={movie.certification ?? ''}
+		duration={movie.duration ?? ''}
+		score={movie.rating?.toString() ?? '0'}
 		posterURL={movie.posterURL}
-		trailerVideoId={movie.trailerURL ? new URL(movie.trailerURL).searchParams.get('v') : ''}
+		trailerURL={movie.trailerURL}
 	/>
 	<br />
 	<!-- Make the button more verbose to debug -->
