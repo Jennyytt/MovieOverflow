@@ -46,12 +46,46 @@
 						})
 					: 'Unknown'
 			};
+
+			await fetchReviewsWithDetails();
+
 			isLoading = false;
 		} catch (error) {
 			console.error('Error fetching movie details:', error);
 			fetchError = error.message;
 			movie.title = 'Error loading movie';
 			isLoading = false;
+		}
+	}
+
+	// Fetch reviews with all details to ensure we have titles
+	async function fetchReviewsWithDetails() {
+		try {
+			const result = await pb.collection('critics_reviews').getList(1, 50, {
+				filter: `movieId = "${movieId}" && isDraft = false`,
+				expand: 'userId',
+				sort: '-timestamp'
+			});
+
+			// Map reviews with all fields, paying special attention to reviewTitle
+			reviews = result.items.map((review) => ({
+				id: review.id,
+				username: review.expand?.userId?.username || 'Unknown User',
+				date: new Date(review.timestamp).toLocaleDateString('en-US', {
+					month: 'short',
+					day: 'numeric',
+					year: 'numeric'
+				}),
+				// Try multiple possible field names for the title
+				reviewTitle:
+					review.reviewTitle || review.title || review.heading || `Review of ${movie.title}`,
+				reviewText: review.reviewText || review.content || review.text || ''
+			}));
+
+			// Sort reviews based on current sort order
+			sortReviews();
+		} catch (error) {
+			console.error('Error fetching review details:', error);
 		}
 	}
 
@@ -94,9 +128,6 @@
 		sortOrder = sortOrder === 'descending' ? 'ascending' : 'descending';
 		sortReviews();
 	}
-
-	// Sort reviews on initial load
-	sortReviews();
 </script>
 
 <div class="inline-flex h-full w-full gap-7">
