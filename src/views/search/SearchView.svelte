@@ -1,12 +1,13 @@
 <script>
 	import Poster from '../../assets/movie-poster-xl.png';
 	import pb from '$lib/pb';
+	import { goto } from '$app/navigation'; // Import goto for programmatic navigation
 
 	// Get props in Svelte 5 style with destructuring
 	let { query = 'Avengers' } = $props();
 
 	// Debug log to see what we're receiving
-	console.log('SearchView props:', { query });
+	// console.log('SearchView props:', { query });
 
 	// Movies state
 	let allMovies = $state([]);
@@ -39,7 +40,7 @@
 					poster: movie.poster ? pb.files.getUrl(movie, movie.poster) : Poster
 				}));
 			} else {
-				console.log('No search results found for:', query);
+				// console.log('No search results found for:', query);
 				// If no results, use an empty array
 				allMovies = [];
 			}
@@ -53,6 +54,12 @@
 	// Load more movies function
 	function loadMore() {
 		displayCount = Math.min(displayCount + 5, allMovies.length);
+	}
+
+	// Function to navigate to movie profile
+	// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
+	function navigateToMovie(movieId) {
+		goto(`/movieprofile/${movieId}`);
 	}
 
 	// Search when component mounts or when query changes
@@ -80,8 +87,8 @@
 		<div class="flex flex-col items-center justify-center gap-[26px]">
 			<div class="flex flex-col items-start justify-start gap-[10px] self-stretch">
 				{#each displayedMovies as movie, index (movie.id)}
-					<!-- Movie item -->
-					<a href="movieprofile">
+					<!-- Movie item with correct link to movie profile -->
+					<a href={`/movieprofile/${movie.id}`}>
 						<div
 							class="flex flex-col items-start justify-start gap-[10px] overflow-hidden bg-transparent"
 						>

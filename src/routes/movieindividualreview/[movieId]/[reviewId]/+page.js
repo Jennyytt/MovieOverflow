@@ -3,15 +3,15 @@ import pb from '$lib/pb';
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
 	try {
-		const { movieId, reviewId } = params; // Ensure destructuring is correct
+		const { movieId, reviewId } = params;
 
 		// Fetch the specific review from Critics_Reviews
 		const review = await pb.collection('critics_reviews').getOne(reviewId, {
-			expand: 'userId,movieId' // Expand userId and movieId
+			expand: 'userId,movieId'
 		});
 
-		// Verify the review is published and belongs to the correct movie
-		if (review.isDraft || review.movieId !== movieId) {
+		// Verify the review belongs to the correct movie
+		if (review.isDraft || (review.movieId !== movieId && review.movieId?.id !== movieId)) {
 			throw new Error('Review not found or not published');
 		}
 
@@ -23,8 +23,9 @@ export async function load({ params }) {
 				day: 'numeric',
 				year: 'numeric'
 			}),
-			reviewTitle: review.reviewTitle || 'Untitled Review',
-			reviewText: review.reviewText,
+			// Make sure
+			reviewTitle: review.reviewTitle || review.title || review.heading || '',
+			reviewText: review.reviewText || review.content || review.text || '',
 			movie: {
 				title: review.expand?.movieId?.title || 'Unknown Movie',
 				rating: review.expand?.movieId?.certification || '',
@@ -44,15 +45,15 @@ export async function load({ params }) {
 
 		return {
 			review: formattedReview,
-			movieId, // Include movieId in the return object
-			reviewId // Include reviewId in the return object
+			movieId,
+			reviewId
 		};
 	} catch (error) {
 		console.error('Error loading review:', error);
 		return {
 			error: error.message,
-			movieId: params.movieId, // Use params.movieId here
-			reviewId: params.reviewId // Use params.reviewId here
+			movieId: params.movieId,
+			reviewId: params.reviewId
 		};
 	}
 }
