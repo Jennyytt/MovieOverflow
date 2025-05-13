@@ -8,6 +8,8 @@
 
 	let reviews = [];
 
+	const pageSize = 100; // Large number to get all reviews in most cases
+
 	onMount(async () => {
 		try {
 			// Create a filter based on movieId if it's provided
@@ -16,16 +18,17 @@
 				filter += ` && movieId="${movieId}"`;
 			}
 
-			const result = await pb.collection('critics_reviews').getList(1, 3, {
+			// Fetch all reviews instead of just 3
+			const result = await pb.collection('critics_reviews').getList(1, pageSize, {
 				filter: filter,
 				sort: '-timestamp',
-				expand: 'userId',
+				expand: 'userId,movieId',
 				$autoCancel: false
 			});
 
 			reviews = result.items.map((r) => ({
 				id: r.id,
-				movieId: r.movieId || movieId, // Use the review's movieId or the passed movieId
+				movieId: r.movieId || r.expand?.movieId?.id || movieId,
 				username: r.expand?.userId?.username ?? 'Anonymous',
 				content: r.reviewText,
 				timestamp: r.timestamp
@@ -40,21 +43,31 @@
 	<div>
 		<Carousel.Previous class="mx-[16px]" />
 		<Carousel.Content class="-ml-4">
-			{#each reviews as review (review.id)}
-				<Carousel.Item class="pl-4 md:basis-1/3 lg:basis-1/3">
-					<ReviewCard
-						username={review.username}
-						reviewText={review.content}
-						date={new Date(review.timestamp).toLocaleDateString('en-US', {
-							month: 'short',
-							day: 'numeric',
-							year: 'numeric'
-						})}
-						movieId={review.movieId || movieId}
-						reviewId={review.id}
-					/>
+			{#if reviews.length === 0}
+				<Carousel.Item class="pl-4 md:basis-full lg:basis-full">
+					<div
+						class="flex h-[285px] w-full items-center justify-center rounded-[10px] bg-[#222222] p-4 text-white"
+					>
+						<p>No reviews available</p>
+					</div>
 				</Carousel.Item>
-			{/each}
+			{:else}
+				{#each reviews as review (review.id)}
+					<Carousel.Item class="pl-4 md:basis-1/3 lg:basis-1/3">
+						<ReviewCard
+							username={review.username}
+							reviewText={review.content}
+							date={new Date(review.timestamp).toLocaleDateString('en-US', {
+								month: 'short',
+								day: 'numeric',
+								year: 'numeric'
+							})}
+							movieId={review.movieId}
+							reviewId={review.id}
+						/>
+					</Carousel.Item>
+				{/each}
+			{/if}
 		</Carousel.Content>
 		<Carousel.Next />
 	</div>
