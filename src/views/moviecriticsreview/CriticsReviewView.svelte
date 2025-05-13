@@ -28,16 +28,11 @@
 	async function fetchMovieDetails() {
 		try {
 			const record = await pb.collection('movies').getOne(movieId);
-			console.warn('Fetched movie record:', record); // Changed to console.warn
-			let posterImageUrl = '';
-			if (record.posterURL) {
-				posterImageUrl = pb.files.getUrl(record, record.posterURL, { thumb: '0x400' });
-			}
 			movie = {
 				title: record.title || 'Untitled Movie',
 				rating: record.certification || 'N/A',
 				duration: record.duration || 'N/A',
-				posterImage: posterImageUrl,
+				posterImage: record.posterURL || '',
 				genre: record.genres && Array.isArray(record.genres) ? record.genres.join(', ') : 'Unknown',
 				directors:
 					record.directors && Array.isArray(record.directors)
@@ -161,23 +156,29 @@
 			</div>
 			<div class="h-0 self-stretch border-[2.3px] border-[#222222]"></div>
 		</div>
-		{#each reviews.slice(0, displayCount) as review (review.id)}
-			<LargerReviewCard
-				username={review.username}
-				date={review.date}
-				reviewTitle={review.reviewTitle}
-				reviewText={review.reviewText}
-				{movieId}
-				reviewId={review.id}
-			/>
-		{/each}
-		{#if displayCount < reviews.length}
-			<Button
-				on:click={loadMore}
-				class="inline-flex h-[34.05px] w-[103.08px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-[8px]"
-			>
-				<span class="break-words text-[14.73px] font-medium text-white">Load More</span>
-			</Button>
+		{#if reviews.length === 0}
+			<div class="flex h-40 w-full items-center justify-center text-white">
+				<p>No reviews available for this movie.</p>
+			</div>
+		{:else}
+			{#each reviews.slice(0, displayCount) as review (review.id)}
+				<LargerReviewCard
+					username={review.username}
+					date={review.date}
+					reviewTitle={review.reviewTitle}
+					reviewText={review.reviewText}
+					{movieId}
+					reviewId={review.id}
+				/>
+			{/each}
+			{#if displayCount < reviews.length}
+				<Button
+					on:click={loadMore}
+					class="inline-flex h-[34.05px] w-[103.08px] cursor-pointer items-center justify-center gap-[10px] rounded-[4.6px] bg-[rgba(128,43,177,0.8)] px-[14px] py-[8px]"
+				>
+					<span class="break-words text-[14.73px] font-medium text-white">Load More</span>
+				</Button>
+			{/if}
 		{/if}
 	</div>
 </div>
