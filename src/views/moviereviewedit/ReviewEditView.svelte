@@ -5,22 +5,34 @@
 	import PublishPopUp from '$lib/customComponents/review/PublishPopUp.svelte';
 	import { Toaster, toast } from 'svelte-sonner';
 
-	let isPublishPopUpOpen = false;
+	// Props from parent (+page.svelte)
+	const {
+		//reviewId = null,
+		initialTitle = '',
+		initialContent = '',
+		isLoading = false,
+		saveDraft = () => {},
+		publishReview = () => {}
+	} = $props();
+
+	let isPublishPopUpOpen = $state(false);
 	const activeFormatting = writable('none'); // 'none', 'bold', 'italic', or 'underline'
-	let reviewTitle = '';
-	let reviewContent = '';
+	let reviewTitle = $state(initialTitle);
+	let reviewContent = $state(initialContent);
 	let contentEditableElement;
 
 	function openPublishPopUp() {
+		if (!reviewTitle.trim() || !reviewContent.trim()) {
+			toast.error('Please provide both a title and review content before publishing.');
+			return;
+		}
 		isPublishPopUpOpen = true;
 	}
 
 	function toggleFormatting(formatting) {
 		if ($activeFormatting === formatting) {
-			// Deactivate the current formatting by setting to 'none'
 			activeFormatting.set('none');
 		} else {
-			// Activate the new formatting, deactivating others
 			activeFormatting.set(formatting);
 			if (contentEditableElement) {
 				contentEditableElement.focus();
@@ -29,14 +41,11 @@
 	}
 
 	function disableFormatting() {
-		// Set to 'none' instead of null
 		activeFormatting.set('none');
 	}
 
 	function handleInput(event) {
-		// Update reviewContent with the plain text content of the contenteditable div
 		reviewContent = event.target.textContent;
-		// Add or remove the 'empty' class based on content
 		if (contentEditableElement) {
 			if (reviewContent.trim() === '') {
 				contentEditableElement.classList.add('empty');
@@ -47,22 +56,18 @@
 	}
 
 	function handleKeydown(event) {
-		// Only apply formatting to printable characters (ignore control keys like Arrow keys)
 		const key = event.key;
 		if (key.length !== 1 || event.ctrlKey || event.altKey || event.metaKey) return;
 
 		event.preventDefault();
 
-		// Get the current selection and range
 		const selection = window.getSelection();
 		if (selection.rangeCount === 0) return;
 
 		const range = selection.getRangeAt(0);
-		range.deleteContents(); // Remove any selected content
+		range.deleteContents();
 
-		// If no formatting is active, insert plain text wrapped in a span to reset styles
 		if (!$activeFormatting || $activeFormatting === 'none') {
-			// Use a span to explicitly reset font-weight, font-style, and text-decoration
 			const span = document.createElement('span');
 			span.textContent = key;
 			span.style.fontWeight = 'normal';
@@ -70,13 +75,11 @@
 			span.style.textDecoration = 'none';
 			range.insertNode(span);
 
-			// Move the cursor to after the inserted span
 			range.setStartAfter(span);
 			range.setEndAfter(span);
 			selection.removeAllRanges();
 			selection.addRange(range);
 		} else {
-			// Apply formatting if a formatting option is active
 			const span = document.createElement('span');
 			span.textContent = key;
 			switch ($activeFormatting) {
@@ -91,19 +94,15 @@
 					break;
 			}
 
-			// Insert the styled span
 			range.insertNode(span);
 
-			// Move the cursor to after the inserted span
 			range.setStartAfter(span);
 			range.setEndAfter(span);
 			selection.removeAllRanges();
 			selection.addRange(range);
 		}
 
-		// Update reviewContent
 		reviewContent = contentEditableElement.textContent;
-		// Update the 'empty' class
 		if (reviewContent.trim() === '') {
 			contentEditableElement.classList.add('empty');
 		} else {
@@ -112,7 +111,6 @@
 	}
 
 	function handleFocus() {
-		// If the content is empty, move the cursor to the start of the contenteditable div
 		if (contentEditableElement && reviewContent.trim() === '') {
 			const selection = window.getSelection();
 			const range = document.createRange();
@@ -122,28 +120,43 @@
 			selection.addRange(range);
 		}
 	}
-	function saveDraft() {
-		toast.success('Your draft is saved');
+
+	function handleSaveDraft() {
+		if (!reviewTitle.trim() && !reviewContent.trim()) {
+			toast.error('Please provide a title or content to save as a draft.');
+			return;
+		}
+		saveDraft(reviewTitle, reviewContent);
 	}
-	function publishReview() {
+
+	function handlePublishReview() {
 		isPublishPopUpOpen = false;
+		publishReview(reviewTitle, reviewContent);
 	}
 </script>
 
 <div class="flex w-full flex-wrap justify-center gap-4">
+	<Toaster />
 	<div class="flex w-[1170px] items-center justify-between">
 		<div class="flex items-center gap-3">
 			<div class="h-[37px] w-[5px] rounded-sm bg-purple-700"></div>
 			<span class="text-[37.44px] font-semibold text-white">Critics Review Entry</span>
 		</div>
 		<div class="flex items-center gap-9">
-			<Toaster />
-			<Button onclick={saveDraft} class="rounded-full px-6 py-2 text-base font-semibold"
-				><a href>Save Draft</a></Button
+			<Button
+				onclick={handleSaveDraft}
+				disabled={isLoading}
+				class="rounded-full px-6 py-2 text-base font-semibold"
 			>
-			<Button onclick={openPublishPopUp} class="rounded-full px-6 py-2 text-base font-semibold"
-				>Publish</Button
+				Save Draft
+			</Button>
+			<Button
+				onclick={openPublishPopUp}
+				disabled={isLoading}
+				class="rounded-full px-6 py-2 text-base font-semibold"
 			>
+				Publish
+			</Button>
 		</div>
 	</div>
 	<div class="flex w-[1170px] flex-col gap-5 rounded-lg border-4 border-[#222222] bg-black p-6">
@@ -192,12 +205,16 @@
 				aria-placeholder="What are your thoughts on this movie?"
 				tabindex="0"
 				style="white-space: pre-wrap; overflow-y: auto;"
-			></div>
+			>
+				{#if initialContent}
+					{@html initialContent}
+				{/if}
+			</div>
 		</div>
 	</div>
 </div>
 
-<PublishPopUp bind:isOpen={isPublishPopUpOpen} on:confirm={publishReview} />
+<PublishPopUp bind:isOpen={isPublishPopUpOpen} on:confirm={handlePublishReview} />
 
 <style>
 	.content-editable:empty::before,
