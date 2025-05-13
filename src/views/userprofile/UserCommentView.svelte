@@ -176,31 +176,39 @@
 			<div class="relative text-left text-[32px] font-semibold text-white">User Comments</div>
 		</div>
 	</div>
-	<Card
-		class="margin-top-[20px] relative box-border w-[1100px] overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
-	>
-		<div
-			class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
+	{#if comments.length === 0}
+		<Card
+			class="margin-top-[20px] box- relative flex h-[300px] w-[1100px] items-center justify-center overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
 		>
-			{#each comments.slice(0, displayCount) as comment, index (comment.id)}
-				<div class="relative h-[10px]"></div>
-				<UserCommentCard
-					rating={comment.rating}
-					movieId={comment.movieId}
-					like_num={comment.like_num}
-					dislike_num={comment.dislike_num}
-					commentText={comment.commentText}
-					date={comment.date}
-				/>
-				{#if index < displayCount - 1 && index < comments.length - 1}
-					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
-				{:else}
-					<div class="relative h-[20px]"></div>
-					<!-- Empty spacing for the last review -->
-				{/if}
-			{/each}
-		</div>
-	</Card>
+			<div class="text-center text-[18px] font-medium text-white">You have not commented yet.</div>
+		</Card>
+	{:else}
+		<Card
+			class="margin-top-[20px] relative box-border w-[1100px] overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
+		>
+			<div
+				class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
+			>
+				{#each comments.slice(0, displayCount) as comment, index (comment.id)}
+					<div class="relative h-[10px]"></div>
+					<UserCommentCard
+						rating={comment.rating}
+						movieId={comment.movieId}
+						like_num={comment.like_num}
+						dislike_num={comment.dislike_num}
+						commentText={comment.commentText}
+						date={comment.date}
+					/>
+					{#if index < displayCount - 1 && index < comments.length - 1}
+						<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
+					{:else}
+						<div class="relative h-[20px]"></div>
+						<!-- Empty spacing for the last review -->
+					{/if}
+				{/each}
+			</div>
+		</Card>
+	{/if}
 	<!-- Conditionally render Load More button -->
 	<div class="flex w-full justify-center">
 		{#if displayCount < comments.length}
