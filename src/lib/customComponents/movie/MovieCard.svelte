@@ -9,7 +9,9 @@
 </script>
 
 <!-- ▸ either wrap just the <img> … -->
-<Card class="relative h-[370px] w-[206px] overflow-hidden rounded-[10px] bg-transparent">
+<Card
+	class="relative h-[370px] w-[206px] overflow-hidden rounded-[10px] border-black bg-transparent"
+>
 	<a href={`/movieprofile/${movie.id}`} class="cursor-pointer">
 		<!-- use:link = SvelteKit client-side nav -->
 		<img
