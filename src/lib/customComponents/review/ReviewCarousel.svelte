@@ -4,7 +4,6 @@
 	import pb from '$lib/pb';
 	import { onMount } from 'svelte';
 
-	// Accept movieId as a prop, to use when fetching reviews
 	export let movieId = undefined;
 
 	let reviews = [];
