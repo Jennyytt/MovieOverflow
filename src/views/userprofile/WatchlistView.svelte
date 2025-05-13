@@ -3,20 +3,20 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { onMount } from 'svelte';
 	import { authStore } from '$lib/stores/authStore';
+	import Card from '$lib/components/ui/card/card.svelte';
 	import pb from '$lib/pb';
 	import MovieWatchlistCarosel from '$lib/customComponents/watchlist/MovieWatchlistCarosel.svelte';
 
-	// Store for movie details
-	// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
-	let watchlistItems = [];
 	let movieDetails = [];
 	let isLoading = true;
 	let error = null;
+	let isEmpty = false; // New state to track empty watchlist
 	pb.autoCancellation(false);
-	// Function to fetch user's watchlist and associated movie details
+
 	async function fetchWatchlist() {
 		isLoading = true;
 		error = null;
+		isEmpty = false;
 
 		try {
 			if (!$authStore.isAuthenticated) {
@@ -25,25 +25,30 @@
 				return;
 			}
 
-			// Get user ID from auth store
 			const userId = $authStore.user.id;
 
-			// Fetch watchlist record for this user
-			const watchlistResult = await pb
-				.collection('watchlists')
-				.getFirstListItem(`userId = "${userId}"`);
+			let watchlistResult;
+			try {
+				watchlistResult = await pb
+					.collection('watchlists')
+					.getFirstListItem(`userId = "${userId}"`);
+			} catch (err) {
+				if (err.message.includes("The requested resource wasn't found")) {
+					movieDetails = [];
+					isEmpty = true; // Set empty state
+					isLoading = false;
+					return;
+				}
+				throw err;
+			}
 
-			// Store the watchlist record
-			watchlistItems = watchlistResult;
-
-			// If no movie IDs in watchlist, return empty array
 			if (!watchlistResult.movieId || watchlistResult.movieId.length === 0) {
 				movieDetails = [];
+				isEmpty = true; // Set empty state
 				isLoading = false;
 				return;
 			}
 
-			// Fetch details for each movie in the watchlist
 			const moviePromises = watchlistResult.movieId.map(async (movieId) => {
 				try {
 					return await pb.collection('movies').getOne(movieId);
@@ -53,10 +58,7 @@
 				}
 			});
 
-			// Wait for all movie details to be fetched
 			const fetchedMovies = await Promise.all(moviePromises);
-
-			// Filter out any failed fetches
 			movieDetails = fetchedMovies.filter((movie) => movie !== null);
 
 			isLoading = false;
@@ -66,39 +68,28 @@
 		}
 	}
 
-	// Fetch watchlist on component mount
 	onMount(fetchWatchlist);
 
-	// Handle watchlist item removal
 	async function handleItemRemoved(event) {
 		const { movieId } = event.detail;
 
 		try {
-			// Get the current watchlist
 			const userId = $authStore.user.id;
 			const watchlist = await pb.collection('watchlists').getFirstListItem(undefined, {
 				filter: `userId = "${userId}"`,
 				requestKey: 'getWatchlist'
 			});
 
-			// Remove the movie ID from the array
 			const updatedMovieIds = watchlist.movieId.filter((id) => id !== movieId);
 
-			// Update the watchlist record
 			await pb.collection('watchlists').update(watchlist.id, {
 				movieId: updatedMovieIds
 			});
 
-			// Refresh the watchlist
 			fetchWatchlist();
 		} catch (err) {
 			error = `Failed to remove movie: ${err.message}`;
 		}
-	}
-
-	// Navigate to full watchlist
-	function viewAllWatchlist() {
-		window.location.href = '/watchlist';
 	}
 </script>
 
@@ -106,7 +97,6 @@
 	<div
 		class="relative flex w-[1170px] flex-shrink-0 flex-row items-center justify-between self-stretch"
 	>
-		<!-- Section title with purple line and arrow -->
 		<div class="relative flex flex-shrink-0 flex-row items-center justify-start gap-3">
 			<div class="relative h-[37px] w-[5px] flex-shrink-0 rounded-[2px] bg-[#802bb1]"></div>
 			<div class="relative text-left text-[32px] font-semibold text-white">Watchlist</div>
@@ -114,7 +104,6 @@
 				variant="ghost"
 				size="icon"
 				class="h-auto w-auto p-0 hover:bg-transparent focus-visible:ring-0"
-				onclick={viewAllWatchlist}
 			>
 				<ChevronRight class="relative h-[23px] w-[23px] flex-shrink-0 font-bold text-white" />
 			</Button>
@@ -125,6 +114,12 @@
 		<div class="text-white">Loading your watchlist...</div>
 	{:else if error}
 		<div class="text-red-500">{error}</div>
+	{:else if isEmpty}
+		<Card
+			class="margin-top-[20px] box- relative flex h-[300px] w-[1100px] items-center justify-center overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
+		>
+			<div class="text-white">Not yet anything to watchlist</div>
+		</Card>
 	{:else}
 		<MovieWatchlistCarosel movies={movieDetails} onitemRemoved={handleItemRemoved} />
 	{/if}

@@ -170,24 +170,34 @@
 			</div>
 		</div>
 	</div>
-	<Card
-		class="margin-top-[20px] relative box-border w-[1100px] overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
-	>
-		<div
-			class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
+	{#if reviews.length > 0}
+		<Card
+			class="margin-top-[20px] relative box-border w-[1100px] overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
 		>
-			{#each reviews.slice(0, displayCount) as review, index (review.id)}
-				<div class="relative h-[10px]"></div>
-				<ReviewDraftCard date={review.date} review={review.reviewText} movieId={review.movieId} />
-				{#if index < displayCount - 1 && index < reviews.length - 1}
-					<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
-				{:else}
-					<div class="relative h-[20px]"></div>
-					<!-- Empty spacing for the last review -->
-				{/if}
-			{/each}
-		</div>
-	</Card>
+			<div
+				class="margin-top-[20px] relative flex w-[1100px] flex-shrink-0 flex-col items-center justify-between gap-[10px] self-stretch"
+			>
+				{#each reviews.slice(0, displayCount) as review, index (review.id)}
+					<div class="relative h-[10px]"></div>
+					<ReviewDraftCard date={review.date} review={review.reviewText} movieId={review.movieId} />
+					{#if index < displayCount - 1 && index < reviews.length - 1}
+						<div class="relative h-[1px] w-[1048px] bg-[#222222]"></div>
+					{:else}
+						<div class="relative h-[20px]"></div>
+						<!-- Empty spacing for the last review -->
+					{/if}
+				{/each}
+			</div>
+		</Card>
+	{:else}
+		<Card
+			class="margin-top-[20px] box- relative flex h-[300px] w-[1100px] items-center justify-center overflow-hidden rounded-[10px] border-[#222222] bg-[#000000]"
+		>
+			<div class="mt-[20px] text-center text-[18px] text-white">
+				You have not written any review.
+			</div>
+		</Card>
+	{/if}
 	<!-- Conditionally render Load More button -->
 	<div class="flex w-full justify-center">
 		{#if displayCount < reviews.length}
