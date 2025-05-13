@@ -16,8 +16,20 @@
 		if (record.isActive) {
 			errorMessage = 'This license key is already active.';
 		} else {
+			// Step 1: Mark license as active
 			await pb.collection('licenses').update(record.id, { isActive: true });
-			alert('License confirmed and activated!');
+
+			// Step 2: Get current authenticated user
+			const userId = pb.authStore.model?.id;
+			if (!userId) {
+				errorMessage = 'You must be logged in to activate a license.';
+				return;
+			}
+
+			// Step 3: Update user's isPro status
+			await pb.collection('users').update(userId, { isPro: true });
+
+			alert(' License confirmed and Pro account activated!');
 		}
 	} catch (err) {
 		console.error('License lookup failed:', err);
